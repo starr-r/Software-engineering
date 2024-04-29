@@ -1,13 +1,22 @@
 <template>
-  <nav>
+
+  <navigate/>
+  <home-view/>
+<!--  <time_line/>-->
+<!--  <search/>-->
+  <!--  <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
   <router-view/>
+  <hello-world msg="数据"></hello-world>-->
+
+
 </template>
 
+
 <style>
-#app {
+/*#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,5 +35,15 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
+}*/
 </style>
+
+<script setup>
+
+import HomeView from "@/views/HomeView.vue";
+import Navigate from "@/components/navigate.vue";
+import Time_line from "@/views/time_line.vue";
+import time_line from "@/views/time_line.vue";
+import search from "@/views/search.vue";
+
+</script>

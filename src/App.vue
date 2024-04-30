@@ -1,16 +1,10 @@
 <template>
 
   <navigate/>
-  <home-view/>
+  <router-view></router-view>
+<!--  <home-view/>-->
 <!--  <time_line/>-->
 <!--  <search/>-->
-  <!--  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
-  <hello-world msg="数据"></hello-world>-->
-
 
 </template>
 

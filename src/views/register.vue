@@ -3,12 +3,12 @@
     <div class="registry-wrapper">
       <div class="header">Register</div>
       <div class="form-wrapper">
-        <input type="text" name="username" placeholder="username" class="input-item">
-        <input type="password" name="password" placeholder="password" class="input-item">
-        <input type="password" name="password" placeholder="confirm you password" class="input-item">
+        <input type="text" name="username" placeholder="username" class="input-item" v-model="form.username">
+        <input type="password" name="password" placeholder="password" class="input-item" v-model="form.password">
+        <input type="password" name="password" placeholder="confirm you password" class="input-item" v-model="form.confirm">
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px;">
           <bl class="btn" @click="$router.push('/login')">登录</bl>
-          <bl class="btn"  @click="$router.push('/register')">注册</bl>
+          <bl class="btn"  @click="register">注册</bl>
         </div>
       </div>
     </div>
@@ -18,62 +18,53 @@
 <script>
 import {ElMessage} from "element-plus";
 import request from "@/utils/request";
+import { ref } from 'vue';
 
 export default {
-  name: "register",
-  data(){
-    return{
-      form:{},
-      rules:{
-        username:[
-          {required:true,message:'请输入用户名',trigger:'blur'},
-        ],
-        password:[
-          {required:true,message:'请输入密码',trigger:'blur'},
-        ],
-        confirm:[
-          {required:true,message:'请确认密码',trigger:'blur'},
-        ],
-      }
-    }
-  },
-  methods:{
-    register(){
-      if(this.form.password!==this.form.confirm){
+  name: 'register',
+  setup() {
+    const form = ref({
+      username: '',
+      password: '',
+      confirm: ''
+    });
+
+    const register = () => {
+      if (form.value.password !== form.value.confirm) {
         ElMessage({
           type: 'error',
           message: '两次密码输入不一致',
-        })
-        return
+        });
+        return;
       }
-
-      this.$refs['form'].validate((valid)=> {
-
-        if(valid){
-          request.post("/user/register",this.form).then(res=>{
-            if(res.code==0) {
+      //
+      // this.$refs['form'].validate((valid) => {
+      //   if (valid) {
+          request.post('http://192.168.217.1:9090/register', form.value).then((res) => {
+            if (res.code === 0) {
               ElMessage({
                 type: 'success',
                 message: '注册成功',
-              })
-              this.$router.push("/login")
-            }
-            else{
+              });
+              console.log("注册成功");
+              this.$router.push('/login');
+            } else {
               ElMessage({
                 type: 'error',
                 message: '用户名已被注册',
-              })
+              });
             }
-
-          })
+          });
         }
-      })
-      }
+      // });
+    // };
 
-
-    }
-
-}
+    return {
+      form,
+      register,
+    };
+  },
+};
 </script>
 
 <style>

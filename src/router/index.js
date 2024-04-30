@@ -33,6 +33,11 @@ const routes = [
     component: () => import('../views/search1.vue'),
   },
   {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/test.vue'),
+  },
+  {
     path: '/',
     redirect:'/home'
   }

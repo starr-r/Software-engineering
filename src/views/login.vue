@@ -40,14 +40,7 @@ export default {
   methods:{
     login(){
       this.$refs['form'].validate((valid)=>{
-        if(this.form.username=='admin'&&this.form.password=='666666'){
-          this.$router.push("/admin_web"),
-              ElMessage({
-                type: 'success',
-                message: '登录成功',
-              })
-        }
-        else if(valid){
+        if(valid){
           request.post("/user/login",this.form).then(res=>{
             if(res.code==0){
               ElMessage({

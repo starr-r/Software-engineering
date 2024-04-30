@@ -40,7 +40,12 @@ const routes = [
   {
     path: '/',
     redirect:'/home'
-  }
+  },  
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/user.vue'),
+  },
 ]
 const router = createRouter({
   history: createWebHistory(),

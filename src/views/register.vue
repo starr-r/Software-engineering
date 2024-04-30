@@ -1,29 +1,18 @@
 <template>
   <div style="padding-left: 430px;padding-top: 120px" id="background">
-    <el-card style="width: 50%; margin: 10px;"  shadow="always">
-      <div style="margin:10px">
-        <div style="width: 100%; text-align:center;font-size:30px;font-weight: bolder;  padding:15px; color: lightseagreen" >欢迎注册</div>
+    <div class="registry-wrapper">
+      <div class="header">Register</div>
+      <div class="form-wrapper">
+        <input type="text" name="username" placeholder="username" class="input-item">
+        <input type="password" name="password" placeholder="password" class="input-item">
+        <input type="password" name="password" placeholder="confirm you password" class="input-item">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px;">
+          <bl class="btn" @click="$router.push('/login')">登录</bl>
+          <bl class="btn"  @click="$router.push('/register')">注册</bl>
+        </div>
       </div>
-      <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" show-password></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="confirm">
-          <el-input v-model="form.confirm" show-password></el-input>
-        </el-form-item>
-        <el-form-item style=" justify-content: center;">
-          <div style=" justify-content: center;">
-            <el-button style="width:50%" type="success" @click="$router.push('/register')">注册</el-button>
-            <el-button style="width:40%" type="primary" @click="$router.push('/login')">登录</el-button>
-          </div>
-        </el-form-item>
-      </el-form>
-    </el-card>
-
-  </div>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -88,9 +77,60 @@ export default {
 </script>
 
 <style>
-
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+.registry-wrapper {
+  background-color:rgba(255,255,255,0.9);
+  width: 358px;
+  height: 588px;
+  border-radius: 15px;
+  padding: 0 50px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.header {
+  font-size: 38px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 200px;
+}
+.input-item {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  border: 0;
+  padding: 10px;
+  border-bottom: 1px solid rgb(128, 125, 125);
+  font-size: 15px;
+  outline: none;
+}
+.input-item::placeholder {
+  text-transform: uppercase;
+}
+.btn {
+  text-align: center;
+  padding: 10px;
+  margin: 0 auto;
+  width: 100%;
+  margin-top: 40px;
+  background-image: linear-gradient(to right, rgba(10,2,5,0.8), rgb(0,4,15,0.8));
+  color: #fff;
+}
+.btn:hover {
+  color: yellow;
+}
+a{
+  text-decoration-line: none;
+  color: #abc1ee;
+}
 #background{
-  background:url("../assets/bg.jpg");
+  background:url("../assets/bg2.jpg");
   width:100%;
 height:100%;
 position:fixed;

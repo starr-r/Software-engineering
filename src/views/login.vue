@@ -6,8 +6,7 @@
         <input type="text" name="username" placeholder="username" class="input-item">
         <input type="password" name="password" placeholder="password" class="input-item">
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px;">
-
-        <bl class="btn" @click="$router.push('/login')">登录</bl>
+          <bl class="btn" @click="$router.push('/login')">登录</bl>
           <bl class="btn"  @click="$router.push('/register')">注册</bl>
         </div>
       </div>
@@ -72,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 html {
   height: 100%;
@@ -80,14 +79,8 @@ html {
 body {
   height: 100%;
 }
-.container {
-  /* margin-top: 5%; */
-  height: 980px;
-  width: 100%;
-  background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
-}
 .login-wrapper {
-  background-color: #fff;
+  background-color:rgba(255,255,255,0.9);
   width: 358px;
   height: 588px;
   border-radius: 15px;
@@ -118,25 +111,23 @@ body {
 }
 .btn {
   text-align: center;
-
   padding: 10px;
   margin: 0 auto;
   width: 100%;
   margin-top: 40px;
-  background-image: linear-gradient(to right, #a6c1ee, #fbc2eb);
+  background-image: linear-gradient(to right, rgba(10,2,5,0.8), rgb(0,4,15,0.8));
   color: #fff;
 }
-.msg {
-  text-align: center;
-  line-height: 88px;
+.btn:hover {
+  color: yellow;
 }
-a {
+a{
   text-decoration-line: none;
   color: #abc1ee;
 }
 
 #background{
-  background:url("../assets/bg.jpg");
+  background:url("../assets/bg1.png");
   width:100%;
   height:100%;
   position:fixed;

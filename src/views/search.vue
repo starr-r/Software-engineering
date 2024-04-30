@@ -9,111 +9,70 @@
         </el-page-header>
       </el-header>
       <div class="search-nav">文物|博物馆|年代</div>
-      <div class="search-container">
-          <input input type="text" placeholder="输入搜索内容..." v-model="searchInput">
-          <button @click="search($event)">搜索</button>
-<!--        <ul class="m-4">
-          <el-select
-              v-model="value4"
-              multiple
-              collapse-tags
-              collapse-tags-tooltip
-              :max-collapse-tags="3"
-              placeholder="Select"
-              style="width: 240px"
-          >
-            <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            />
-          </el-select>
-        </ul>-->
+      <div class="input-wrapper">
+         <div class="search-container">
+
+              <input input type="text" placeholder="输入搜索内容..." v-model="searchInput">
+              <button @click="search($event)">搜索</button>
+         </div>
       </div>
       <main class="main-content">
         <!-- 主要内容区域 -->
-<!--        <div class="item" v-for="item in items" :key="item.id">-->
-<!--          &lt;!&ndash; 每个项目的内容 &ndash;&gt;-->
-<!--        </div>-->
+        <div class="item" v-for="item in items" :key="item.id">
+          <img :src="item.image">
+        </div>
       </main>
     </el-container>
   </div>
 </template>
+<script setup>
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
-<script>
+const router = useRouter();
 
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  export default {
-    name: 'search',
-    setup() {
-      const router = useRouter();
-      const goBack = () => {
-        router.go(-1);
-      };
-      const value4 = ref([]);
-      /*const options = [
-        {
-          value: 'Option1',
-          label: '全部结果',
-        },
-        {
-          value: 'Option2',
-          label: '明',
-        },
-        {
-          value: 'Option3',
-          label: '唐',
-        },
-        {
-          value: 'Option4',
-          label: 'Option4',
-        },
-        {
-          value: 'Option5',
-          label: 'Option5',
-        },
-      ];*/
-      return {
-          value4,
-          goBack
-        };
-      },
-    // data() {
-    //   items
-    // },
-    methods: {
-      setSearchType(type) {
-        this.searchType = type;
-      },
-      data() {
-        return {
-          searchInput: "",
-          searchType: 'artifactName'
-        };
-      },
-      search(event) {
-        event.preventDefault();
-        this.$router.push({
-          name: 'search',
-          query: {
-            searchInput: this.searchInput ,
-            searchType: this.searchType
-          }
-        });
-        this.searchInput="";
-      },
-    }
-  }
+const searchInput = ref('');
+const searchType = ref('artifactName'); // Reactive search type state
+
+const goBack = () => {
+  router.go(-1);
+};
+
+const items = [
+  { image: require('@/assets/test/1.png'), title: "1" },
+  { image: require('@/assets/test/2.png'), title: "2" },
+  { image: require('@/assets/test/3.png'), title: "3" },
+  { image: require('@/assets/test/4.png'), title: "4" },
+  { image: require('@/assets/test/5.png'), title: "5" },
+];
+
+const search = (event) => {
+  event.preventDefault();
+  router.push({
+    name: 'search', // Assuming search is a named route
+    query: {
+      searchInput: searchInput.value, // Use value property for reactive refs
+      searchType: searchType.value,
+    },
+  });
+  searchInput.value = ''; // Clear search input after submission
+};
+
+const setSearchType = (type) => {
+  searchType.value = type;
+};
 
 </script>
 
 <style>
+
+.main-content{
+  display: flex;
+}
 .search-nav {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem; /* 添加一些间距 */
+  background-color: #ffffff;
 }
 
 .search-nav span {
@@ -125,8 +84,6 @@
 .search-nav span.active {
   color: yellow; /* 激活状态的颜色为黄色 */
 }
-
-
 
 el-header{
   height: 88px;
@@ -152,41 +109,51 @@ el-header{
   flex-direction: column; /* 设置为垂直方向布局 */
 }
 
+img{
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+}
 .search-container {
-  background-color: #ffffff;
-  height: 225px;
-  max-width: 1200px; /* 设置最大宽度 */
-  min-width: 320px; /* 设置最小宽度 */
+      background-color: #ffffff;
+      height: 100px;
+      width: 100%; /* 设置最大宽度 */
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-  display: flex;
-  //align-items: center;
 }
-
+     
+.input-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+     
 .search-container input {
-  flex: 1;
-  height: 50px;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  width:500px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-  padding: 0 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      height: 50px;
+      box-sizing: border-box;
+      outline: none;
+      border: none;
+      width: 500px;
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+      padding: 0 20px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 .search-container button {
-  cursor: pointer;
-  height: 50px;
-  padding: 0 30px;
-  border: none;
-  box-sizing: border-box;
-  background-color: #5b2528;
-  font-size: 24px;
-  color: #fff;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      cursor: pointer;
+      height: 50px;
+      padding: 0 30px;
+      border: none;
+      box-sizing: border-box;
+      background-color: #5b2528;
+      font-size: 24px;
+      color: #fff;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 </style>

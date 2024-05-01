@@ -40,7 +40,8 @@ export default {
       //
       // this.$refs['form'].validate((valid) => {
       //   if (valid) {
-          request.post('http://192.168.217.1:9090/register', form.value).then((res) => {
+          request.post('http://10.4.110.74:9090/register', form.value).then((res) => {
+      // request.post('http://localhost:9090/register', form.value).then((res) => {
             if (res.code === 0) {
               ElMessage({
                 type: 'success',

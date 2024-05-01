@@ -25,12 +25,12 @@
       </div>
       <main class="main-content">
         <div class="item" v-for="item in items" :key="item.id">
-          <el-card class="card" style="width:1088px;flex:1">
+          <el-card class="card" style="width:1088px;flex:1" >
             <div style="display: flex">
-              <div style="flex: 1; padding-right: 10px">
+              <div style="flex: 1; padding-right: 5px">
                 <img :src="item.image"/>
               </div>
-              <div style="flex: 1; display: flex; flex-direction: column; ">
+              <div style="flex: 2; display: flex; flex-direction: column;margin-left: 40px ">
                 <div style="text-align: left;font-size: 30px;font-weight: 700">
                   <p>{{item.title1}}</p>
                 </div>
@@ -43,9 +43,9 @@
                     <span class="title">规格:</span>
                     <span class="content">{{ item.size }}</span>
                   </div>
-                  <div class="info-item">
+                  <div class="text-container">
                     <span class="title">简介:</span>
-                    <span class="content">{{ item.des }}</span>
+                    <span class="text" :style="{ '-webkit-line-clamp': clampLines }">{{ item.des }}</span>
                   </div>
                 </div>
 
@@ -60,6 +60,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+
+const clampLines= 4;
+
 
 const router = useRouter();
 
@@ -77,7 +80,9 @@ const items = [
   { image: require('@/assets/test/4.png'), title1: "带浮雕的独立石",time:"1967",des:"旧约先知约拿不服从主的命令宣布对尼尼微城的审判，被抛入海中，被海怪吞下。在这里，野兽一头吞下约拿。"},
   { image: require('@/assets/test/5.png'), title1: "5" ,time:"1967" ,des:"1111"},
 ];
-/*const search = (event) => {
+
+/*
+const search = (event) => {
   event.preventDefault();
   router.push({
     name: 'search', // Assuming search is a named route
@@ -156,6 +161,27 @@ try {
 
 <style scoped>
 
+.text-container {
+  display: flex;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.text {
+  margin-left: 50px;
+  text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;  /*省略号设置*/
+  -webkit-line-clamp: 4;  /* 这里的数字 3 表示最多显示三行，可以根据需要进行调整 */
+  line-height: 1.5;
+  max-height: 6em;
+  /* 这里的数字 4.5em 表示最多显示三行，每行的高度为 1.5em，可以根据需要进行调整 */
+}
+
+
+
 .info-container {
   display: flex;
   flex-direction: column;
@@ -164,11 +190,8 @@ try {
 .info-item {
   font-size: 20px;
   display: flex;
-  margin: 10px 0;
 }
-.info-item .content {
-  margin-left: 50px;
-}
+
 .title {
   font-weight: bold;
   width: 100px;
@@ -176,14 +199,14 @@ try {
 }
 
 
-
 .main-content{
   display: flex;
   flex-direction: column;
 }
-.main-content>div {
+.main-content> div {
   flex: 1;
 }
+
 .search-nav {
   display: flex;
   justify-content: center;
@@ -209,15 +232,22 @@ el-header{
 
 .card {
   flex: 1;
-  padding: 10px; /* 为卡片添加内边距 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
-  margin-top:16px;
+  margin-top:15px;
   margin-left: 56px;
   margin-right: 56px;
+
 }
+/*:deep(.el-card__body){
+  padding:0;
+}*/
+
+
 .text-large{
   font-size:15px;
 }
+
+
 
 .app {
   background-color: #5b2528;
@@ -237,8 +267,9 @@ el-header{
   margin-top: 20px;
 }
 img {
-  width: 370px;
-  height: 370px;
+  margin:5px;
+  width: 350px;
+  height: 300px;
   object-fit: contain;
 }
 

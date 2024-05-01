@@ -66,7 +66,7 @@
   
           <div style="padding-left: 90px;">
             <el-button type="primary" @click="updateUserInfo">保存</el-button>
-            <el-button type="info" @click="$router.push('/home')">返回</el-button>
+            <el-button type="info" @click="$router.push('/user')">返回个人主页</el-button>
           </div>
         </el-card>
       </div>
@@ -122,7 +122,7 @@
               });
               sessionStorage.setItem("user", JSON.stringify(this.form));
               this.$emit("userInfo");
-              this.$router.push('/home');
+              this.$router.push('/user');
             } else {
               this.$message({
                 type: "error",
@@ -162,10 +162,4 @@
     height: 178px;
     display: block;
   }
-  #background{
-    background:url("/src/assets/bg.jpg");
-    width:100%;
-    height:100%;
-    position:fixed;
-    background-size:100% 100%;}
   </style>

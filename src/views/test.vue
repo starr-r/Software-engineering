@@ -5,9 +5,8 @@
       {{ info }}
     </div>
   </div>-->
-  1111111111
 </template>
-<script>
+<!-- <script>
 export default {
   name: 'test',
   props: {
@@ -47,10 +46,10 @@ export default {
     },
   },
 }
-</script>
+</script> -->
 
 
-<style lang="less">
+<!-- <style lang="less">
 .dp-text-ellipsis-wrapper {
   display: flex;
   margin: 6px 0 20px 0;
@@ -120,4 +119,4 @@ export default {
     content: '...';
   }
 }
-</style>
+</style> -->

@@ -39,5 +39,5 @@ import Navigate from "@/components/navigate.vue";
 import Time_line from "@/views/time_line.vue";
 import time_line from "@/views/time_line.vue";
 import search from "@/views/search.vue";
-
+import user from "@/views/user.vue"
 </script>

@@ -40,7 +40,17 @@ const routes = [
   {
     path: '/',
     redirect:'/home'
-  }
+  },  
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/user.vue'),
+  },
+  {
+    path: '/user_info_change',
+    name: 'user_info_change',
+    component: () => import('../views/user_info_change.vue'),
+  },
 ]
 const router = createRouter({
   history: createWebHistory(),

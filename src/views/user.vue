@@ -46,7 +46,7 @@
   
           <div style="text-align: center;">
             <el-button type="primary" @click="navigateToUserInfoChange">修改信息</el-button>
-            <el-button type="info" @click="navigateToWenWu">返回</el-button>
+            <el-button type="info" @click="navigateToHome">返回</el-button>
           </div>
         </el-card>
       </div>
@@ -76,7 +76,7 @@
       navigateToUserInfoChange() {
         this.$router.push("/user_info_change");
       },
-      navigateToWenWu() {
+      navigateToHome() {
         this.$router.push("/home");
       }
     }

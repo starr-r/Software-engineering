@@ -20,7 +20,7 @@
       <div class="input-wrapper">
         <div class="search-container">
           <input input type="text" placeholder="输入搜索内容..." v-model="searchInput">
-          <button @click="search($event)">搜索</button>
+          <button @click="search">搜索</button>
         </div>
       </div>
       <main class="main-content">
@@ -52,110 +52,100 @@
               </div>
             </div>
           </el-card>
+
         </div>
       </main>
     </el-container>
   </div>
 </template>
 <script setup>
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
 
-const clampLines= 4;
+  import { useRouter } from 'vue-router';
+  import { ref,onMounted } from 'vue';
+  import Mock from "mockjs";
+  import axios from 'axios';
+  import request from "@/utils/request";
+  import { inject } from 'vue';
 
+  const Url = inject('$Url');
+  const clampLines= 4;
 
-const router = useRouter();
+  const router = useRouter();
 
-const searchInput = ref('');
-const searchType = ref('artifactName'); // Reactive search type state
+  const searchInput = ref('');
+  const searchType = ref('artifactName');
+  const goBack = () => {
+    router.go(-1);
+  };
 
-const goBack = () => {
-  router.go(-1);
-};
+  const items = ref([]);
+  onMounted(
+    searchAll
+  );
 
-const items = [
-  { image: require('@/assets/test/1.png'),size:399, title1: "睡眠与死亡手柄",time:"1967",des:"在石雕中，玛雅统治者用华丽的肖像来庆祝他们统治的里程碑，比如这幅皇室女性的形象，是为了纪念被称为 k'atun 的 20 年时期的过去。她最初站在一个广场上，旁边是她配偶的肖像（见图），她和她一起统治着玛雅省的一个城镇 El Perú-Waka'。作为附近玛雅中心强大王朝的成员，她似乎拥有比丈夫更高的权力，担任军事都督。她的服装反映了她的地位：头饰上有一把绿色的格查尔羽毛，她的首饰可能指的是玉——两者都是最珍贵的古代材料。玉珠也可能在她的衣服上结网，系着鱼状生物的头。完成服装的是她手中握着的权杖和盾牌。她身边的小矮人可能是一名宫廷侍从。象形文字是指重要的朝代日期" },
-  { image: require('@/assets/test/2.png'), title1: "约拿吞下",time:"1967" ,des:"尽管这尊国王雕像没有铭文，但其独特的特征毫无疑问地表明它是阿梅内姆哈特三世的肖像。浓重的眉毛，突出的颧骨，凹陷的脸颊，突出的下颚，以及嘴角紧绷的肌肉，给人一种非常逼真的印象。然而，国王的超大耳朵并不现实。相反，它们象征着统治者愿意倾听人民的祈祷。如果这个图像被雕刻成浮雕，国王的双手就会举起敬拜。然而，在这里，为了防止突出的四肢断裂，统治者的手平压在他的苏格兰短裙的前面，其中一部分环绕在他的腰带上"},
-  { image: require('@/assets/test/3.png'), title1: "抒情诗的缪斯",time:"1967" ,des:"设计用于连接一个大型青铜cista的盖子，一个圆柱形有盖的盒子，这三个人物可能代表抱着 Sarpedon 身体的睡眠（Hypnos）和死亡（Thanatos）。正如荷马在《伊利亚特》第十六卷中所说，宙斯的儿子帮助保卫特洛伊免受入侵的希腊军队的侵害，“铜盔的神一样的萨佩顿”落入了帕特洛克罗斯的手中。阿波罗随后介入以保护尸体，将其从危险中移除并将其托付给两个有翼的神灵，正如这里和许多其他古代艺术品所描绘的那样，希腊和伊特鲁里亚人都是如此。如果不是萨佩顿，倒下的战士可能是被阿喀琉斯杀死的厄俄斯和提托诺斯的儿子门农。" },
-  { image: require('@/assets/test/4.png'), title1: "带浮雕的独立石",time:"1967",des:"旧约先知约拿不服从主的命令宣布对尼尼微城的审判，被抛入海中，被海怪吞下。在这里，野兽一头吞下约拿。"},
-  { image: require('@/assets/test/5.png'), title1: "5" ,time:"1967" ,des:"1111"},
-];
-
-/*
-const search = (event) => {
-  event.preventDefault();
-  router.push({
-    name: 'search', // Assuming search is a named route
-    query: {
-      searchInput: searchInput.value, // Use value property for reactive refs
-      searchType: searchType.value,
-    },
-  });
-  searchInput.value = ''; // Clear search input after submission
-};
-*/
-
-const setSearchType = (type) => {
-  searchType.value = type;
-};
-
-/*
-let url;
-switch (type) {
-  case 'arifact':
-    url = `http://192.168.31.53:8000/web/search/?query=${encodeURIComponent(query)}`;
-    break;
-  case 'museum':
-    url = `http://192.168.31.53:8000/web/search_museum/?query=${encodeURIComponent(query)}`;
-    break;
-  case 'relicTime':
-    url = `http://192.168.31.53:8000/web/search_relicTime/?query=${encodeURIComponent(query)}`;
-    break;
-}
-try {
-  const response = await axios.post(url, {
-    searchText: query,
-    cancelToken: this.cancelTokenSource.token
-  });
-
-  if (response.data.status === "数据已经成功接收") {
-    console.log("数据成功发送到服务器并被接收。");
-  } else {
-    console.log("数据发送失败。");
-  }
-  switch (type) {
-    case 'arifact':
-      this.searchResult = {
-        db6: response.data.db6,
-        db5: response.data.db5,
-      };
-      break;
-    case 'museum':
-      this.searchResult = {
-        museum: response.data.museum,
-      };
-      console.log(this.searchResult);
-      console.log(this.searchResult.museum[0])
-      break;
-    case 'relicTime':
-      this.searchResult = {
-        relicTime: response.data.relicTime,
-      };
-      console.log(this.searchResult);
-      console.log(this.searchResult.relicTime[0])
-      break;
+  Mock.mock(Url+'/searchAll',"get",function (options){
+    console.log("111111")
+    return{
+      "code":0,
+      "items":[
+        { image: require('@/assets/test/1.png'),size:399, title1: "睡眠与死亡手柄",time:"1967",des:"在石雕中，玛雅统治者用华丽的肖像来庆祝他们统治的里程碑，比如这幅皇室女性的形象，是为了纪念被称为 k'atun 的 20 年时期的过去。她最初站在一个广场上，旁边是她配偶的肖像（见图），她和她一起统治着玛雅省的一个城镇 El Perú-Waka'。作为附近玛雅中心强大王朝的成员，她似乎拥有比丈夫更高的权力，担任军事都督。她的服装反映了她的地位：头饰上有一把绿色的格查尔羽毛，她的首饰可能指的是玉——两者都是最珍贵的古代材料。玉珠也可能在她的衣服上结网，系着鱼状生物的头。完成服装的是她手中握着的权杖和盾牌。她身边的小矮人可能是一名宫廷侍从。象形文字是指重要的朝代日期" },
+        { image: require('@/assets/test/2.png'), title1: "约拿吞下",time:"1967" ,des:"尽管这尊国王雕像没有铭文，但其独特的特征毫无疑问地表明它是阿梅内姆哈特三世的肖像。浓重的眉毛，突出的颧骨，凹陷的脸颊，突出的下颚，以及嘴角紧绷的肌肉，给人一种非常逼真的印象。然而，国王的超大耳朵并不现实。相反，它们象征着统治者愿意倾听人民的祈祷。如果这个图像被雕刻成浮雕，国王的双手就会举起敬拜。然而，在这里，为了防止突出的四肢断裂，统治者的手平压在他的苏格兰短裙的前面，其中一部分环绕在他的腰带上"},
+        { image: require('@/assets/test/3.png'), title1: "抒情诗的缪斯",time:"1967" ,des:"设计用于连接一个大型青铜cista的盖子，一个圆柱形有盖的盒子，这三个人物可能代表抱着 Sarpedon 身体的睡眠（Hypnos）和死亡（Thanatos）。正如荷马在《伊利亚特》第十六卷中所说，宙斯的儿子帮助保卫特洛伊免受入侵的希腊军队的侵害，“铜盔的神一样的萨佩顿”落入了帕特洛克罗斯的手中。阿波罗随后介入以保护尸体，将其从危险中移除并将其托付给两个有翼的神灵，正如这里和许多其他古代艺术品所描绘的那样，希腊和伊特鲁里亚人都是如此。如果不是萨佩顿，倒下的战士可能是被阿喀琉斯杀死的厄俄斯和提托诺斯的儿子门农。" },
+        { image: require('@/assets/test/4.png'), title1: "带浮雕的独立石",time:"1967",des:"旧约先知约拿不服从主的命令宣布对尼尼微城的审判，被抛入海中，被海怪吞下。在这里，野兽一头吞下约拿。"},
+        { image: require('@/assets/test/5.png'), title1: "5" ,time:"1967" ,des:"1111"},
+      ]
     }
-}catch (error) {
-  if (axios.isCancel(error)) {
-    console.log('Request canceled', error.message);
-  } else {
-    this.error = "搜索出错：" + error;
-    console.log(error);
+  })
+
+  async function searchAll() {
+    console.log("searchAll")
+    const res = await axios.get(Url+'/searchAll');
+    items.value = res.data.items;
+    console.log(items);
+    console.log(items[1]);
   }
-} finally {
-  this.loading = false;
-}
-*/
+
+  searchAll();
+
+  const setSearchType = (type) => {
+    searchType.value = type;
+  };
+
+  Mock.mock(Url+'/search_museum',"get",function (options){
+    console.log("111111")
+    console.log(options)
+    return{
+      "code":0,
+      "items":[
+        { image: require('@/assets/test/3.png'), title1: "抒情诗的缪斯",time:"1967" ,des:"设计用于连接一个大型青铜cista的盖子，一个圆柱形有盖的盒子，这三个人物可能代表抱着 Sarpedon 身体的睡眠（Hypnos）和死亡（Thanatos）。正如荷马在《伊利亚特》第十六卷中所说，宙斯的儿子帮助保卫特洛伊免受入侵的希腊军队的侵害，“铜盔的神一样的萨佩顿”落入了帕特洛克罗斯的手中。阿波罗随后介入以保护尸体，将其从危险中移除并将其托付给两个有翼的神灵，正如这里和许多其他古代艺术品所描绘的那样，希腊和伊特鲁里亚人都是如此。如果不是萨佩顿，倒下的战士可能是被阿喀琉斯杀死的厄俄斯和提托诺斯的儿子门农。" },
+        { image: require('@/assets/test/4.png'), title1: "带浮雕的独立石",time:"1967",des:"旧约先知约拿不服从主的命令宣布对尼尼微城的审判，被抛入海中，被海怪吞下。在这里，野兽一头吞下约拿。"},
+        { image: require('@/assets/test/5.png'), title1: "5" ,time:"1967" ,des:"1111"},
+      ]
+    }
+  })
+  const search = async () => {
+    console.log(11111)
+    let url;
+    console.log(searchType.value)
+    switch (searchType.value) {
+      case 'arifact':
+        url = Url+'/search';
+        break;
+      case 'museum':
+        url = Url+'/search_museum';
+        break;
+      case 'relicTime':
+        url = Url+'/search_relicTime';
+        break;
+    }
+    console.log(url)
+    const res = await axios.get(url, {
+      searchText: searchInput.value,
+      // cancelToken: this.cancelTokenSource.token
+    });
+    items.value=res.data.items
+    console.log(items.value)
+  };
 
 </script>
 
@@ -164,11 +154,10 @@ try {
 .text-container {
   display: flex;
   font-size: 20px;
-  margin: 10px 0;
 }
 
 .text {
-  margin-left: 50px;
+  width:500px;
   text-align: left;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -267,9 +256,10 @@ el-header{
   margin-top: 20px;
 }
 img {
-  margin:5px;
+  margin-top:20px;
+  margin-bottom:20px;
   width: 350px;
-  height: 300px;
+  height: 250px;
   object-fit: contain;
 }
 

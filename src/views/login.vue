@@ -15,54 +15,30 @@
   </div>
 </template>
 
+<script setup>
 
+import { ref } from 'vue';
+import request from '@/utils/request'; // 假设你有一个封装了请求的工具函数，类似 axios
+import { inject } from 'vue';
 
+const Url = inject('$Url');
+const form = ref({
+  username: '',
+  password: ''
+});
 
-<script>
-import {ElMessage} from "element-plus";
-import request from "@/utils/request";
-export default {
-  name: "login",
-  data() {
-    return {
-      form: {},
-      rules:{
-        username:[
-          {required:true,message:'请输入用户名',trigger:'blur'},
-        ],
-        password:[
-          {required:true,message:'请输入密码',trigger:'blur'},
-        ],
+function login() {
+  request.post(Url+'/login', form.value).then((res) => {
+    if (res.code === 0) {
+        // 登录成功逻辑
       }
-    }
-
-  },
-  methods:{
-    login(){
-      this.$refs['form'].validate((valid)=>{
-        if(valid){
-          request.post("/user/login",this.form).then(res=>{
-            if(res.code==0){
-              ElMessage({
-                type: 'success',
-                message: '登录成功',
-              })
-              sessionStorage.setItem("user", JSON.stringify(res.data))  // 缓存用户信息
-              this.$router.push("/wen_wu")
-            }else{
-              ElMessage({
-                type: 'error',
-                message: '用户名或密码错误',
-              })
-            }
-          })
-        }
-      })
-
-    }
-  }
+    })
+    .catch((error) => {
+      // 错误处理逻辑
+    });
 }
 </script>
+
 
 <style scoped>
 

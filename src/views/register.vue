@@ -16,18 +16,23 @@
 </template>
 
 <script>
-import {ElMessage} from "element-plus";
+import {ElMessage}  from "element-plus";
 import request from "@/utils/request";
 import { ref } from 'vue';
-
+import { useRouter } from 'vue-router';
+import Mock from "mockjs";
+import { inject } from 'vue';
 export default {
   name: 'register',
+
   setup() {
     const form = ref({
       username: '',
       password: '',
       confirm: ''
     });
+
+    const router = useRouter(); // 获取路由实例
 
     const register = () => {
       if (form.value.password !== form.value.confirm) {
@@ -37,29 +42,38 @@ export default {
         });
         return;
       }
-      //
-      // this.$refs['form'].validate((valid) => {
-      //   if (valid) {
-          request.post('http://10.4.110.74:9090/register', form.value).then((res) => {
-      // request.post('http://localhost:9090/register', form.value).then((res) => {
-            if (res.code === 0) {
-              ElMessage({
-                type: 'success',
-                message: '注册成功',
-              });
-              console.log("注册成功");
-              this.$router.push('/login');
-            } else {
-              ElMessage({
-                type: 'error',
-                message: '用户名已被注册',
-              });
+
+      const Url = inject('$Url');
+      Mock.mock(Url+'/register',"post",function (options){
+        // console.log(options)
+        return{
+          "status":'200',
+          "code":0,
+          "data|3-5":[
+            {
+              "id|+1":1
             }
+          ]
+        }
+      })
+      request.post(Url+'/register', form.value).then((res) => {
+        console.log(res.status)
+        console.log(res.data.code)
+        if (res.data.code == 0) {
+          ElMessage({
+            type: 'success',
+            message: '注册成功',
+          });
+          console.log("注册成功");
+          router.push('/login');
+        } else {
+          ElMessage({
+            type: 'error',
+            message: '用户名已被注册',
           });
         }
-      // });
-    // };
-
+      });
+    }
     return {
       form,
       register,

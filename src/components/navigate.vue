@@ -52,6 +52,7 @@
 import { ref, computed } from 'vue';
 
 export default {
+
   setup() {
     const isLoggedIn = ref(false);
 

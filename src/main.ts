@@ -14,4 +14,8 @@ const app=createApp(App)
 app.use(router);
 app.use(store);
 app.use(ElementPlus)
+app.provide('$Url', 'http://localhost:9090');
 app.mount('#app')
+
+
+

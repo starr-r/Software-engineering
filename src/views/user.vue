@@ -4,6 +4,10 @@
       <div class="profile">
         <img :src="user.avatarUrl" alt="User Avatar" class="avatar">
         <h1>{{ user.username }}</h1>
+        <div v-if="user.abanned" class="banned-container">
+          <span class="banned-text">您已被禁止评论</span>
+          <img src="@/assets/img/BannedIcon.png" alt="Banned Icon" class="banned-icon">
+        </div>
         <button @click="EditProfile">修改个人信息</button>
         <button @click="ReturnToHomePage">返回主页</button>
       </div>
@@ -43,13 +47,13 @@ export default {
     return {
       user: {
         id: 'user123',
-        username: 'test用户名',
+        username: 'test名',
         avatarUrl: require('@/assets/img/FemaleIcon1.jpg'),
         email: 'user@example.com',
         phone: '1234567890',
         createTime: '2021-01-01',
         updateTime: '2021-02-01',
-        abanned: false
+        abanned: true
       },
       comments: [
         {
@@ -177,7 +181,7 @@ export default {
 }
 
 .artifact-image {
-  width: 150px; /* 大小可以根据需要调整 */
+  width: 150px;
   height: 150px; 
   margin-right: 10px;
 }
@@ -195,5 +199,30 @@ export default {
 .comment-time {
   font-size: 12px;
   color: #888;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+.banned-container {
+  display: flex;
+  align-items: center;
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  animation: shake 0.5s infinite;
+}
+
+.banned-text {
+  color: white;
+  margin-right: 5px;
+}
+
+.banned-icon {
+  width: 50px;
+  height: 50px;
 }
 </style>

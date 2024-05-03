@@ -1,6 +1,7 @@
 <template>
   <div class="h-6" />
   <el-menu
+      style="border: 0px;"
       :default-active="activeIndex2"
       class="el-menu-demo"
       mode="horizontal"

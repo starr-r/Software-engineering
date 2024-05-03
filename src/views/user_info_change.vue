@@ -37,6 +37,14 @@
             <el-form-item label="手机号">
               <el-input v-model="form.phone"></el-input>
             </el-form-item>
+            
+            <el-form-item label="性别">
+              <el-input v-model="form.gender"></el-input>
+            </el-form-item>
+
+            <el-form-item label="年龄">
+              <el-input v-model="form.age"></el-input>
+            </el-form-item>
 
             <el-form-item label="创建时间">
               <el-input v-model="form.createTime" disabled></el-input>
@@ -74,6 +82,8 @@
           avatarUrl: '',
           email: '',
           phone: '',
+          gender:'',
+          age:'',
           createTime: '',
           updateTime: '',
           isBanned: false,

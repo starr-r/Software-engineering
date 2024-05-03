@@ -51,6 +51,8 @@ export default {
         avatarUrl: require('@/assets/img/FemaleIcon1.jpg'),
         email: 'user@example.com',
         phone: '1234567890',
+        gender:'男',
+        age:'18',
         createTime: '2021-01-01',
         updateTime: '2021-02-01',
         abanned: true

@@ -1,6 +1,7 @@
 <template>
   <div style="padding-left: 430px;padding-top: 120px" id="background">
     <div class="registry-wrapper">
+
       <div class="header">Register</div>
       <div class="form-wrapper">
         <input type="text" name="username" placeholder="username" class="input-item" v-model="form.username">
@@ -56,7 +57,8 @@ export default {
           ]
         }
       })
-      request.post(Url+'/register', form.value).then((res) => {
+      request.post(Url+'/register', form.value).then(
+          (res) => {
         console.log(res.status)
         console.log(res.data.code)
         if (res.data.code == 0) {

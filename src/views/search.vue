@@ -15,12 +15,23 @@
         <span>|</span>
         <span :class="{'active': searchType === 'museum'}" @click="setSearchType('museum')">博物馆</span>
         <span>|</span>
-        <span :class="{'active': searchType === 'relicTime'}" @click="setSearchType('relicTime')">时代</span>
+        <span :class="{'active': searchType === 'relicTime'}" @click="setSearchType('relicTime')">文物年代</span>
       </div>
       <div class="input-wrapper">
         <div class="search-container">
           <input input type="text" placeholder="输入搜索内容..." v-model="searchInput">
-          <button @click="search">搜索</button>
+          <button class="search1" @click="search">搜索</button>
+          <el-button size="large"class="search2" :icon="Search" round @click="$router.push('/advanced_search')">Advanced Search</el-button>
+        </div>
+      </div>
+      <div class="changeTime_container">
+
+        <div class="changeTime" style="width: 120px" @click="changeTime">
+          时间顺序
+          <div class="box-icon">
+            <div class="up" :class="{'opacity-5': time_status === 1}"></div>
+            <div class="down" :class="{'opacity-1': time_status=== 1}"></div>
+          </div>
         </div>
       </div>
       <main class="main-content">
@@ -60,6 +71,7 @@
 </template>
 <script setup>
 
+  import { Search } from '@element-plus/icons-vue'
   import { useRouter } from 'vue-router';
   import { ref,onMounted } from 'vue';
   import Mock from "mockjs";
@@ -74,6 +86,14 @@
 
   const searchInput = ref('');
   const searchType = ref('artifactName');
+
+ /*默认0为升序 1为降序*/
+  const time_status = ref(0);
+
+  const changeTime = () => {
+    time_status.value = time_status.value === 0 ? 1 : 0;
+  };
+
   const goBack = () => {
     router.go(-1);
   };
@@ -111,8 +131,7 @@
     searchType.value = type;
   };
 
-  Mock.mock(Url+'/search_museum',"get",function (options){
-    console.log("111111")
+  Mock.mock(Url+'/search_museum/museum?museumName=张三',"get",function (options){
     console.log(options)
     return{
       "code":0,
@@ -128,21 +147,20 @@
     let url;
     console.log(searchType.value)
     switch (searchType.value) {
-      case 'arifact':
-        url = Url+'/search';
+      case 'artifact':
+        url = Url+'/artifact/artifact?artifactName=';
         break;
       case 'museum':
-        url = Url+'/search_museum';
+        url = Url+'/search_museum/museum?museumName=';
         break;
       case 'relicTime':
-        url = Url+'/search_relicTime';
+        url = Url+'/search_relicTime/relicTime?relicTime=';
         break;
     }
     console.log(url)
-    const res = await axios.get(url, {
-      searchText: searchInput.value,
-      // cancelToken: this.cancelTokenSource.token
-    });
+    url=url+searchInput.value
+    console.log(url)
+    const res = await axios.get(url);
     items.value=res.data.items
     console.log(items.value)
   };
@@ -150,6 +168,53 @@
 </script>
 
 <style scoped>
+.changeTime_container{
+  display: flex;
+  justify-content: flex-end;
+}
+.changeTime {
+  padding: 0 20px;
+  height: 32px;
+  color: #505363;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 10px;
+  display: flex;
+  line-height: 32px;
+  cursor: pointer;
+}
+.right:hover {
+  color: #217aff;
+  border: 1px solid #217aff;
+}
+.opacity-5 {
+  opacity: 0.5;
+}
+.opacity-1 {
+  opacity: 1 !important;
+}
+.box-icon {
+  height: 30px;
+  margin-top: 7px;
+}
+.box-icon .up {
+  width: 0;
+  height: 0;
+  border-bottom: 6px solid #a3a5b3;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-bottom: 4px;
+}
+.box-icon .down {
+  width: 0;
+  height: 0;
+  opacity: 0.5;
+  border-top: 6px solid #a3a5b3;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+
 
 .text-container {
   display: flex;
@@ -187,6 +252,10 @@
   text-align: left;
 }
 
+.search2:hover {
+  background-color: #f2f2f2; /* 设置鼠标悬停时的背景颜色为浅红色 */
+  color: #888;
+}
 
 .main-content{
   display: flex;
@@ -296,7 +365,7 @@ img {
 .item {
   flex-basis: calc(50% - 10px); /* 动态计算宽度减去间隔 */
 }
-.search-container button {
+.search-container .search1 {
   cursor: pointer;
   height: 50px;
   padding: 0 30px;

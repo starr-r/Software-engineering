@@ -1,122 +1,65 @@
 <template>
-<!--  <div class="dp-text-ellipsis-wrapper">
-    <div class="text" :class="textClass" :style="textStyleObject">
-      <label class="btn" @click="showall = !showall"></label>
-      {{ info }}
+  <div class="right" @click="changeTime">
+    时间顺序
+    <div class="box-icon">
+      <div class="up" :class="{'opacity-5': time_status === 1}"></div>
+      <div class="down" :class="{'opacity-1': time_status=== 1}"></div>
     </div>
-  </div>-->
+  </div>
 </template>
-<!-- <script>
-export default {
-  name: 'test',
-  props: {
-    info: {
-      type: String,
-      default: '',
-    },
-    lineClamp: {
-      type: Number,
-      default: 3,
-    },
-    hiddenBtn: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      showall: false,
-    }
-  },
-  computed: {
-    textStyleObject() {
-      return {
-        'max-height': this.showall ? 'none' : `${1.5 * this.lineClamp}em`,
-      }
-    },
-    textClass() {
-      let cls = this.showall ? 'showall' : ''
-      cls = cls + (this.hiddenBtn ? ' hidden-btn' : '')
-      return cls
-    },
-  },
-  watch: {
-    info() {
-      this.showall = false
-    },
-  },
-}
-</script> -->
 
+<script setup>
+import { ref } from 'vue';
 
-<!-- <style lang="less">
-.dp-text-ellipsis-wrapper {
-  display: flex;
-  margin: 6px 0 20px 0;
-  overflow: hidden;
+const time_status = ref(0);
+
+const changeTime = () => {
+  time_status.value = time_status.value === 0 ? 1 : 0;
+};
+</script>
+
+<style scoped>
+.right {
+  padding: 0 20px;
+  height: 32px;
+  color: #505363;
+  font-weight: 400;
   font-size: 14px;
-  line-height: 20px;
-
-  .text {
-    position: relative;
-    overflow: hidden;
-    line-height: 1.5;
-    text-align: justify;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    transition: 0.3s max-height;
-  }
-  .text::before {
-    float: right;
-    height: calc(100% - 20px);
-    content: '';
-  }
-  .text::after {
-    position: absolute;
-    width: 999vw;
-    height: 999vw;
-    margin-left: -100px;
-    box-shadow: inset calc(100px - 999vw) calc(30px - 999vw) 0 0 #fff;
-    content: '';
-  }
-  .btn {
-    position: relative;
-    float: right;
-    clear: both;
-    margin-left: 10px;
-    font-size: 14px;
-    padding: 0 8px;
-    color: #206ef7;
-    line-height: 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    z-index: 10;
-  }
-  .btn::after {
-    /* stylelint-disable-next-line */
-    font-family: element-icons !important;
-    content: '展开\e790';
-  }
-
-  .text.showall {
-    max-height: none;
-  }
-  .text.showall .btn::before {
-    visibility: hidden;
-  }
-  .text.showall .btn::after {
-    visibility: hidden;
-  }
-  .text.showall.hidden-btn .btn::after {
-    content: '收起\e78f';
-    visibility: visible;
-  }
-  .btn::before {
-    position: absolute;
-    left: 1px;
-    color: #333;
-    transform: translateX(-100%);
-    content: '...';
-  }
+  margin-left: 10px;
+  border: 1px solid rgb(233, 231, 231);
+  display: flex;
+  justify-content: center;
+  line-height: 32px;
+  cursor: pointer;
 }
-</style> -->
+.right:hover {
+  color: #217aff;
+  border: 1px solid #217aff;
+}
+.opacity-5 {
+  opacity: 0.5;
+}
+.opacity-1 {
+  opacity: 1 !important;
+}
+.box-icon {
+  height: 30px;
+  margin-top: 7px;
+}
+.box-icon .up {
+  width: 0;
+  height: 0;
+  border-bottom: 6px solid #a3a5b3;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-bottom: 4px;
+}
+.box-icon .down {
+  width: 0;
+  height: 0;
+  opacity: 0.5;
+  border-top: 6px solid #a3a5b3;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+</style>

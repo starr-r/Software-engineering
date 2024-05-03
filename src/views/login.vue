@@ -19,7 +19,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import request from '@/utils/request'; // 假设你有一个封装了请求的工具函数，类似 axios
+import request from '@/utils/request';  // 假设你有一个封装了请求的工具函数，类似 axios
 import { ElMessage, ElNotification } from 'element-plus'; // 使用 Element Plus 的消息提示
 
 const router = useRouter();

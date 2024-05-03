@@ -28,11 +28,6 @@ const routes = [
     component: () => import('../views/register.vue'),
   },
   {
-    path: '/search1',
-    name: 'search1',
-    component: () => import('../views/search1.vue'),
-  },
-  {
     path: '/test',
     name: 'test',
     component: () => import('../views/test.vue'),
@@ -50,6 +45,11 @@ const routes = [
     path: '/user_info_change',
     name: 'user_info_change',
     component: () => import('../views/user_info_change.vue'),
+  },
+  {
+    path: '/advanced_search',
+    name: 'advanced_search',
+    component: () => import('../views/advanced_search.vue'),
   },
 ]
 const router = createRouter({

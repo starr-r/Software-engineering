@@ -1,7 +1,6 @@
 <template>
   <div style="padding-left: 430px;padding-top: 120px" id="background">
     <div class="registry-wrapper">
-
       <div class="header">Register</div>
       <div class="form-wrapper">
         <input type="text" name="username" placeholder="username" class="input-item" v-model="form.username">
@@ -94,12 +93,12 @@ body {
 .registry-wrapper {
   background-color:rgba(255,255,255,0.9);
   width: 358px;
-  height: 588px;
+  height: 550px;
   border-radius: 15px;
   padding: 0 50px;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 45%;
   transform: translate(-50%, -50%);
 }
 .header {

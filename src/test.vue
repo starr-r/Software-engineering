@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .input-wrapper .search-container{
 background-color: #ffffff;
 height: 155px;

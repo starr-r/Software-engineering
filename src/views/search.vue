@@ -125,6 +125,8 @@
     console.log(items[1]);
   }
 
+  searchAll();
+
   const setSearchType = (type) => {
     searchType.value = type;
   };

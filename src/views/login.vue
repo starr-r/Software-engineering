@@ -30,7 +30,7 @@ const form = ref({
 });
 
 function login() {
-  request.post('/后端接口', form.value) // 后面修改为后端接口
+  request.post('/login', form.value)
     .then((res) => {
       if (res.code === 0 && res.data) {
         // 假设后端返回的用户信息在 res.data 中

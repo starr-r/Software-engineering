@@ -128,22 +128,22 @@ export default {
       this.$router.push('/home');
     },
     fetchComments() {
-    const userId = this.user.id;
-    axiosInstance.get(`/api/comments/${userId}`).then(response => {
-      this.comments = response.data.map(comment => ({
-        ...comment,
-        create_time: this.formatDateTime(comment.create_time), // 格式化时间
-      }));
-    }).catch(error => {
-      console.error('Error fetching comments:', error);
-    });
-  },
-  formatDateTime(dateTimeString) {
-    return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
-  },
-  handlePageChange(newPage) {
-    this.currentPage = newPage;
-  },
+      const userId = this.user.id;
+      axiosInstance.get(`/api/comments/${userId}`).then(response => {
+        this.comments = response.data.map(comment => ({
+          ...comment,
+          create_time: this.formatDateTime(comment.create_time), // 格式化时间
+        }));
+      }).catch(error => {
+        console.error('Error fetching comments:', error);
+      });
+    },
+    formatDateTime(dateTimeString) {
+      return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
+    },
+    handlePageChange(newPage) {
+      this.currentPage = newPage;
+    },
   }
 };
 </script>

@@ -82,7 +82,8 @@ export default {
           create_time: '2023-04-01T12:00:00Z',
           artifact_name: '秦始皇兵马俑',
           artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },        {
+        },        
+        {
           id: 1,
           user_id: 123,
           artifact_id: 1001,
@@ -90,7 +91,8 @@ export default {
           create_time: '2023-04-01T12:00:00Z',
           artifact_name: '秦始皇兵马俑',
           artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },        {
+        },        
+        {
           id: 1,
           user_id: 123,
           artifact_id: 1001,

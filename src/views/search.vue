@@ -21,7 +21,7 @@
         <div class="search-container">
           <input input type="text" placeholder="输入搜索内容..." v-model="searchInput">
           <button class="search1" @click="search">搜索</button>
-          <el-button size="large"class="search2" :icon="Search" round @click="$router.push('/advanced_search')">Advanced Search</el-button>
+          <el-button size="large" style="margin-left: 10px" class="search2" :icon="Search" round @click="$router.push('/advanced_search')">Advanced Search</el-button>
         </div>
       </div>
       <div class="changeTime_container">
@@ -131,7 +131,7 @@
     searchType.value = type;
   };
 
-  Mock.mock(Url+'/search_museum/museum?museumName=张三',"get",function (options){
+  Mock.mock(Url+'/search_museum/museum?museumName=张三&order=1',"get",function (options){
     console.log(options)
     return{
       "code":0,
@@ -158,7 +158,8 @@
         break;
     }
     console.log(url)
-    url=url+searchInput.value
+    url=url+searchInput.value+'&'+'order='+time_status.value
+
     console.log(url)
     const res = await axios.get(url);
     items.value=res.data.items

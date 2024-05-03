@@ -37,20 +37,15 @@
             <el-form-item label="手机号">
               <el-input v-model="form.phone"></el-input>
             </el-form-item>
-  
+            
             <el-form-item label="性别">
-              <el-radio v-model="form.sex" label="男" size="large">男</el-radio>
-              <el-radio v-model="form.sex" label="女" size="large">女</el-radio>
+              <el-input v-model="form.gender"></el-input>
             </el-form-item>
-  
+
             <el-form-item label="年龄">
               <el-input v-model="form.age"></el-input>
             </el-form-item>
-  
-            <el-form-item label="地址">
-              <el-input v-model="form.address"></el-input>
-            </el-form-item>
-  
+
             <el-form-item label="创建时间">
               <el-input v-model="form.createTime" disabled></el-input>
             </el-form-item>
@@ -87,12 +82,11 @@
           avatarUrl: '',
           email: '',
           phone: '',
+          gender:'',
+          age:'',
           createTime: '',
           updateTime: '',
           isBanned: false,
-          sex: '',
-          age: '',
-          address: ''
         },
         updatedTime: '',
         isBannedText: ''

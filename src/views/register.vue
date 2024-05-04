@@ -58,7 +58,6 @@ export default {
       })
       request.post(Url+'/register', form.value).then(
           (res) => {
-        console.log(res.status)
         console.log(res.data.code)
         if (res.data.code == 0) {
           ElMessage({

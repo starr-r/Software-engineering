@@ -1,5 +1,5 @@
 <template>
-<!--  <div class="item" v-for="item in items" :key="item.id">
+  <div class="item" v-for="item in items" :key="item.id">
     <el-card class="card" style="width:1088px;flex:1">
       <div style="display: flex">
         <div style="flex: 1; padding-right: 5px">
@@ -27,19 +27,19 @@
         </div>
       </div>
     </el-card>
-  </div>-->
-    <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        :page-sizes="[100, 200, 300, 400]"
-        :small="small"
-        :disabled="disabled"
-        :background="background"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-    />
+  </div>
+  <el-pagination
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[100, 200, 300, 400]"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+  />
   <p>{{currentPage}}</p>
   <p>{{startIndex}}</p>
   <p>{{items}}</p>

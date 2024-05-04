@@ -33,6 +33,7 @@
         :total="comments.length"
         :page-size="pageSize"
         @current-change="handlePageChange"
+        color: red;
       />
     </main>
   </div>

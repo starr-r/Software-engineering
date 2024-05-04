@@ -1,13 +1,10 @@
 <template>
-
-  <navigate/>
+  <navigate />
   <router-view></router-view>
-<!--  <home-view/>-->
-<!--  <time_line/>-->
-<!--  <search/>-->
-
+  <!--  <home-view/>-->
+  <!--  <time_line/>-->
+  <!--  <search/>-->
 </template>
-
 
 <style scoped>
 #app {
@@ -20,7 +17,6 @@
 
 nav {
   padding: 30px;
-
 }
 
 nav a {
@@ -34,6 +30,5 @@ nav a.router-link-exact-active {
 </style>
 
 <script setup>
-
 import Navigate from "@/components/navigate.vue";
 </script>

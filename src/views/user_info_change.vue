@@ -103,10 +103,21 @@
     },
     methods: {
       updateUserInfo() {
-        // 在提交表单之前，更新 updatedTime 为当前时间
-        this.updatedTime = new Date().toLocaleString();
-  
-        request.put("/user", this.form)
+        // 创建需要发送到后端的用户信息对象
+        const updatedUser = {
+          id: this.form.id,
+          username: this.form.username,
+          password: this.form.password,
+          avatarUrl: this.form.avatarUrl,
+          email: this.form.email,
+          phone: this.form.phone,
+          gender: this.form.gender,
+          age: this.form.age,
+          createTime: this.form.createTime,
+          isBanned: this.form.isBanned
+        };
+
+        request.post("`http://localhost:8080/user/modify", updatedUser)
           .then(res => {
             console.log(res);
             if (res.code === '0') {
@@ -114,7 +125,8 @@
                 type: "success",
                 message: "更新成功"
               });
-              sessionStorage.setItem("user", JSON.stringify(this.form));
+              // 更新 sessionStorage 中的用户信息
+              sessionStorage.setItem("user", JSON.stringify(res.data));
               this.$emit("userInfo");
               this.$router.push('/user');
             } else {
@@ -126,7 +138,7 @@
           })
           .catch(error => {
             console.error(error);
-            this.$message.error("更新失败，请稍后重试");
+            this.$message.error("更新失败,请稍后重试");
           });
       }
     }
@@ -145,7 +157,7 @@
   }
   .avatar-uploader-icon {
     font-size: 28px;
-    color: #8c939d;
+    color: #303133;
     width: 120px;
     height: 120px;
     line-height: 120px;

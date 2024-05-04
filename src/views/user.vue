@@ -46,63 +46,63 @@ export default {
   data() {
     return {
       user: {
-        id: 'user123',
-        username: 'test名',
-        avatarUrl: require('@/assets/img/FemaleIcon1.jpg'),
-        email: 'user@example.com',
-        phone: '1234567890',
-        gender:'男',
-        age:'18',
-        createTime: '2021-01-01',
-        updateTime: '2021-02-01',
-        abanned: true
+        // id: 'user123',
+        // username: 'test名',
+        // avatarUrl: require('@/assets/img/FemaleIcon1.jpg'),
+        // email: 'user@example.com',
+        // phone: '1234567890',
+        // gender:'男',
+        // age:'18',
+        // createTime: '2021-01-01',
+        // updateTime: '2021-02-01',
+        // abanned: true
       },
       comments: [
-        {
-          id: 1,
-          user_id: 123,
-          artifact_id: 1001,
-          content: '这是我对这件文物的第一印象，非常震撼！',
-          create_time: '2023-04-01T12:00:00Z',
-          artifact_name: '秦始皇兵马俑',
-          artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },
-        {
-          id: 1,
-          user_id: 123,
-          artifact_id: 1001,
-          content: '这是我对这件文物的第一印象，非常震撼！',
-          create_time: '2023-04-01T12:00:00Z',
-          artifact_name: '秦始皇兵马俑',
-          artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },
-        {
-          id: 1,
-          user_id: 123,
-          artifact_id: 1001,
-          content: '这是我对这件文物的第一印象，非常震撼！',
-          create_time: '2023-04-01T12:00:00Z',
-          artifact_name: '秦始皇兵马俑',
-          artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },        
-        {
-          id: 1,
-          user_id: 123,
-          artifact_id: 1001,
-          content: '这是我对这件文物的第一印象，非常震撼！',
-          create_time: '2023-04-01T12:00:00Z',
-          artifact_name: '秦始皇兵马俑',
-          artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },        
-        {
-          id: 1,
-          user_id: 123,
-          artifact_id: 1001,
-          content: '这是我对这件文物的第一印象，非常震撼！',
-          create_time: '2023-04-01T12:00:00Z',
-          artifact_name: '秦始皇兵马俑',
-          artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        },
+        // {
+        //   id: 1,
+        //   user_id: 123,
+        //   artifact_id: 1001,
+        //   content: '这是我对这件文物的第一印象，非常震撼！',
+        //   create_time: '2023-04-01T12:00:00Z',
+        //   artifact_name: '秦始皇兵马俑',
+        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
+        // },
+        // {
+        //   id: 1,
+        //   user_id: 123,
+        //   artifact_id: 1001,
+        //   content: '这是我对这件文物的第一印象，非常震撼！',
+        //   create_time: '2023-04-01T12:00:00Z',
+        //   artifact_name: '秦始皇兵马俑',
+        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
+        // },
+        // {
+        //   id: 1,
+        //   user_id: 123,
+        //   artifact_id: 1001,
+        //   content: '这是我对这件文物的第一印象，非常震撼！',
+        //   create_time: '2023-04-01T12:00:00Z',
+        //   artifact_name: '秦始皇兵马俑',
+        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
+        // },        
+        // {
+        //   id: 1,
+        //   user_id: 123,
+        //   artifact_id: 1001,
+        //   content: '这是我对这件文物的第一印象，非常震撼！',
+        //   create_time: '2023-04-01T12:00:00Z',
+        //   artifact_name: '秦始皇兵马俑',
+        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
+        // },        
+        // {
+        //   id: 1,
+        //   user_id: 123,
+        //   artifact_id: 1001,
+        //   content: '这是我对这件文物的第一印象，非常震撼！',
+        //   create_time: '2023-04-01T12:00:00Z',
+        //   artifact_name: '秦始皇兵马俑',
+        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
+        // },
       ],
       currentPage: 1,
       pageSize: 4,
@@ -129,14 +129,28 @@ export default {
     },
     fetchComments() {
       const userId = this.user.id;
-      axiosInstance.get(`/api/comments/${userId}`).then(response => {
-        this.comments = response.data.map(comment => ({
-          ...comment,
-          create_time: this.formatDateTime(comment.create_time), // 格式化时间
-        }));
-      }).catch(error => {
-        console.error('Error fetching comments:', error);
-      });
+      axiosInstance.get(`http://localhost:8080/user/space/${userId}`)
+  .then(response => {
+    const userData = response.data;
+    this.user = {
+      id: userData.id,
+      username: userData.username,
+      avatarUrl: userData.avatarUrl,
+      // 其他用户信息属性
+    };
+    this.comments = userData.comments.map(comment => ({
+      id: comment.id,
+      user_id: comment.userId,
+      artifact_id: comment.artifactId,
+      content: comment.content,
+      create_time: this.formatDateTime(comment.createTime),
+      artifact_name: comment.artifactName,
+      artifact_image: comment.artifactImageUrl
+    }));
+  })
+  .catch(error => {
+    console.error('Error fetching comments:', error);
+  });
     },
     formatDateTime(dateTimeString) {
       return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');

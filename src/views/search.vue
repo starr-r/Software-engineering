@@ -11,7 +11,7 @@
         </div>
       </el-header>
       <div class="search-nav">
-        <span :class="{'active': searchType === 'arifact'}" @click="setSearchType('arifact')">文物</span>
+        <span :class="{'active': searchType === 'arifact'}" @click="setSearchType('arifact')">文物名称</span>
         <span>|</span>
         <span :class="{'active': searchType === 'museum'}" @click="setSearchType('museum')">博物馆</span>
         <span>|</span>
@@ -43,8 +43,7 @@
           :total="total"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-
-
+          style="top: 50%;left: 50%;justify-content: center;"
       />
       <main class="main-content">
         <div class="item" v-for="item in items" :key="item.id">
@@ -209,7 +208,6 @@
 
   const currentPage = ref(1)
   const pageSize = ref(5)
-  const small = ref(false)
   const background = ref(false)
   const disabled = ref(false)
   const startIndex=ref(1)
@@ -498,7 +496,8 @@ el-header{
   display: flex;
 }
 .home-container {
-  height: 1500px;
+  height:100%;
+  min-height: 1500px;
   max-width: 1200px; /* 设置最大宽度 */
   min-width: 320px; /* 设置最小宽度 */
   background-color: #ececec; /* 底色 */

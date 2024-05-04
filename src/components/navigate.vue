@@ -17,7 +17,7 @@
       <router-link to="/home" tag="el-menu-item">
         <el-menu-item index="4">首页</el-menu-item>
       </router-link>
-      <el-sub-menu index="2">
+<!--      <el-sub-menu index="2">
         <template #title>藏馆信息</template>
         <el-menu-item index="2-1">item one</el-menu-item>
         <el-sub-menu index="2-2">
@@ -25,7 +25,7 @@
           <el-menu-item index="2-2-1">item one</el-menu-item>
           <el-menu-item index="2-2-2">item two</el-menu-item>
         </el-sub-menu>
-      </el-sub-menu>
+      </el-sub-menu>-->
       <el-menu-item index="4">文物知识图谱</el-menu-item>
       <router-link to="/time_line" tag="el-menu-item">
         <el-menu-item index="4" >文物时间轴</el-menu-item>

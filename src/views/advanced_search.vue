@@ -1,45 +1,80 @@
 <script setup>
+import { start } from "@popperjs/core";
 import axios from "axios";
-import { mock } from "mockjs";
 import Mock from "mockjs";
-import { inject, provide, ref } from "vue";
+
+import { computed, inject, provide, ref } from "vue";
+const time_status = ref(0);
+const artifacts = ref([]);
 const radio = ref(["包含"]);
-const Url=inject("$Url");
+const Url = inject("$Url");
+console.log("Url");
+console.log(Url);
+const currentPage = ref(1);
+const pageSize = ref(5);
+const background = ref(false);
+const disabled = ref(false);
+const startIndex = ref(1);
+const total = ref(0);
+const changeTime = () => {
+  time_status.value = time_status.value ^ 1;
+};
+const handleSizeChange = (val) => {
+  pageSize.value = val;
+};
+const handleCurrentChange = (val) => {
+  currentPage.value = val;
+};
+const items = computed(() => {
+  startIndex.value = (currentPage.value - 1) * pageSize.value;
+  const endIndex = startIndex.value + pageSize.value;
+  console.log("!!!!!!!!!!!!!!!");
+  // console.log(artifacts.value.slice(0, 3))
+  // return artifacts.value.slice(0, 3);
+  return artifacts.value.slice(startIndex.value, endIndex);
+  return artifacts.value.values();
+});
+let startCondition = 0;
 const option = ref([]);
-const items = ref([]);
 option.value.push([
-  { value: "keyword", label: "关键字" },
-  { value: "musumn", label: "博物馆" },
-  { value: "age", label: "年代" },
+  { value: "description", label: "简介" },
+  { value: " library_Chinese", label: "博物馆" },
+  { value: "relicTime", label: "年代" },
+  { value: "artifactName_Chinese", label: "标题" },
+  { value: " material", label: "材质" },
 ]);
 const searchText = ref([]);
 searchText.value.push("");
 
-const operator=ref([])
+const operator = ref([]);
 operator.value.push([
   { value: "or", label: "or" },
   { value: "and", label: "and" },
   { value: "not", label: "not" },
-])
+]);
 
 const value = ref([]);
 value.value.push("");
 
 const operatorValue = ref([]);
-operatorValue.value.push("")
+operatorValue.value.push("");
 const cnts = ref(1);
 const add = () => {
   radio.value.push("包含");
   option.value.push([
-    { value: "keyword", label: "关键字" },
-    { value: "musumn", label: "博物馆" },
-    { value: "age", label: "年代" },
+    { value: "description", label: "简介" },
+    { value: " library_Chinese", label: "博物馆" },
+    { value: "relicTime", label: "年代" },
+    { value: "artifactName_Chinese", label: "标题" },
+    { value: " material", label: "材质" },
   ]);
+  searchText.value.push("");
+  operatorValue.value.push("");
   operator.value.push([
-  { value: "or", label: "or" },
-  { value: "and", label: "and" },
-  { value: "not", label: "not" },
-]);
+    { value: "or", label: "or" },
+    { value: "and", label: "and" },
+    { value: "not", label: "not" },
+  ]);
   value.value.push("");
   cnts.value++;
 };
@@ -47,33 +82,77 @@ const sub = () => {
   if (cnts.value == 1) return;
   radio.value.pop();
   option.value.pop();
+  operatorValue.value.pop();
+
   value.value.pop();
   operator.value.pop();
+  searchText.value.pop();
   cnts.value--;
 };
 
-Mock.mock(Url+'/searchAll',"get",function (options){
-    console.log("111111")
-    return{
-      "code":0,
-      "items":[
-        { image: require('@/assets/test/1.png'),size:399, title1: "睡眠与死亡手柄",time:"1967",des:"在石雕中，玛雅统治者用华丽的肖像来庆祝他们统治的里程碑，比如这幅皇室女性的形象，是为了纪念被称为 k'atun 的 20 年时期的过去。她最初站在一个广场上，旁边是她配偶的肖像（见图），她和她一起统治着玛雅省的一个城镇 El Perú-Waka'。作为附近玛雅中心强大王朝的成员，她似乎拥有比丈夫更高的权力，担任军事都督。她的服装反映了她的地位：头饰上有一把绿色的格查尔羽毛，她的首饰可能指的是玉——两者都是最珍贵的古代材料。玉珠也可能在她的衣服上结网，系着鱼状生物的头。完成服装的是她手中握着的权杖和盾牌。她身边的小矮人可能是一名宫廷侍从。象形文字是指重要的朝代日期" },
-        { image: require('@/assets/test/2.png'), title1: "约拿吞下",time:"1967" ,des:"尽管这尊国王雕像没有铭文，但其独特的特征毫无疑问地表明它是阿梅内姆哈特三世的肖像。浓重的眉毛，突出的颧骨，凹陷的脸颊，突出的下颚，以及嘴角紧绷的肌肉，给人一种非常逼真的印象。然而，国王的超大耳朵并不现实。相反，它们象征着统治者愿意倾听人民的祈祷。如果这个图像被雕刻成浮雕，国王的双手就会举起敬拜。然而，在这里，为了防止突出的四肢断裂，统治者的手平压在他的苏格兰短裙的前面，其中一部分环绕在他的腰带上"},
-        { image: require('@/assets/test/3.png'), title1: "抒情诗的缪斯",time:"1967" ,des:"设计用于连接一个大型青铜cista的盖子，一个圆柱形有盖的盒子，这三个人物可能代表抱着 Sarpedon 身体的睡眠（Hypnos）和死亡（Thanatos）。正如荷马在《伊利亚特》第十六卷中所说，宙斯的儿子帮助保卫特洛伊免受入侵的希腊军队的侵害，“铜盔的神一样的萨佩顿”落入了帕特洛克罗斯的手中。阿波罗随后介入以保护尸体，将其从危险中移除并将其托付给两个有翼的神灵，正如这里和许多其他古代艺术品所描绘的那样，希腊和伊特鲁里亚人都是如此。如果不是萨佩顿，倒下的战士可能是被阿喀琉斯杀死的厄俄斯和提托诺斯的儿子门农。" },
-        { image: require('@/assets/test/4.png'), title1: "带浮雕的独立石",time:"1967",des:"旧约先知约拿不服从主的命令宣布对尼尼微城的审判，被抛入海中，被海怪吞下。在这里，野兽一头吞下约拿。"},
-        { image: require('@/assets/test/5.png'), title1: "5" ,time:"1967" ,des:"1111"},
-      ]
+function transCondition(q, x, y, z) {
+  console.log(startCondition);
+  if (startCondition === 0) {
+    if (x === "" || y === "" || z === "") return "";
+    startCondition = 1;
+    if (q === "not") {
+      if (z === "精确") {
+        return x + " != '" + y + "' ";
+      } else {
+        return x + " NOT LIKE" + " '%" + y + "%' ";
+      }
     }
-  })
-async function  handleSubmit(event) {
-    event.preventDefault();
-    console.log("searchAll")
-    
-    const res = await axios.get(Url+'/searchAll');
-    items.value = res.data.items;
-    console.log(items);
+    if (z === "精确") {
+      return x + " = '" + y + "' ";
+    } else {
+      return x + " LIKE " + " '%" + y + "%' ";
+    }
   }
+  if (q === "" || x === "" || y === "" || z === "") return "";
+  console.log(q);
+  console.log(x);
+  console.log(y);
+  console.log("zzzz" + z);
+  if (q != "not") {
+    if (z === "精确") {
+      return q + " " + x + " = '" + y + "' ";
+    } else {
+      return q + " " + x + " LIKE " + " '%" + y + "%' ";
+    }
+  } else {
+    if (z === "精确") {
+      return "AND" + " " + x + " != '" + y + "' ";
+    } else {
+      return "AND" + " " + x + " NOT LIKE" + " '%" + y + "%' ";
+    }
+  }
+}
 
+const condition = ref("");
+async function handleSubmit(event) {
+  startCondition = 0;
+  event.preventDefault();
+  condition.value = "";
+  console.log("Advanced");
+  for (let i = 0; i < cnts.value; i++) {
+    condition.value =
+        condition.value +
+        transCondition(
+            operatorValue.value[i],
+            value.value[i],
+            searchText.value[i],
+            radio.value[i]
+        );
+  }
+  console.log(condition.value);
+  const res = await axios.post(Url + "/advanced_search", {
+    condition: condition.value,
+    order: time_status.value,
+  });
+  artifacts.value = res.data.data;
+  total.value = res.data.total;
+  console.log(res.data);
+}
 </script>
 <template>
   <main>
@@ -85,54 +164,54 @@ async function  handleSubmit(event) {
       </div>
       <form @submit="handleSubmit">
         <div
-          v-for="cnt in cnts"
-          class="input-group"
-          style="border-bottom: 2px solid #5b2528"
+            v-for="cnt in cnts"
+            class="input-group"
+            style="border-bottom: 2px solid #5b2528"
         >
           <el-select
-            v-if="cnt > 1"
-            style="width: 70px;font-weight: bold;"
-            v-model="operatorValue[cnt - 1]"
-            placeholder=""
+              v-if="cnt > 1"
+              style="width: 70px; font-weight: bold"
+              v-model="operatorValue[cnt - 1]"
+              placeholder=""
           >
             <el-option
-              v-for="item in operator[cnt - 1]"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              style="font-weight: bold;"
+                v-for="item in operator[cnt - 1]"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+                style="font-weight: bold"
             >
             </el-option>
           </el-select>
           <el-select
-            v-else 
-            style="width: 70px;visibility:hidden;"
-            v-model="value[cnt - 1]"
-            placeholder=""
+              v-else
+              style="width: 70px; visibility: hidden"
+              v-model="operatorValue[cnt - 1]"
+              placeholder=""
           >
             <el-option
-              v-for="item in option[cnt - 1]"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+                v-for="item in option[cnt - 1]"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
             >
             </el-option>
           </el-select>
           <el-select style="width: 140px" v-model="value[cnt - 1]" placeholder="请选择">
             <el-option
-              v-for="item in option[cnt - 1]"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+                v-for="item in option[cnt - 1]"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
             >
             </el-option>
           </el-select>
           <input
-            v-model="searchText[cnt - 1]"
-            type="text"
-            :id="value"
-            :name="value"
-            placeholder="请输入..."
+              v-model="searchText[cnt - 1]"
+              type="text"
+              :id="value"
+              :name="value"
+              placeholder="请输入..."
           />
           <div>
             <el-radio-group v-model="radio[cnt - 1]" fill="#5b2528">
@@ -146,52 +225,87 @@ async function  handleSubmit(event) {
           <input type="submit" value="搜索" />
         </div>
       </form>
+      <div class="changeTime_container">
+        <el-pagination
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :page-sizes="[5, 10, 20, 30]"
+            :disabled="disabled"
+            :background="background"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="margin-left: 260px"
+        />
+        <div class="changeTime" style="width: 120px" @click="changeTime">
+          时间顺序
+          <div class="box-icon">
+            <div class="up" :class="{ 'opacity-5': time_status === 1 }"></div>
+            <div class="down" :class="{ 'opacity-1': time_status === 1 }"></div>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
-  <div class="item" v-for="item in items" :key="item.id">
-          <el-card class="card" style="width:1088px;flex:1" >
-            <div style="display: flex">
-              <div style="flex: 1; padding-right: 5px">
-                <img :src="item.image"/>
+    <div class="item-container">
+      <div class="item" v-for="item in items" :key="item.id">
+        <el-card class="card" style="width: 1200px; flex: 1">
+          <div style="display: flex">
+            <div style="flex: 1; padding-right: 5px">
+              <RouterLink :to="'/artifact/' + item.id">
+                <img :src="item.imageUrl" />
+              </RouterLink>
+            </div>
+            <div
+                style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
+            >
+              <div style="text-align: left; font-size: 30px; font-weight: 700">
+                <p>{{ item.artifactNameChinese }}</p>
               </div>
-              <div style="flex: 2; display: flex; flex-direction: column;margin-left: 40px ">
-                <div style="text-align: left;font-size: 30px;font-weight: 700">
-                  <p>{{item.title1}}</p>
+              <div class="info-container">
+                <div class="info-item">
+                  <span class="title">藏品时代:</span>
+                  <span class="content">{{ item.relicTime }}</span>
                 </div>
-                <div class="info-container">
-                  <div class="info-item">
-                    <span class="title">藏品时代:</span>
-                    <span class="content">{{ item.time }}</span>
-                  </div>
-                  <div class="info-item">
-                    <span class="title">规格:</span>
-                    <span class="content">{{ item.size }}</span>
-                  </div>
-                  <div class="text-container">
-                    <span class="title">简介:</span>
-                    <span class="text" :style="{ '-webkit-line-clamp': clampLines }">{{ item.des }}</span>
-                  </div>
+                <div class="info-item">
+                  <span class="title">规格:</span>
+                  <span class="content">{{ item.sizeChinese }}</span>
                 </div>
-
+                <div class="text-container">
+                  <span class="title">简介:</span>
+                  <span class="text" :style="{ '-webkit-line-clamp': clampLines }">{{
+                      item.descriptionChinese
+                    }}</span>
+                </div>
               </div>
             </div>
-          </el-card>
-
-        </div>
+          </div>
+        </el-card>
+      </div>
+    </div>
+  </main>
 </template>
 
 <style scoped>
-.changeTime_container{
+.changeTime_container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+}
+.item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .changeTime {
   padding: 0 20px;
   height: 32px;
   color: #505363;
-  font-weight: 400;
+  font-weight: bold;
   font-size: 14px;
-  margin-left: 10px;
+  margin-left: auto;
+  margin-right: 25px;
   display: flex;
   line-height: 32px;
   cursor: pointer;
@@ -203,6 +317,7 @@ async function  handleSubmit(event) {
 .opacity-5 {
   opacity: 0.5;
 }
+/* status */
 .opacity-1 {
   opacity: 1 !important;
 }
@@ -227,27 +342,23 @@ async function  handleSubmit(event) {
   border-right: 4px solid transparent;
 }
 
-
-
 .text-container {
   display: flex;
   font-size: 20px;
 }
 
 .text {
-  width:500px;
+  width: 500px;
   text-align: left;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;  /*省略号设置*/
-  -webkit-line-clamp: 4;  /* 这里的数字 3 表示最多显示三行，可以根据需要进行调整 */
+  text-overflow: ellipsis; /*省略号设置*/
+  -webkit-line-clamp: 4; /* 这里的数字 3 表示最多显示三行，可以根据需要进行调整 */
   line-height: 1.5;
   max-height: 6em;
   /* 这里的数字 4.5em 表示最多显示三行，每行的高度为 1.5em，可以根据需要进行调整 */
 }
-
-
 
 .info-container {
   display: flex;
@@ -270,11 +381,11 @@ async function  handleSubmit(event) {
   color: #888;
 }
 
-.main-content{
+.main-content {
   display: flex;
   flex-direction: column;
 }
-.main-content> div {
+.main-content > div {
   flex: 1;
 }
 
@@ -293,10 +404,10 @@ async function  handleSubmit(event) {
 .search-nav span.active {
   color: #cccc5c; /* 激活状态的颜色 */
 }
-el-page-header_header{
+el-page-header_header {
   margin-top: 10px;
 }
-el-header{
+el-header {
   height: 80px;
   background-color: #ececec;
 }
@@ -304,21 +415,17 @@ el-header{
 .card {
   flex: 1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
-  margin-top:15px;
+  margin-top: 15px;
   margin-left: 56px;
   margin-right: 56px;
-
 }
 /*:deep(.el-card__body){
   padding:0;
 }*/
 
-
-.text-large{
-  font-size:15px;
+.text-large {
+  font-size: 15px;
 }
-
-
 
 .app {
   background-color: #5b2528;
@@ -334,12 +441,12 @@ el-header{
   flex-direction: column; /* 设置为垂直方向布局 */
 }
 
-.bbk{
+.bbk {
   margin-top: 20px;
 }
 img {
-  margin-top:20px;
-  margin-bottom:20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   width: 350px;
   height: 250px;
   object-fit: contain;
@@ -353,10 +460,9 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
-.input-wrapper{
+.input-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -413,12 +519,12 @@ main {
   background-color: #5b2528;
 }
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 20px auto;
   margin-top: 0px;
   border: 0px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

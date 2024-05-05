@@ -1,79 +1,84 @@
 <template>
-  <div style="padding-left: 430px;padding-top: 120px" id="background">
+  <div style="padding-left: 430px; padding-top: 120px" id="background">
     <div class="registry-wrapper">
       <div class="header">Register</div>
       <div class="form-wrapper">
-        <input type="text" name="username" placeholder="username" class="input-item" v-model="form.username">
-        <input type="password" name="password" placeholder="password" class="input-item" v-model="form.password">
-        <input type="password" name="password" placeholder="confirm you password" class="input-item" v-model="form.confirm">
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px;">
+        <input
+            type="text"
+            name="username"
+            placeholder="username"
+            class="input-item"
+            v-model="form.username"
+        />
+        <input
+            type="password"
+            name="password"
+            placeholder="password"
+            class="input-item"
+            v-model="form.password"
+        />
+        <input
+            type="password"
+            name="password"
+            placeholder="confirm you password"
+            class="input-item"
+            v-model="form.confirm"
+        />
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px">
           <bl class="btn" @click="$router.push('/login')">登录</bl>
-          <bl class="btn"  @click="register">注册</bl>
+          <bl class="btn" @click="register">注册</bl>
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import {ElMessage}  from "element-plus";
+import { ElMessage } from "element-plus";
 import request from "@/utils/request";
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import Mock from "mockjs";
-import { inject } from 'vue';
-export default {
-  name: 'register',
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+import { inject } from "vue";
+export default {
+  name: "register",
   setup() {
     const form = ref({
-      username: '',
-      password: '',
-      confirm: ''
+      username: "",
+      password: "",
+      confirm: "",
     });
-
+    const Url = inject("$Url");
     const router = useRouter(); // 获取路由实例
 
     const register = () => {
       if (form.value.password !== form.value.confirm) {
         ElMessage({
-          type: 'error',
-          message: '两次密码输入不一致',
+          type: "error",
+          message: "两次密码输入不一致",
         });
         return;
       }
-
-      const Url = inject('$Url');
-      Mock.mock(Url+'/register',"post",function (options){
-        // console.log(options)
-        return{
-          "status":'200',
-          "code":0,
-          "data|3-5":[
-            {
-              "id|+1":1
-            }
-          ]
-        }
-      })
-      request.post(Url+'/register', form.value).then(
-          (res) => {
-        console.log(res.data.code)
+      console.log(Url);
+      console.log(Url + "/register", form.value);
+      request.post(Url + "/register", form.value).then((res) => {
+        console.log(res.data);
+        console.log(res.data);
         if (res.data.code == 0) {
           ElMessage({
-            type: 'success',
-            message: '注册成功',
+            type: "success",
+            message: "注册成功",
           });
           console.log("注册成功");
-          router.push('/login');
+          router.push("/login");
         } else {
           ElMessage({
-            type: 'error',
-            message: '用户名已被注册',
+            type: "error",
+            message: "用户名已被注册",
           });
         }
       });
-    }
+    };
     return {
       form,
       register,
@@ -90,7 +95,7 @@ body {
   height: 100%;
 }
 .registry-wrapper {
-  background-color:rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   width: 358px;
   height: 550px;
   border-radius: 15px;
@@ -125,20 +130,21 @@ body {
   margin: 0 auto;
   width: 100%;
   margin-top: 40px;
-  background-image: linear-gradient(to right, rgba(10,2,5,0.8), rgb(0,4,15,0.8));
+  background-image: linear-gradient(to right, rgba(10, 2, 5, 0.8), rgb(0, 4, 15, 0.8));
   color: #fff;
 }
 .btn:hover {
   color: yellow;
 }
-a{
+a {
   text-decoration-line: none;
   color: #abc1ee;
 }
-#background{
-  background:url("../assets/bg2.jpg");
-  width:100%;
-height:100%;
-position:fixed;
-  background-size:100% 100%;}
+#background {
+  background: url("../assets/bg2.jpg");
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-size: 100% 100%;
+}
 </style>

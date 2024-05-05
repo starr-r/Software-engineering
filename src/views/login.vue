@@ -22,24 +22,26 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import request from '@/utils/request'; 
 import { ElMessage, ElNotification } from 'element-plus'; // 使用 Element Plus 的消息提示
-
+import { inject } from "vue";
 const router = useRouter();
 const form = ref({
   username: '',
   password: ''
 });
-
+const Url = inject("$Url");
 function login() {
-  request.post('/login', form.value)
+  request
+    .post(Url+'/login', form.value)
     .then((res) => {
-      if (res.code === 0 && res.data) {
-        // 假设后端返回的用户信息在 res.data 中
-        localStorage.setItem('userInfo', JSON.stringify(res.data));
+      if (res.data.code === 0 && res.data.data) {
+        // 登录成功
+        localStorage.setItem('userInfo', JSON.stringify(res.data.data));
         ElMessage.success('登录成功');
-        router.push('/home'); // 或者任何用户登录后应该重定向到的路由
+        router.push('/home');
       } else {
-        // 后端返回的 code 不是 0，表示登录失败
-        ElMessage.error(res.message || '登录失败，请检查用户名和密码');
+        // 登录失败
+        const errorMessage = res.data.msg || '登录失败，请检查用户名和密码';
+        ElMessage.error(errorMessage);
       }
     })
     .catch((error) => {
@@ -47,49 +49,12 @@ function login() {
       ElNotification({
         title: '错误',
         message: '请求服务失败，请稍后再试',
-        type: 'error'
+        type: 'error',
       });
       console.error('登录请求失败:', error);
     });
 }
 </script>
-<!--<script setup> //这里测试了一下
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { ElMessage} from 'element-plus';
-
-const router = useRouter();
-const form = ref({
-  username: '',
-  password: ''
-});
-
-function login() {
-  // 模拟网络请求的延迟
-  setTimeout(() => {
-    // 假设用户名是 'admin' 且密码是 'admin' 时登录成功
-    if (form.value.username === 'admin' && form.value.password === 'admin') {
-      // 模拟登录成功的响应
-      const mockSuccessResponse = {
-        code: 0,
-        data: { userId: 1, username: 'admin', token: 'mock-token' }
-      };
-      // 存储用户信息
-      localStorage.setItem('userInfo', JSON.stringify(mockSuccessResponse.data));
-      ElMessage.success('登录成功');
-      // 重定向到主页
-      router.push('/home');
-    } else {
-      // 模拟登录失败的响应
-      const mockErrorResponse = {
-        code: 1,
-        message: '用户名或密码错误'
-      };
-      ElMessage.error(mockErrorResponse.message);
-    }
-  }, 1000); // 1秒延迟
-}
-</script> -->
 <style scoped>
 
 html {

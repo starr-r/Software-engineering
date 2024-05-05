@@ -70,7 +70,7 @@
   
   <script>
   import request from "@/utils/request";
-  
+  import { inject } from 'vue';
   export default {
     name: "UserInfoChange",
     data() {
@@ -116,8 +116,9 @@
           createTime: this.form.createTime,
           isBanned: this.form.isBanned
         };
-
-        request.post("`http://localhost:8080/user/modify", updatedUser)
+        const Url = "http://localhost:8080"
+        console.log(Url+"/user/modify");
+        request.post(Url+"`/user/modify", updatedUser)
           .then(res => {
             console.log(res);
             if (res.code === '0') {

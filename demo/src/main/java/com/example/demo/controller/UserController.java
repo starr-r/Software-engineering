@@ -22,11 +22,13 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/register")//异常:用户名已存在、系统异常
-    public Result<?>Register(User user){
+    public Result<?>Register(@RequestBody User user){
+        System.out.println(user);
         try{
             if(userMapper.findByName(user.getUsername())!=null) {
                 throw new UserExistErrorException();
             }
+            else if(user.getUsername().isEmpty()|| user.getPassword().isEmpty()) throw new WrongFormatException();
             else{
                 LocalDateTime localDateTime = LocalDateTime.now();
                 String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -38,30 +40,35 @@ public class UserController {
             if(e instanceof UserExistErrorException) {
                 return Result.error(USER_EXIST_ERROR.code, USER_EXIST_ERROR.msg);//用户名已存在异常
             }
-            else return Result.error(ERROR.code, ERROR.msg);//系统异常
+            else if(e instanceof WrongFormatException){
+                return Result.error(USER_FORMAT_ERROR.code, USER_FORMAT_ERROR.msg);
+            }
+                return Result.error(ERROR.code, ERROR.msg);//系统异常
         }
     }
 
-    @PostMapping("/login")//登录  存在两种异常:系统异常  用户名和密码不匹配 此处如果未在数据库找到username也为用户名和密码不匹配
     @CrossOrigin(origins = "http://localhost:6103")
-    public Result<?> login(User user){
+    @PostMapping("/login")//登录  存在两种异常:系统异常  用户名和密码不匹配 此处如果未在数据库找到username也为用户名和密码不匹配
+
+    public Result<?> login(@RequestBody User user){
         try{
             if(userMapper.findByName(user.getUsername())==null
                     || !Objects.equals(userMapper.findPasswordByName(user.getUsername()), user.getPassword())){
                 throw new NameMatchPasswordException();
             }
-            return Result.success();
+            return Result.success(userMapper.findByName(user.getUsername()));
         }catch(Exception e){
             if(e instanceof  NameMatchPasswordException) return Result.error(USER_EXIST_ERROR.code, USER_ACCOUNT_ERROR.msg);
             return Result.error(ERROR.code, ERROR.msg);
         }
     }
 
-    @GetMapping("/user/space/{user_id}")//用户所有评论,通过用户id返回用户信息和所有评论
     @CrossOrigin(origins = "http://localhost:6103")
+    @GetMapping("/user/space/{user_id}")//用户所有评论,通过用户id返回用户信息和所有评论
+
     //http://localhost:8080/user/space/{user_id}
 
-    public Result<?> history_comments(@PathVariable Integer user_id){
+    public Result<?> User_Space(@PathVariable Integer user_id){
         try{
             User user=userMapper.findById(user_id);
             user.comments=commentMapper.findCommentsByUser_id(user_id);
@@ -71,8 +78,9 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/modify")//更新信息  异常:系统异常 此处前端不用传回当前时间
     @CrossOrigin(origins = "http://localhost:6103")
+    @PostMapping("/user/modify")//更新信息  异常:系统异常 此处前端不用传回当前时间
+
     public Result<?> modify_information(User user){
         try{
             LocalDateTime localDateTime = LocalDateTime.now();

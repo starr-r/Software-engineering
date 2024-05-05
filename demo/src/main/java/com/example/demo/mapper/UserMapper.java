@@ -28,4 +28,6 @@ public interface UserMapper {
     public String findPasswordByName(String username);
     @Select("select password from user where id=#{id};")
     public String findPasswordById(Integer id);
+    @Update("update user set isbanned=true where id=#{UserId} ")
+    public void updateIsBannedByUserId(Integer UserId);
 }

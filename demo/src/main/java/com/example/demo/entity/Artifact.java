@@ -20,6 +20,7 @@ public class Artifact extends Entity {
     String moreUrl;    //文物原地址
     public List<Comment> comments;//对应评论
 
+
     public Integer getId() {
         return id;
     }
@@ -147,6 +148,7 @@ public class Artifact extends Entity {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
 
     @Override
     public String toString() {

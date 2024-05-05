@@ -4,10 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.ArtifactMapper">
-    <select id="findByArtifactName"   resultType="com.example.demo.entity.Artifact">
-        SELECT * FROM artifact
-        WHERE artifactname LIKE CONCAT('%', #{artifactname}, '%')
-    </select>
     <select id="DeepSearch" resultType="com.example.demo.entity.Artifact">
         SELECT * from artifact
         <where>

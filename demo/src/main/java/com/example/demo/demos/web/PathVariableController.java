@@ -17,7 +17,10 @@
 package com.example.demo.demos.web;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
@@ -26,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 public class PathVariableController {
 
     // http://127.0.0.1:8080/user/123/roles/222
-    @CrossOrigin(origins = "http://localhost:6103")
     @RequestMapping(value = "/user/{userId}/roles/{roleId}", method = RequestMethod.GET)
     @ResponseBody
     public String getLogin(@PathVariable("userId") String userId, @PathVariable("roleId") String roleId) {
@@ -34,7 +36,6 @@ public class PathVariableController {
     }
 
     // http://127.0.0.1:8080/javabeat/somewords
-    @CrossOrigin(origins = "http://localhost:6103")
     @RequestMapping(value = "/javabeat/{regexp1:[a-z-]+}", method = RequestMethod.GET)
     @ResponseBody
     public String getRegExp(@PathVariable("regexp1") String regexp1) {

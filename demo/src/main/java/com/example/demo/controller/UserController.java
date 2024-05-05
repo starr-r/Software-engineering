@@ -23,7 +23,6 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/register")//异常:用户名已存在、系统异常
     public Result<?>Register(@RequestBody User user){
-        System.out.println(user);
         try{
             if(userMapper.findByName(user.getUsername())!=null) {
                 throw new UserExistErrorException();

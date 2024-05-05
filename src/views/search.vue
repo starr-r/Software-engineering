@@ -167,7 +167,6 @@ const setSearchType = (type) => {
 };
 
 const search = async () => {
-  console.log(11111);
   let url = "";
   console.log(searchType.value);
   switch (searchType.value) {

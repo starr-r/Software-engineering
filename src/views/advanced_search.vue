@@ -8,6 +8,8 @@ const time_status = ref(0);
 const artifacts = ref([]);
 const radio = ref(["包含"]);
 const Url = inject("$Url");
+console.log("Url");
+console.log(Url);
 const currentPage = ref(1);
 const pageSize = ref(5);
 const background = ref(false);
@@ -250,7 +252,9 @@ async function handleSubmit(event) {
         <el-card class="card" style="width: 1200px; flex: 1">
           <div style="display: flex">
             <div style="flex: 1; padding-right: 5px">
-              <img :src="item.imageUrl" />
+              <RouterLink :to="'/artifact/' + item.id">
+                <img :src="item.imageUrl" />
+              </RouterLink>
             </div>
             <div
               style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
@@ -285,7 +289,8 @@ async function handleSubmit(event) {
 <style scoped>
 .changeTime_container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 }
 .item-container {
   display: flex;
@@ -297,9 +302,10 @@ async function handleSubmit(event) {
   padding: 0 20px;
   height: 32px;
   color: #505363;
-  font-weight: 400;
+  font-weight: bold;
   font-size: 14px;
-  margin-left: 10px;
+  margin-left: auto;
+  margin-right: 25px;
   display: flex;
   line-height: 32px;
   cursor: pointer;

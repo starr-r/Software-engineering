@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-left: 430px;padding-top: 120px" id="background">
+  <div style="padding-left: 430px; padding-top: 120px" id="background">
     <div class="login-wrapper">
       <div class="header">Login</div>
       <div class="form-wrapper">
@@ -15,7 +15,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
@@ -26,14 +25,14 @@ import { inject } from "vue";
 import { computed } from 'vue';
 const router = useRouter();
 const form = ref({
-  username: '',
-  password: ''
+  username: "",
+  password: "",
 });
 const Url = inject("$Url");
 const store = useStore();
 function login() {
   request
-    .post(Url+'/login', form.value)
+    .post(Url + "/login", form.value)
     .then((res) => {
       if (res.data.code === '0'&&res.data.data) {
         // 登录成功
@@ -42,23 +41,22 @@ function login() {
         ElMessage.success('登录成功');
       } else {
         // 登录失败
-        const errorMessage = res.data.msg || '登录失败，请检查用户名和密码';
+        const errorMessage = res.data.msg || "登录失败，请检查用户名和密码";
         ElMessage.error(errorMessage);
       }
     })
     .catch((error) => {
       // 网络请求失败
       ElNotification({
-        title: '错误',
-        message: '请求服务失败，请稍后再试',
-        type: 'error',
+        title: "错误",
+        message: "请求服务失败，请稍后再试",
+        type: "error",
       });
-      console.error('登录请求失败:', error);
+      console.error("登录请求失败:", error);
     });
 }
 </script>
 <style scoped>
-
 html {
   height: 100%;
 }
@@ -66,7 +64,7 @@ body {
   height: 100%;
 }
 .login-wrapper {
-  background-color:rgba(255,255,255,0.9);
+  background-color: rgba(255, 255, 255, 0.9);
   width: 358px;
   height: 550px;
   border-radius: 15px;
@@ -101,21 +99,22 @@ body {
   margin: 0 auto;
   width: 100%;
   margin-top: 40px;
-  background-image: linear-gradient(to right, rgba(10,2,5,0.8), rgb(0,4,15,0.8));
+  background-image: linear-gradient(to right, rgba(10, 2, 5, 0.8), rgb(0, 4, 15, 0.8));
   color: #fff;
 }
 .btn:hover {
   color: yellow;
 }
-a{
+a {
   text-decoration-line: none;
   color: #abc1ee;
 }
 
-#background{
-  background:url("../assets/img/background1.jpg");
-  width:100%;
-  height:100%;
-  position:fixed;
-  background-size:100% 100%;}
+#background {
+  background: url("../assets/img/background1.jpg");
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-size: 100% 100%;
+}
 </style>

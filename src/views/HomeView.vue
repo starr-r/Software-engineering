@@ -29,9 +29,9 @@ export default {
     }
   },
   mounted() {
-    api.getChengpin().then(res => {
+    /*api.getChengpin().then(res => {
       console.log(res.data)
-    })
+    })*/
   }
 }
 </script>

@@ -28,12 +28,12 @@
       </div>
       <p v-if="comments.length === 0">该用户还没有发表任何评论。</p>
       <el-pagination
-        v-if="comments.length > 0"
-        layout="prev, pager, next"
-        :total="comments.length"
-        :page-size="pageSize"
-        @current-change="handlePageChange"
-        color: red;
+          v-if="comments.length > 0"
+          layout="prev, pager, next"
+          :total="comments.length"
+          :page-size="pageSize"
+          @current-change="handlePageChange"
+          :style="{ color: 'red' }"
       />
     </main>
   </div>
@@ -42,69 +42,17 @@
 <script>
 import axiosInstance from '@/utils/request';
 import dayjs from 'dayjs';
+import { inject } from "vue";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+const Url = "http://localhost:8080"//inject("$Url");
 export default {
   name: 'UserHomepage',
   data() {
     return {
       user: {
-        // id: 'user123',
-        // username: 'test名',
-        // avatarUrl: require('@/assets/img/FemaleIcon1.jpg'),
-        // email: 'user@example.com',
-        // phone: '1234567890',
-        // gender:'男',
-        // age:'18',
-        // createTime: '2021-01-01',
-        // updateTime: '2021-02-01',
-        // abanned: true
       },
-      comments: [
-        // {
-        //   id: 1,
-        //   user_id: 123,
-        //   artifact_id: 1001,
-        //   content: '这是我对这件文物的第一印象，非常震撼！',
-        //   create_time: '2023-04-01T12:00:00Z',
-        //   artifact_name: '秦始皇兵马俑',
-        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        // },
-        // {
-        //   id: 1,
-        //   user_id: 123,
-        //   artifact_id: 1001,
-        //   content: '这是我对这件文物的第一印象，非常震撼！',
-        //   create_time: '2023-04-01T12:00:00Z',
-        //   artifact_name: '秦始皇兵马俑',
-        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        // },
-        // {
-        //   id: 1,
-        //   user_id: 123,
-        //   artifact_id: 1001,
-        //   content: '这是我对这件文物的第一印象，非常震撼！',
-        //   create_time: '2023-04-01T12:00:00Z',
-        //   artifact_name: '秦始皇兵马俑',
-        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        // },        
-        // {
-        //   id: 1,
-        //   user_id: 123,
-        //   artifact_id: 1001,
-        //   content: '这是我对这件文物的第一印象，非常震撼！',
-        //   create_time: '2023-04-01T12:00:00Z',
-        //   artifact_name: '秦始皇兵马俑',
-        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        // },        
-        // {
-        //   id: 1,
-        //   user_id: 123,
-        //   artifact_id: 1001,
-        //   content: '这是我对这件文物的第一印象，非常震撼！',
-        //   create_time: '2023-04-01T12:00:00Z',
-        //   artifact_name: '秦始皇兵马俑',
-        //   artifact_image: 'https://img.cjyun.org.cn/a/10695/202311/37b7ba2219560491674b04d609451358.jpeg'
-        // },
-      ],
+      comments: [],
       currentPage: 1,
       pageSize: 4,
     };
@@ -129,29 +77,35 @@ export default {
       this.$router.push('/home');
     },
     fetchComments() {
-      const userId = this.user.id;
-      axiosInstance.get(`http://localhost:8080/user/space/${userId}`)
-  .then(response => {
-    const userData = response.data;
-    this.user = {
-      id: userData.id,
-      username: userData.username,
-      avatarUrl: userData.avatarUrl,
-      // 其他用户信息属性
-    };
-    this.comments = userData.comments.map(comment => ({
-      id: comment.id,
-      user_id: comment.userId,
-      artifact_id: comment.artifactId,
-      content: comment.content,
-      create_time: this.formatDateTime(comment.createTime),
-      artifact_name: comment.artifactName,
-      artifact_image: comment.artifactImageUrl
-    }));
-  })
-  .catch(error => {
-    console.error('Error fetching comments:', error);
-  });
+      const store = useStore();
+      const user = computed(() => store.state.user); // 从 Vuex 获取用户信息
+      const userId = user.value.id;
+      console.log(user.value);
+      console.log(Url + `/user/space/${userId}`);
+      axiosInstance
+          .get(Url + `/user/space/${userId}`)
+          .then(response => {
+            const userData = response.data.data;
+            console.log(userData);
+            this.user = {
+              id: userData.id,
+              username: userData.username,
+              avatarUrl: userData.avatarUrl,
+              // 其他用户信息属性
+            };
+            this.comments = userData.comments.map(comment => ({
+              id: comment.id,
+              user_id: comment.userId,
+              artifact_id: comment.artifactId,
+              content: comment.content,
+              create_time: this.formatDateTime(comment.createTime),
+              artifact_name: '', // 后端数据中没有这个字段
+              artifact_image: '' // 后端数据中没有这个字段
+            }));
+          })
+          .catch(error => {
+            console.error('Error fetching comments:', error);
+          });
     },
     formatDateTime(dateTimeString) {
       return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
@@ -201,7 +155,7 @@ export default {
 
 .artifact-image {
   width: 150px;
-  height: 150px; 
+  height: 150px;
   margin-right: 10px;
 }
 
@@ -212,7 +166,7 @@ export default {
 
 .comment-text {
   font-size: 16px;
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
 }
 
 .comment-time {

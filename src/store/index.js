@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 import axios from "axios"
 export default createStore({
   state: {
-    counter:10
+    counter:10,
+    user: null,
   },
   getters:{
     getCounter(state){
@@ -12,7 +13,10 @@ export default createStore({
   mutations:{
     addCounter(state,num){
       state.counter+=num
-    }
+    },
+    setUser(state, user) {
+      state.user = user;
+    },
   },
   //为异步操作做的准备
   actions:{

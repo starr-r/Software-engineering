@@ -32,10 +32,14 @@ const goBack = () => {
     </div>
     <div class="error-split" id="up"></div>
     <div class="error-manga">
-      <img src="src/assets/img/ErrorManga.png" />
+      <img :src=item.img />
     </div>
   </div>
 </template>
+
+<script>
+  const item={img:require('@/assets/img/ErrorManga.png')}
+</script>
 
 <style scopeed>
 .error-container {
@@ -43,5 +47,6 @@ const goBack = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #5b2528;
 }
 </style>

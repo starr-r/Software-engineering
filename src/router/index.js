@@ -60,7 +60,7 @@ const routes = [
     path:"/:catchall(.*)*",
     name:"Not Found",
     component: () => import('../views/NotFoundView.vue'),
-}
+  }
 ]
 const router = createRouter({
   history: createWebHistory(),

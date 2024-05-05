@@ -2,7 +2,7 @@
   <div class="app">
     <el-container class="home-container">
       <el-header
-        ><!-- 头部区 -->
+      ><!-- 头部区 -->
         <div class="bbk">
           <el-page-header @back="goBack">
             <template #content>
@@ -13,21 +13,21 @@
       </el-header>
       <div class="search-nav">
         <span
-          :class="{ active: searchType === 'artifact' }"
-          @click="setSearchType('artifact')"
-          >文物名称</span
+            :class="{ active: searchType === 'artifact' }"
+            @click="setSearchType('artifact')"
+        >文物名称</span
         >
         <span>|</span>
         <span
-          :class="{ active: searchType === 'museum' }"
-          @click="setSearchType('museum')"
-          >博物馆</span
+            :class="{ active: searchType === 'museum' }"
+            @click="setSearchType('museum')"
+        >博物馆</span
         >
         <span>|</span>
         <span
-          :class="{ active: searchType === 'relicTime' }"
-          @click="setSearchType('relicTime')"
-          >文物年代</span
+            :class="{ active: searchType === 'relicTime' }"
+            @click="setSearchType('relicTime')"
+        >文物年代</span
         >
       </div>
       <div class="input-wrapper">
@@ -35,28 +35,28 @@
           <input input type="text" placeholder="输入搜索内容..." v-model="searchInput" />
           <button class="search1" @click="search">搜索</button>
           <el-button
-            size="large"
-            style="margin-left: 10px"
-            class="search2"
-            :icon="Search"
-            round
-            @click="$router.push('/advanced_search')"
-            >Advanced Search</el-button
+              size="large"
+              style="margin-left: 10px"
+              class="search2"
+              :icon="Search"
+              round
+              @click="$router.push('/advanced_search')"
+          >Advanced Search</el-button
           >
         </div>
       </div>
       <div class="changeTime_container">
         <el-pagination
-          v-model:current-page="currentPage"
-          v-model:page-size="pageSize"
-          :page-sizes="[5, 10, 20, 30]"
-          :disabled="disabled"
-          :background="background"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          style="margin-left: 260px"
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :page-sizes="[5, 10, 20, 30]"
+            :disabled="disabled"
+            :background="background"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            style="margin-left: 260px"
         />
         <div class="changeTime" style="width: 120px" @click="changeTime">
           时间顺序
@@ -74,7 +74,7 @@
                 <img :src="item.imageUrl" />
               </div>
               <div
-                style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
+                  style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
               >
                 <div style="text-align: left; font-size: 30px; font-weight: 700">
                   <p>{{ item.artifactNameChinese }}</p>
@@ -91,8 +91,8 @@
                   <div class="text-container">
                     <span class="title">简介:</span>
                     <span class="text" :style="{ '-webkit-line-clamp': clampLines }">{{
-                      item.descriptionChinese
-                    }}</span>
+                        item.descriptionChinese
+                      }}</span>
                   </div>
                 </div>
               </div>

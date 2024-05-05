@@ -69,8 +69,9 @@
   </template>
   
   <script>
+  import { useStore } from 'vuex'; // 导入 useStore
   import request from "@/utils/request";
-  import { inject } from 'vue';
+  
   export default {
     name: "UserInfoChange",
     data() {
@@ -82,8 +83,8 @@
           avatarUrl: '',
           email: '',
           phone: '',
-          gender:'',
-          age:'',
+          gender: '',
+          age: '',
           createTime: '',
           updateTime: '',
           isBanned: false,
@@ -93,8 +94,9 @@
       };
     },
     created() {
-      const userString = sessionStorage.getItem("user") || "{}";
-      const user = JSON.parse(userString);
+      const store = useStore(); // 使用 useStore 获取 store 实例
+      const user = store.state.user; // 从 store 获取 user 信息
+      console.log(user);
       this.form = {
         ...this.form,
         ...user
@@ -103,6 +105,7 @@
     },
     methods: {
       updateUserInfo() {
+        const store = this.$store; // 通过 this.$store 访问 store
         // 创建需要发送到后端的用户信息对象
         const updatedUser = {
           id: this.form.id,
@@ -116,24 +119,23 @@
           createTime: this.form.createTime,
           isBanned: this.form.isBanned
         };
-        const Url = "http://localhost:8080"
-        console.log(Url+"/user/modify");
-        request.post(Url+"`/user/modify", updatedUser)
+        console.log(updatedUser);
+        // 注意修正 URL 字符串错误
+        request.post("http://localhost:8080/user/modify", updatedUser) // 移除多余的反引号
           .then(res => {
-            console.log(res);
-            if (res.code === '0') {
+            if (res.data.code === '0') {
               this.$message({
                 type: "success",
                 message: "更新成功"
               });
-              // 更新 sessionStorage 中的用户信息
-              sessionStorage.setItem("user", JSON.stringify(res.data));
-              this.$emit("userInfo");
+              // 通过 this.$store.commit 来提交 mutation
+              this.$store.commit('setUser', res.data.data);
               this.$router.push('/user');
             } else {
+              console.log("test失败");
               this.$message({
                 type: "error",
-                message: res.msg
+                message: res.data.msg // 确保错误信息是从 res.data.msg 中获取的
               });
             }
           })

@@ -4,6 +4,7 @@ export default createStore({
   state: {
     counter:10,
     user: null,
+    userInfo: null,
   },
   getters:{
     getCounter(state){
@@ -17,6 +18,9 @@ export default createStore({
     setUser(state, user) {
       state.user = user;
     },
+    setUserInfo(state,userInfo){
+      state.userInfo=userInfo;
+    }
   },
   //为异步操作做的准备
   actions:{

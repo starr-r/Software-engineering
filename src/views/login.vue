@@ -36,6 +36,7 @@ function login() {
     .then((res) => {
       if (res.data.code === '0'&&res.data.data) {
         // 登录成功
+        console.log(res.data.data);
         store.commit('setUser', res.data.data);
         router.push('/user');
         ElMessage.success('登录成功');

@@ -28,12 +28,12 @@
       </div>
       <p v-if="comments.length === 0">该用户还没有发表任何评论。</p>
       <el-pagination
-        v-if="comments.length > 0"
-        layout="prev, pager, next"
-        :total="comments.length"
-        :page-size="pageSize"
-        @current-change="handlePageChange"
-        :style="{ color: 'red' }"
+          v-if="comments.length > 0"
+          layout="prev, pager, next"
+          :total="comments.length"
+          :page-size="pageSize"
+          @current-change="handlePageChange"
+          :style="{ color: 'red' }"
       />
     </main>
   </div>
@@ -77,55 +77,54 @@ export default {
       this.$router.push('/home');
     },
     fetchComments() {
-  const store = useStore();
-  const user = computed(() => store.state.user); // 从 Vuex 获取用户信息
-  const userId = user.value.id;
+      const store = useStore();
+      const user = computed(() => store.state.user); // 从 Vuex 获取用户信息
+      const userId = user.value.id;
 
-  axiosInstance
-    .get(Url + `/user/space/${userId}`)
-    .then(response => {
-      const userData = response.data.data;
-
-      // 获取用户信息
-      this.user = {
-        id: userData.id,
-        username: userData.username,
-        avatarUrl: userData.avatarUrl,
-        // 其他用户信息属性
-      };
-
-      // 处理评论信息
-      this.comments = userData.comments.map(comment => ({
-        id: comment.id,
-        user_id: comment.userId,
-        artifact_id: comment.artifactId,
-        content: comment.content,
-        create_time: this.formatDateTime(comment.createTime),
-        artifact_name: '', // 先设置为空
-        artifact_image: '' // 先设置为空
-      }));
-
-      // 获取评论对应的 artifact 信息
-      this.comments.forEach(comment => {
-        axiosInstance
-          .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
+      axiosInstance
+          .get(Url + `/user/space/${userId}`)
           .then(response => {
-            const artifactData = response.data.data.artifact;
-            console.log(response.data.data.artifact);
-            // 更新评论中的 artifact_name 和 artifact_image
-            comment.artifact_name = artifactData.artifactName;
-            comment.artifact_image = artifactData.imageUrl;
+            const userData = response.data.data;
+
+            // 获取用户信息
+            this.user = {
+              id: userData.id,
+              username: userData.username,
+              avatarUrl: userData.avatarUrl,
+              // 其他用户信息属性
+            };
+
+            // 处理评论信息
+            this.comments = userData.comments.map(comment => ({
+              id: comment.id,
+              user_id: comment.userId,
+              artifact_id: comment.artifactId,
+              content: comment.content,
+              create_time: this.formatDateTime(comment.createTime),
+              artifact_name: '', // 先设置为空
+              artifact_image: '' // 先设置为空
+            }));
+
+            // 获取评论对应的 artifact 信息
+            this.comments.forEach(comment => {
+              axiosInstance
+                  .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
+                  .then(response => {
+                    const artifactData = response.data.data.artifact;
+                    // 更新评论中的 artifact_name 和 artifact_image
+                    comment.artifact_name = artifactData.artifactName;
+                    comment.artifact_image = artifactData.imageUrl;
+                  })
+                  .catch(error => {
+                    console.error('Error fetching artifact details:', error);
+                  });
+            });
           })
           .catch(error => {
-            console.error('Error fetching artifact details:', error);
+            console.error('Error fetching comments:', error);
           });
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching comments:', error);
-    });
-}
-,
+    }
+    ,
     formatDateTime(dateTimeString) {
       return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
     },
@@ -174,7 +173,7 @@ export default {
 
 .artifact-image {
   width: 150px;
-  height: 150px; 
+  height: 150px;
   margin-right: 10px;
 }
 
@@ -185,7 +184,7 @@ export default {
 
 .comment-text {
   font-size: 16px;
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
 }
 
 .comment-time {

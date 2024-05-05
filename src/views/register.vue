@@ -4,25 +4,25 @@
       <div class="header">Register</div>
       <div class="form-wrapper">
         <input
-          type="text"
-          name="username"
-          placeholder="username"
-          class="input-item"
-          v-model="form.username"
+            type="text"
+            name="username"
+            placeholder="username"
+            class="input-item"
+            v-model="form.username"
         />
         <input
-          type="password"
-          name="password"
-          placeholder="password"
-          class="input-item"
-          v-model="form.password"
+            type="password"
+            name="password"
+            placeholder="password"
+            class="input-item"
+            v-model="form.password"
         />
         <input
-          type="password"
-          name="password"
-          placeholder="confirm you password"
-          class="input-item"
-          v-model="form.confirm"
+            type="password"
+            name="password"
+            placeholder="confirm you password"
+            class="input-item"
+            v-model="form.confirm"
         />
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px">
           <bl class="btn" @click="$router.push('/login')">登录</bl>

@@ -25,11 +25,15 @@ public class ArtifactController {
     //文物部分共有六个url,严格按照下面的url格式访问  order为0 年份从前到后排序  order为1 年份从后到前
     @GetMapping("/searchAll")
 
-    //http://localhost:8080/searchAll
+    //http://localhost:8080/searchAll?order=xxx
 
-    public Result<?>searchAll(){
+    public Result<?>searchAll(String order){
         List<Artifact> list=artifactMapper.findAllRandom();
-        return Result.success(list,list.size());
+        if(Integer.parseInt(order)==1){
+            Collections.reverse(list);
+            return Result.success(list,list.size());   //返回所有文物 已排序
+        }
+        else return Result.success(list,list.size());
     }
 
     @CrossOrigin(origins = "http://localhost:6103")

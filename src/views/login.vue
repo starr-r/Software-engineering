@@ -6,7 +6,6 @@
         <!-- 使用 v-model 来绑定输入框的值 -->
         <input type="text" name="username" placeholder="username" class="input-item" v-model="form.username">
         <input type="password" name="password" placeholder="password" class="input-item" v-model="form.password"><!--本来输入框中内容没有绑定-->
-        <input style="visibility: hidden;" type="password" name="password" placeholder="password" class="input-item" v-model="form.password">
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px;">
           <bl class="btn" @click="login()">登录</bl>
           <bl class="btn" @click="$router.push('/register')">注册</bl>
@@ -19,25 +18,28 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import request from '@/utils/request'; 
 import { ElMessage, ElNotification } from 'element-plus'; // 使用 Element Plus 的消息提示
 import { inject } from "vue";
+import { computed } from 'vue';
 const router = useRouter();
 const form = ref({
   username: '',
   password: ''
 });
 const Url = inject("$Url");
+const store = useStore();
 function login() {
   request
     .post(Url+'/login', form.value)
     .then((res) => {
-      if (res.data.code === 0 && res.data.data) {
+      if (res.data.code === '0'&&res.data.data) {
         // 登录成功
-        localStorage.setItem('userInfo', JSON.stringify(res.data.data));
+        store.commit('setUser', res.data.data);
+        router.push('/user');
         ElMessage.success('登录成功');
-        router.push('/home');
       } else {
         // 登录失败
         const errorMessage = res.data.msg || '登录失败，请检查用户名和密码';

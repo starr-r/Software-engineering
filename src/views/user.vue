@@ -33,7 +33,7 @@
         :total="comments.length"
         :page-size="pageSize"
         @current-change="handlePageChange"
-        color: red;
+        :style="{ color: 'red' }"
       />
     </main>
   </div>
@@ -43,6 +43,8 @@
 import axiosInstance from '@/utils/request';
 import dayjs from 'dayjs';
 import { inject } from "vue";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 const Url = "http://localhost:8080"//inject("$Url");
 export default {
   name: 'UserHomepage',
@@ -75,31 +77,36 @@ export default {
       this.$router.push('/home');
     },
     fetchComments() {
-      const userId = this.user.id;
-      console.log(Url+`/user/space/${userId}`);
-      axiosInstance.get(Url+`/user/space/${userId}`)
-  .then(response => {
-    const userData = response.data;
-    this.user = {
-      id: userData.id,
-      username: userData.username,
-      avatarUrl: userData.avatarUrl,
-      // 其他用户信息属性
-    };
-    this.comments = userData.comments.map(comment => ({
-      id: comment.id,
-      user_id: comment.userId,
-      artifact_id: comment.artifactId,
-      content: comment.content,
-      create_time: this.formatDateTime(comment.createTime),
-      artifact_name: comment.artifactName,
-      artifact_image: comment.artifactImageUrl
-    }));
-  })
-  .catch(error => {
-    console.error('Error fetching comments:', error);
-  });
-    },
+      const store = useStore();
+      const user = computed(() => store.state.user); // 从 Vuex 获取用户信息
+      const userId = user.value.id;
+      console.log(user.value);
+  console.log(Url + `/user/space/${userId}`);
+  axiosInstance
+    .get(Url + `/user/space/${userId}`)
+    .then(response => {
+      const userData = response.data.data;
+      console.log(userData);
+      this.user = {
+        id: userData.id,
+        username: userData.username,
+        avatarUrl: userData.avatarUrl,
+        // 其他用户信息属性
+      };
+      this.comments = userData.comments.map(comment => ({
+        id: comment.id,
+        user_id: comment.userId,
+        artifact_id: comment.artifactId,
+        content: comment.content,
+        create_time: this.formatDateTime(comment.createTime),
+        artifact_name: '', // 后端数据中没有这个字段
+        artifact_image: '' // 后端数据中没有这个字段
+      }));
+    })
+    .catch(error => {
+      console.error('Error fetching comments:', error);
+    });
+},
     formatDateTime(dateTimeString) {
       return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
     },

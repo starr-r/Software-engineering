@@ -39,7 +39,7 @@
             </el-form-item>
             
             <el-form-item label="性别">
-              <el-input v-model="form.gender"></el-input>
+              <el-input v-model="form.sex"></el-input>
             </el-form-item>
 
             <el-form-item label="年龄">
@@ -83,7 +83,7 @@
           avatarUrl: '',
           email: '',
           phone: '',
-          gender: '',
+          sex: '',
           age: '',
           createTime: '',
           updateTime: '',
@@ -114,7 +114,7 @@
           avatarUrl: this.form.avatarUrl,
           email: this.form.email,
           phone: this.form.phone,
-          gender: this.form.gender,
+          sex: this.form.sex,
           age: this.form.age,
           createTime: this.form.createTime,
           isBanned: this.form.isBanned
@@ -129,6 +129,7 @@
                 message: "更新成功"
               });
               // 通过 this.$store.commit 来提交 mutation
+              console.log(this.$store.user);
               this.$store.commit('setUser', res.data.data);
               this.$router.push('/user');
             } else {

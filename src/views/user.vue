@@ -80,33 +80,51 @@ export default {
       const store = useStore();
       const user = computed(() => store.state.user); // 从 Vuex 获取用户信息
       const userId = user.value.id;
-      console.log(user.value);
-      console.log(Url + `/user/space/${userId}`);
+
       axiosInstance
           .get(Url + `/user/space/${userId}`)
           .then(response => {
             const userData = response.data.data;
-            console.log(userData);
+
+            // 获取用户信息
             this.user = {
               id: userData.id,
               username: userData.username,
               avatarUrl: userData.avatarUrl,
               // 其他用户信息属性
             };
+
+            // 处理评论信息
             this.comments = userData.comments.map(comment => ({
               id: comment.id,
               user_id: comment.userId,
               artifact_id: comment.artifactId,
               content: comment.content,
               create_time: this.formatDateTime(comment.createTime),
-              artifact_name: '', // 后端数据中没有这个字段
-              artifact_image: '' // 后端数据中没有这个字段
+              artifact_name: '', // 先设置为空
+              artifact_image: '' // 先设置为空
             }));
+
+            // 获取评论对应的 artifact 信息
+            this.comments.forEach(comment => {
+              axiosInstance
+                  .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
+                  .then(response => {
+                    const artifactData = response.data.data.artifact;
+                    // 更新评论中的 artifact_name 和 artifact_image
+                    comment.artifact_name = artifactData.artifactName;
+                    comment.artifact_image = artifactData.imageUrl;
+                  })
+                  .catch(error => {
+                    console.error('Error fetching artifact details:', error);
+                  });
+            });
           })
           .catch(error => {
             console.error('Error fetching comments:', error);
           });
-    },
+    }
+    ,
     formatDateTime(dateTimeString) {
       return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
     },

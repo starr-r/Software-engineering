@@ -82,14 +82,21 @@ public class UserController {
 
     public Result<?> modify_information(@RequestBody User user){
         try{
-            LocalDateTime localDateTime = LocalDateTime.now();
-            String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            user.setUpdateTime(date);
-            userMapper.updateInfo(user);
-            User newUser=userMapper.findById(user.getId());
-            return Result.success(newUser);
+            if(userMapper.findByName(user.getUsername())!=null
+                    && user.getId()!=(userMapper.findByName(user.getUsername()).getId())){
+                throw new WrongUserNameException();
+            }
+            else {
+                LocalDateTime localDateTime = LocalDateTime.now();
+                String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                user.setUpdateTime(date);
+                userMapper.updateInfo(user);
+                User newUser=userMapper.findById(user.getId());
+                return Result.success(newUser);
+            }
         }catch (Exception e){
-            return Result.error(ERROR.code, ERROR.msg);
+            if(e instanceof WrongUserNameException) return Result.error(USER_EXIST_ERROR.code, USER_EXIST_ERROR.msg);
+            else return Result.error(ERROR.code, ERROR.msg);
         }
     }
 

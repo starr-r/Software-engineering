@@ -111,6 +111,7 @@ export default {
           .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
           .then(response => {
             const artifactData = response.data.data.artifact;
+            console.log(response.data.data.artifact);
             // 更新评论中的 artifact_name 和 artifact_image
             comment.artifact_name = artifactData.artifactName;
             comment.artifact_image = artifactData.imageUrl;

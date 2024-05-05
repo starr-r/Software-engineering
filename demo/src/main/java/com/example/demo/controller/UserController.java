@@ -81,7 +81,7 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/user/modify")//更新信息  异常:系统异常 此处前端不用传回当前时间
 
-    public Result<?> modify_information(User user){
+    public Result<?> modify_information(@RequestBody User user){
         try{
             LocalDateTime localDateTime = LocalDateTime.now();
             String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

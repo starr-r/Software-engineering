@@ -61,6 +61,7 @@ export default {
     };
   },
   created() {
+    this.store.dispatch('getUser')
     const user = computed(() => this.store.state.user);
 
     if (!user.value || !user.value.id) {

@@ -72,11 +72,7 @@ export default {
         });
         return;
       }
-      console.log(Url);
-      console.log(Url + "/register", form.value);
       request.post(Url + "/register", form.value).then((res) => {
-        console.log(res.data);
-        console.log(res.data);
         if (res.data.code == 0) {
           ElMessage({
             type: "success",

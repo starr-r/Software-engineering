@@ -26,8 +26,7 @@ public class CommentController {
     UserMapper userMapper;
     @Autowired
     ArtifactMapper artifactMapper;
-
-    @CrossOrigin(origins = "http://localhost:6103")
+//    @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/artifact/{id}")
     public Result<?> remark(@RequestBody Comment comment){
         try{

@@ -7,6 +7,8 @@ import com.example.demo.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.common.Result;
+
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -20,7 +22,6 @@ public class UserController {
     @Autowired
     private CommentMapper commentMapper;
 
-    @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/register")//异常:用户名已存在、系统异常
     public Result<?>Register(@RequestBody User user){
         System.out.println(user);
@@ -47,11 +48,11 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/login")//登录  存在两种异常:系统异常  用户名和密码不匹配 此处如果未在数据库找到username也为用户名和密码不匹配
 
     public Result<?> login(@RequestBody User user){
         try{
+
             if(userMapper.findByName(user.getUsername())==null
                     || !Objects.equals(userMapper.findPasswordByName(user.getUsername()), user.getPassword())){
                 throw new NameMatchPasswordException();
@@ -63,7 +64,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:6103")
     @GetMapping("/user/space/{user_id}")//用户所有评论,通过用户id返回用户信息和所有评论
 
     //http://localhost:8080/user/space/{user_id}
@@ -78,10 +78,9 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/user/modify")//更新信息  异常:系统异常 此处前端不用传回当前时间
 
-    public Result<?> modify_information(User user){
+    public Result<?> modify_information(@RequestBody User user){
         try{
             LocalDateTime localDateTime = LocalDateTime.now();
             String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

@@ -154,7 +154,7 @@ const items = computed(() => {
 });
 
 async function searchAll() {
-  console.log(Url+"/searchAll");
+  console.log(Url + "/searchAll");
   const res = await axios.get(Url + "/searchAll");
   artifacts.value = res.data.data;
   total.value = res.data.total;

@@ -18,16 +18,14 @@
             </el-form-item>
   
             <el-form-item label="头像">
-              <el-upload
-                class="avatar-uploader"
-                action=""
-                :show-file-list="false"
-                :auto-upload="false"
-                :on-change="handleAvatarChange"
-              >
-                <img v-if="form.avatarUrl" :src="form.avatarUrl" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+              <el-radio-group v-model="form.avatarUrl">
+                <el-radio label="https://image.lexica.art/full_webp/622d8052-2cb5-4f33-b991-c3c3d0c16a38">
+                  <img src="https://image.lexica.art/full_webp/622d8052-2cb5-4f33-b991-c3c3d0c16a38" alt="Avatar 2" style="width: 50px; height: 50px;">
+                </el-radio>
+                <el-radio label="https://image.lexica.art/full_webp/bce4beeb-ce71-4f42-81cb-6940f9b76070">
+                  <img src="https://image.lexica.art/full_webp/bce4beeb-ce71-4f42-81cb-6940f9b76070" alt="Avatar 2" style="width: 50px; height: 50px;">
+                </el-radio>
+              </el-radio-group>
             </el-form-item>
   
             <el-form-item label="邮箱">
@@ -121,7 +119,7 @@
         };
         console.log(updatedUser);
         // 注意修正 URL 字符串错误
-        request.post("http://localhost:8080/user/modify", updatedUser) // 移除多余的反引号
+        request.post("http://localhost:8080/user/modify", updatedUser)
           .then(res => {
             if (res.data.code === '0') {
               this.$message({

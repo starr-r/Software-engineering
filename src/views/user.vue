@@ -45,23 +45,30 @@
 <script>
 import axiosInstance from '@/utils/request';
 import dayjs from 'dayjs';
-import { inject } from "vue";
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+
 const Url = "http://localhost:8080"//inject("$Url");
+
 export default {
   name: 'UserHomepage',
   data() {
     return {
-      user: {
-      },
+      user: {},
       comments: [],
       currentPage: 1,
       pageSize: 4,
     };
   },
   created() {
-    this.fetchComments();
+    const user = computed(() => this.store.state.user);
+
+    if (!user.value || !user.value.id) {
+      this.$message.error('用户未登录');
+      this.$router.push('/login');
+    } else {
+      this.fetchComments();
+    }
   },
   computed: {
     displayedComments() {
@@ -71,7 +78,6 @@ export default {
     },
   },
   methods: {
-
     EditProfile() {
       alert('跳转到修改个人信息页面');
       this.$router.push('/user_info_change');
@@ -81,71 +87,68 @@ export default {
       this.$router.push('/home');
     },
     fetchComments() {
-      const store = useStore();
-      const user = computed(() => store.state.user); // 从 Vuex 获取用户信息
+      const user = computed(() => this.store.state.user);
       const userId = user.value.id;
 
       axiosInstance
-          .get(Url + `/user/space/${userId}`)
-          .then(response => {
-            const userData = response.data.data;
+        .get(Url + `/user/space/${userId}`)
+        .then(response => {
+          const userData = response.data.data;
 
-            // 获取用户信息
-            this.user = {
-              id: userData.id,
-              username: userData.username,
-              avatarUrl: userData.avatarUrl,
-              // 其他用户信息属性
-            };
+          // 获取用户信息
+          this.user = {
+            id: userData.id,
+            username: userData.username,
+            avatarUrl: userData.avatarUrl,
+            // 其他用户信息属性
+          };
 
-            // 处理评论信息
-            this.comments = userData.comments.map(comment => ({
-              id: comment.id,
-              user_id: comment.userId,
-              artifact_id: comment.artifactId,
-              content: comment.content,
-              create_time: this.formatDateTime(comment.createTime),
-              artifact_name: '', // 先设置为空
-              artifact_image: '' // 先设置为空
-            }));
+          // 处理评论信息
+          this.comments = userData.comments.map(comment => ({
+            id: comment.id,
+            user_id: comment.userId,
+            artifact_id: comment.artifactId,
+            content: comment.content,
+            create_time: this.formatDateTime(comment.createTime),
+            artifact_name: '', // 先设置为空
+            artifact_image: '' // 先设置为空
+          }));
 
-            // 获取评论对应的 artifact 信息
-            this.comments.forEach(comment => {
-              axiosInstance
-                  .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
-                  .then(response => {
-                    const artifactData = response.data.data.artifact;
-                    // 更新评论中的 artifact_name 和 artifact_image
-                    comment.artifact_name = artifactData.artifactName;
-                    comment.artifact_image = artifactData.imageUrl;
-                  })
-                  .catch(error => {
-                    console.error('Error fetching artifact details:', error);
-                  });
-            });
-          })
-          .catch(error => {
-            console.error('Error fetching comments:', error);
+          // 获取评论对应的 artifact 信息
+          this.comments.forEach(comment => {
+            axiosInstance
+              .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
+              .then(response => {
+                const artifactData = response.data.data.artifact;
+                // 更新评论中的 artifact_name 和 artifact_image
+                comment.artifact_name = artifactData.artifactName;
+                comment.artifact_image = artifactData.imageUrl;
+              })
+              .catch(error => {
+                console.error('Error fetching artifact details:', error);
+              });
           });
-
-    }
-    ,
+        })
+        .catch(error => {
+          console.error('Error fetching comments:', error);
+        });
+    },
     formatDateTime(dateTimeString) {
       return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
     },
     handlePageChange(newPage) {
       this.currentPage = newPage;
     },
+    logout() {
+      this.store.commit('setUser', null); // 清空 store.state.user
+      this.$router.push('/home'); // 跳转到 /home 路由
+    },
   },
   setup() {
-    const isLoggedIn = inject("$isLoggedIn");
-
-    const logout = () => {
-      isLoggedIn.value = false;
-    };
+    const store = useStore();
 
     return {
-      logout
+      store,
     };
   }
 };

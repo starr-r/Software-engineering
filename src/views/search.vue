@@ -121,12 +121,10 @@ const router = useRouter();
 const searchInput = ref("");
 const searchType = ref("artifact");
 
+const nowUrl=ref("");
+
 /*默认0为升序 1为降序*/
 const time_status = ref(0);
-
-const changeTime = () => {
-  time_status.value = time_status.value ^ 1;
-};
 
 const goBack = () => {
   router.go(-1);
@@ -153,9 +151,18 @@ const items = computed(() => {
   return artifacts.value.slice(startIndex.value, endIndex);
 });
 
+async function changeTime()  {
+  time_status.value = time_status.value ^ 1;
+  const res = await axios.get(nowUrl.value+time_status.value);
+  artifacts.value = res.data.data;
+  total.value = res.data.total;
+};
+
 async function searchAll() {
-  console.log(Url+"/searchAll");
-  const res = await axios.get(Url + "/searchAll?order="+time_status.value);
+  console.log("11111111111")
+  nowUrl.value=Url+"/searchAll?order="
+  console.log(nowUrl.value+time_status.value)
+  const res = await axios.get(nowUrl.value+time_status.value);
   artifacts.value = res.data.data;
   total.value = res.data.total;
 }
@@ -180,7 +187,8 @@ const search = async () => {
       url = Url + "/search_relicTime?relicTime=";
       break;
   }
-  url = url + searchInput.value + "&" + "order=" + time_status.value;
+  nowUrl.value=url + searchInput.value + "&" + "order=";
+  url = nowUrl.value + time_status.value;
   console.log(url);
   const res = await axios.get(url);
   artifacts.value = res.data.data;

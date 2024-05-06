@@ -16,8 +16,17 @@ const background = ref(false);
 const disabled = ref(false);
 const startIndex = ref(1);
 const total = ref(0);
-const changeTime = () => {
+async function changeTime() {
   time_status.value = time_status.value ^ 1;
+  nowbody.value={
+    condition: condition.value,
+    order: time_status.value,
+  }
+  const res = await axios.post(Url + "/advanced_search", nowbody.value);
+  artifacts.value = res.data.data;
+  total.value = res.data.total;
+
+
 };
 const handleSizeChange = (val) => {
   pageSize.value = val;
@@ -52,6 +61,11 @@ operator.value.push([
   { value: "and", label: "and" },
   { value: "not", label: "not" },
 ]);
+
+const nowbody=ref([{
+  condition: "",
+  order: "",
+}])
 
 const value = ref([]);
 value.value.push("");
@@ -144,11 +158,14 @@ async function handleSubmit(event) {
             radio.value[i]
         );
   }
+  console.log(22222222222222)
   console.log(condition.value);
-  const res = await axios.post(Url + "/advanced_search", {
+  nowbody.value={
     condition: condition.value,
     order: time_status.value,
-  });
+  }
+  console.log(nowbody.value)
+  const res = await axios.post(Url + "/advanced_search", nowbody.value);
   artifacts.value = res.data.data;
   total.value = res.data.total;
   console.log(res.data);
@@ -499,7 +516,6 @@ img {
 }
 .el-button {
   border: none;
-  padding: auto;
   width: 120px;
   height: 50px;
   cursor: pointer;

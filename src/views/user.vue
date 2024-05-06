@@ -10,6 +10,9 @@
         </div>
         <button @click="EditProfile">修改个人信息</button>
         <button @click="ReturnToHomePage">返回主页</button>
+        <router-link to="/home" tag="el-menu-item">
+          <button @click="logout">退出登录</button>
+        </router-link>
       </div>
       <!-- 其他个人信息展示 -->
     </aside>
@@ -68,6 +71,7 @@ export default {
     },
   },
   methods: {
+
     EditProfile() {
       alert('跳转到修改个人信息页面');
       this.$router.push('/user_info_change');
@@ -123,6 +127,7 @@ export default {
           .catch(error => {
             console.error('Error fetching comments:', error);
           });
+
     }
     ,
     formatDateTime(dateTimeString) {
@@ -131,6 +136,17 @@ export default {
     handlePageChange(newPage) {
       this.currentPage = newPage;
     },
+  },
+  setup() {
+    const isLoggedIn = inject("$isLoggedIn");
+
+    const logout = () => {
+      isLoggedIn.value = false;
+    };
+
+    return {
+      logout
+    };
   }
 };
 </script>

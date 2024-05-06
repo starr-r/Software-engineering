@@ -30,11 +30,13 @@ const form = ref({
 });
 const Url = inject("$Url");
 const store = useStore();
+const isLoggedIn = inject("$isLoggedIn");
 function login() {
   request
     .post(Url + "/login", form.value)
     .then((res) => {
       if (res.data.code === '0'&&res.data.data) {
+        isLoggedIn.value=true
         // 登录成功
         console.log(res.data.data);
         console.log(store.state.user);

@@ -21,17 +21,22 @@ public class ArtifactController {
     @Autowired
     CommentMapper commentMapper;
 
-//    @CrossOrigin(origins = "http://localhost:6103")
+    @CrossOrigin(origins = "http://localhost:6103")
     //文物部分共有六个url,严格按照下面的url格式访问  order为0 年份从前到后排序  order为1 年份从后到前
     @GetMapping("/searchAll")
 
-    //http://localhost:8080/searchAll
+    //http://localhost:8080/searchAll?order=xxx
 
-    public Result<?>searchAll(){
+    public Result<?>searchAll(String order){
         List<Artifact> list=artifactMapper.findAllRandom();
-        return Result.success(list,list.size());
+        if(Integer.parseInt(order)==1){
+            Collections.reverse(list);
+            return Result.success(list,list.size());   //返回所有文物 已排序
+        }
+        else return Result.success(list,list.size());
     }
-//    @CrossOrigin(origins = "http://localhost:6103")
+
+    @CrossOrigin(origins = "http://localhost:6103")
     @GetMapping("/artifact")//文物名称
 
     //http://localhost:8080/artifact?artifactName=xxx&order=xxx;
@@ -48,7 +53,8 @@ public class ArtifactController {
         }
         //调用ArtifactMapper中的select by artifactName 将list返回至前端。
     }
-//    @CrossOrigin(origins = "http://localhost:6103")
+
+    @CrossOrigin(origins = "http://localhost:6103")
     @GetMapping("/search_museum")//博物馆名称
 
     //http://localhost:8080/search_museum?museumName=xxx&order=xxx;
@@ -64,7 +70,8 @@ public class ArtifactController {
             return Result.success(list,list.size());
         }
     }
-//    @CrossOrigin(origins = "http://localhost:6103")
+
+    @CrossOrigin(origins = "http://localhost:6103")
     @GetMapping("/search_relicTime")//文物年代
 
     //http://localhost:8080/search_relicTime?relicTime=xxx&order=xxx;
@@ -79,7 +86,9 @@ public class ArtifactController {
             return Result.success(list,list.size());
         }
     }
-//    @CrossOrigin(origins = "http://localhost:6103")
+    //http://localhost:8080/searchAll;
+
+    @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/advanced_search")
     public Result<?> DeepSearch(@RequestBody Map<String, Object> requestMap){
         String condition = (String) requestMap.get("condition");
@@ -94,7 +103,7 @@ public class ArtifactController {
         }
     }
 
-//    @CrossOrigin(origins = "http://localhost:6103")
+    @CrossOrigin(origins = "http://localhost:6103")
     @GetMapping("/artifact/{id}")//文物详情页面
 
     //http://localhost:8080/artifact/{id}

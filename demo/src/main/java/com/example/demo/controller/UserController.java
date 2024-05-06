@@ -32,6 +32,7 @@ public class UserController {
                 LocalDateTime localDateTime = LocalDateTime.now();
                 String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 user.setCreateTime(date);
+                System.out.println(user.getAvatarUrl());
                 userMapper.insert(user);
                 return Result.success(userMapper.findByName(user.getUsername()));
             }

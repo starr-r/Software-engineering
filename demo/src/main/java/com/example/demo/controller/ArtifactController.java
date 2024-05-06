@@ -86,6 +86,7 @@ public class ArtifactController {
             return Result.success(list,list.size());
         }
     }
+    //http://localhost:8080/searchAll;
 
     @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/advanced_search")

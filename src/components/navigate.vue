@@ -50,23 +50,15 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import {ref, computed, inject} from 'vue';
 
 export default {
 
   setup() {
 
-    const isLoggedIn = ref(false);
-
-
-    const isUserLoggedIn = computed(() => {
-      //TODO 写登录逻辑
-      return isLoggedIn.value;
-    });
-
+    const isLoggedIn = inject("$isLoggedIn");
     return {
-      isLoggedIn,
-      isUserLoggedIn,
+      isLoggedIn
     };
   },
 };

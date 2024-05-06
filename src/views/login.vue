@@ -42,15 +42,16 @@ const form = ref({
 });
 const Url = inject("$Url");
 const store = useStore();
+const isLoggedIn = inject("$isLoggedIn");
 function login() {
   request
     .post(Url + "/login", form.value)
     .then((res) => {
-      console.log(form.value);
-      console.log(res.data);
-      console.log("nmsl");
-      if (res.data.code == 0 && res.data.data) {
+      if (res.data.code === "0" && res.data.data) {
+        isLoggedIn.value = true;
         // 登录成功
+        console.log(res.data.data);
+        console.log(store.state.user);
         store.commit("setUser", res.data.data);
         router.push("/user");
         ElMessage.success("登录成功");

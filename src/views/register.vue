@@ -4,26 +4,39 @@
       <div class="header">Register</div>
       <div class="form-wrapper">
         <input
-          type="text"
-          name="username"
-          placeholder="username"
-          class="input-item"
-          v-model="form.username"
+            type="text"
+            name="username"
+            placeholder="username"
+            class="input-item"
+            v-model="form.username"
         />
         <input
-          type="password"
-          name="password"
-          placeholder="password"
-          class="input-item"
-          v-model="form.password"
+            type="password"
+            name="password"
+            placeholder="password"
+            class="input-item"
+            v-model="form.password"
         />
         <input
-          type="password"
-          name="password"
-          placeholder="confirm you password"
-          class="input-item"
-          v-model="form.confirm"
+            class="input-item"
+            type="password"
+            name="password"
+            placeholder="confirm you password"
+            v-model="form.confirm"
         />
+
+        <el-input
+            v-model="form.password"
+            type="password"
+            placeholder="password"
+            class="input-item"
+            resizeTextarea="30px"
+            textareaStyle="30px"
+            size="30px"
+            min="30px"
+            show-password
+        />
+
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px">
           <bl class="btn" @click="$router.push('/login')">登录</bl>
           <bl class="btn" @click="register">注册</bl>
@@ -46,7 +59,7 @@ export default {
     const form = ref({
       username: "",
       password: "",
-      confirm: "",
+      confirm: ""
     });
     const Url = inject("$Url");
     const router = useRouter(); // 获取路由实例

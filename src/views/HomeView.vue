@@ -1,49 +1,51 @@
 <template>
-  <!--  <el-container class="home-container">-->
-  <div class="block text-center">
-    <el-carousel height="680px" motion-blur>
-      <el-carousel-item v-for="item in items" :key="item">
-        <div class="image-container">
-          <img :src="item.image" alt="Logo" />
-        </div>
-      </el-carousel-item>
-    </el-carousel>
-  </div>
-  <!--  </el-container>-->
+<!--  <el-container class="home-container">-->
+    <div class="block text-center">
+      <el-carousel height="680px" motion-blur>
+        <el-carousel-item v-for="item in items" :key="item">
+          <div class="image-container">
+            <img :src="item.image" alt="Logo">
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+<!--  </el-container>-->
 </template>
 
 <script>
-import api from "../api/index";
+import api from "../api/index"
+
 export default {
   name: "home",
   data() {
     return {
       items: [
-        { image: require("@/assets/test/1.png"), title: "1" },
-        { image: require("@/assets/test/2.png"), title: "2" },
-        { image: require("@/assets/test/3.png"), title: "3" },
-        { image: require("@/assets/test/4.png"), title: "4" },
-        { image: require("@/assets/test/5.png"), title: "5" },
-      ],
-    };
+        { image: require('@/assets/test/1.png'), title: "1" },
+        { image: require('@/assets/test/2.png'), title: "2" },
+        { image: require('@/assets/test/3.png'), title: "3" },
+        { image: require('@/assets/test/4.png'), title: "4" },
+        { image: require('@/assets/test/5.png'), title: "5" },
+      ]
+    }
   },
-  // mounted() {
-  //   api.getChengpin().then((res) => {
-  //     console.log(res.data);
-  //   });
-  // },
-};
+  mounted() {
+    /*api.getChengpin().then(res => {
+      console.log(res.data)
+    })*/
+  }
+}
 </script>
+
 
 <style scoped>
 .demonstration {
   color: var(--el-text-color-secondary);
 }
-template {
+template{
   height: 100%;
 }
-img {
-  height: 100%;
+img{
+  height:100%
 }
 .el-carousel__item h3 {
   color: #475669;

@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { ref } from 'vue';
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -10,11 +11,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 
+const isLoggedIn=ref(false);
 const app=createApp(App)
 app.use(router);
 app.use(store);
 app.use(ElementPlus)
-app.provide('$Url', (String)('https://d031-124-126-98-171.ngrok-free.app'));
+app.provide('$Url', (String)('http://106.53.175.27:8000'));
+// app.provide('$Url', (String)('http://'));
+app.provide('$isLoggedIn', isLoggedIn);
 app.mount('#app')
 
 

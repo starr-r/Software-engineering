@@ -20,7 +20,7 @@ public interface UserMapper {
             "age=#{age} " +
             "where id=#{id}")
     public void updateInfo( User user);
-    @Insert("Insert into user(username,password,create_time,isbanned,avatar_url) values (#{username},#{password},#{createTime},#{isBanned},)")
+    @Insert("Insert into user(username,password,create_time,isbanned,avatar_url) values (#{username},#{password},#{createTime},#{isBanned},'https://robohash.org/abc123.png?size=150x150&set=set4')")
     public void insert(User user);
     @Select("select * from user where username=#{username};")
     public User findByName(String username);

@@ -30,6 +30,7 @@ public class CommentController {
     @PostMapping("/artifact/{id}")
     public Result<?> remark(@RequestBody Comment comment){
         try{
+            System.out.println(comment);
             //检查用户是否被禁止评论,1为被禁止评论
             if(userMapper.findById(comment.getUserId()).isIsBanned()){
                 throw new RemarkErrorException();

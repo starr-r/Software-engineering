@@ -18,7 +18,8 @@ app.use(router);
 app.use(store);
 app.use(ElementPlus)
 // app.provide('$Url', (String)('http://106.53.175.27:8000'));
-app.provide('$Url', (String)('http://localhost:8443'));
+// app.provide('$Url', (String)('http://localhost:8443'));
+app.provide('$Url', (String)('http://localhost:8080'));
 app.provide('$isLoggedIn', isLoggedIn);
 app.provide('$UserId',UserId)
 app.mount('#app')

@@ -154,10 +154,10 @@ export default {
   },
   setup() {
     const store = useStore();
-    // const user = computed(() => store.state.user);
-    const UserId = inject("$UserId");
+    /*const user = computed(() => store.state.user);*/
+
     return {
-      // user,
+      /*user,*/
       store,
       UserId,
     };

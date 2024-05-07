@@ -55,6 +55,7 @@ function login() {
         console.log(store.state.user);
         store.commit("setUser", res.data.data);
         UserId.value = res.data.data.id;
+
         router.push("/user");
         ElMessage.success("登录成功");
       } else {

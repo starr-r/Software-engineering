@@ -4,7 +4,7 @@
       <div class="profile">
         <img :src="user.avatarUrl" alt="User Avatar" class="avatar">
         <h1>{{ user.username }}</h1>
-        <div v-if="user.abanned" class="banned-container">
+        <div v-if="user.isBanned" class="banned-container">
           <span class="banned-text">您已被禁止评论</span>
           <img src="@/assets/img/BannedIcon.png" alt="Banned Icon" class="banned-icon">
         </div>
@@ -90,7 +90,6 @@ export default {
     fetchComments() {
       const user = computed(() => this.store.state.user);
       const userId = user.value.id;
-
       axiosInstance
         .get(Url + `/user/space/${userId}`)
         .then(response => {
@@ -101,6 +100,7 @@ export default {
             id: userData.id,
             username: userData.username,
             avatarUrl: userData.avatarUrl,
+            isBanned: userData.isBanned
             // 其他用户信息属性
           };
 

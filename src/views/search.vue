@@ -32,7 +32,7 @@
       </div>
       <div class="input-wrapper">
         <div class="search-container">
-          <input input type="text" placeholder="输入搜索内容..." v-model="searchInput" />
+          <input input type="text" placeholder="输入搜索内容..." v-model="searchInput"   />
           <button class="search1" @click="search">搜索</button>
           <el-button
             size="large"
@@ -71,13 +71,17 @@
           <el-card class="card" style="width: 1088px; flex: 1">
             <div style="display: flex">
               <div style="flex: 1; padding-right: 5px">
-                <img :src="item.imageUrl" />
+                <RouterLink :to="'/artifact/' + item.id">
+                  <img :src="item.imageUrl" />
+                </RouterLink>
               </div>
               <div
                 style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
               >
                 <div style="text-align: left; font-size: 30px; font-weight: 700">
-                  <p>{{ item.artifactNameChinese }}</p>
+                  <RouterLink :to="'/artifact/' + item.id" style="text-decoration: none">
+                    <p style="color: black;">{{ item.artifactNameChinese }}</p>
+                  </RouterLink>
                 </div>
                 <div class="info-container">
                   <div class="info-item">

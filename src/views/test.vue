@@ -1,21 +1,21 @@
 <template>
-  <p>11111111111</p>
-  <p>artifact[0].country</p>
+  <div>
+    <img
+      ref="image"
+      src="C:\Users\Administrator\Desktop\cs\VuePrograms\Software-engineering-master\src\assets\bg2.jpg"
+      alt="Your Image"
+    />
+  </div>
 </template>
 
-<script>
-import axios from "axios";
-import {ref} from 'vue';
+<script setup>
+import { ref, onMounted } from "vue";
+import mediumZoom from "medium-zoom";
 
-const artifact=ref([])
-const res = await axios.get("http://localhost:8080/searchAll");
-artifact.value=res.data.data
-console.log("!!!!!!!!!!!!")
-console.log(res.data.code)
-console.log(artifact.value[0])
+const image = ref(null);
 
+onMounted(() => {
+  const zoom = mediumZoom(image.value);
+  // 可以在这里添加其他设置，如最大缩放倍数等
+});
 </script>
-
-<style scoped>
-
-</style>

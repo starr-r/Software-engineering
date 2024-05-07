@@ -49,10 +49,10 @@
 <script>
 import axiosInstance from "@/utils/request";
 import dayjs from "dayjs";
-import { computed } from "vue";
+import { computed, inject } from "vue";
 import { useStore } from "vuex";
 
-const Url = "http://localhost:8080"; //inject("$Url");
+// const Url = "http://localhost:8080";
 
 export default {
   name: "UserHomepage",
@@ -62,7 +62,6 @@ export default {
       comments: [],
       currentPage: 1,
       pageSize: 4,
-      UserId: "0",
     };
   },
   created() {
@@ -90,12 +89,12 @@ export default {
     },
     ReturnToHomePage() {
       alert("跳转到主页");
-      this.$router.push("/home");
+      this.$router.go(-1);
     },
     fetchComments() {
       const user = computed(() => this.store.state.user);
       const userId = user.value.id;
-
+      const Url = inject("$Url");
       axiosInstance
         .get(Url + `/user/space/${userId}`)
         .then((response) => {

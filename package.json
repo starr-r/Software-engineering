@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@websitebeaver/vue-magnifier": "^1.1.0",
     "api": "^6.1.1",
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
@@ -16,6 +17,7 @@
     "element-plus": "^2.7.0",
     "js": "^0.1.0",
     "less-loader": "^12.2.0",
+    "medium-zoom": "^1.1.0",
     "mock": "^0.1.1",
     "mockjs": "^1.1.0",
     "querystring": "^0.2.1",
@@ -23,6 +25,8 @@
     "vue": "^3.2.13",
     "vue-axios": "^3.5.2",
     "vue-class-component": "^8.0.0-0",
+    "vue-image-zoomer": "^2.3.0",
+    "vue-magnifier": "^1.0.6",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

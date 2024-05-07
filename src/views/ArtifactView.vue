@@ -6,7 +6,6 @@
         <div class="image-container">
           <img :src="artifact.artifact.imageUrl" alt="Artifact Image" />
         </div>
-        <!-- {{ artifact.artifact }} -->
         <div class="info-container">
           <p><strong>藏馆:</strong> {{ artifact.artifact.libraryChinese }}</p>
           <p><strong>材质:</strong> {{ artifact.artifact.materialChinese }}</p>
@@ -39,13 +38,26 @@
 <script setup>
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { inject, ref, onMounted } from "vue";
+import { useStore } from "vuex";
+import { inject, ref, onMounted, computed } from "vue";
 import { ElMessage, ElNotification } from "element-plus"; // 使用 Element Plus 的消息提示
+
 const Url = inject("$Url");
 const router = useRouter();
-const UserId = inject("$UserId");
 const Artifact = ref([]);
 const newComment = ref("");
+
+const store = useStore();
+store.dispatch("getUser");
+const user = computed(() => store.state.user);
+const isLoggedIn = computed(() => !!store.state.user);
+const UserId = ref("0");
+if (isLoggedIn.value) {
+  UserId.value = user.value.id;
+}
+console.log("nmsl");
+console.log(UserId.value);
+console.log("nmsl");
 onMounted(async () => {
   const res = await axios.get(Url + router.currentRoute.value.path);
   console.log(res.data.data);
@@ -74,6 +86,11 @@ const addComment = async (item) => {
       return;
     }
     if (res.data.code === "501") {
+      ElMessage.error(res.data.msg);
+
+      return;
+    }
+    if (res.data.code === "-1") {
       ElMessage.error(res.data.msg);
 
       return;

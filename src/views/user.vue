@@ -49,7 +49,7 @@
 <script>
 import axiosInstance from "@/utils/request";
 import dayjs from "dayjs";
-import { computed, inject } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 const Url = "http://localhost:8080"; //inject("$Url");
@@ -66,6 +66,7 @@ export default {
     };
   },
   created() {
+    this.store.dispatch("getUser");
     const user = computed(() => this.store.state.user);
 
     if (!user.value || !user.value.id) {
@@ -145,19 +146,14 @@ export default {
       this.currentPage = newPage;
     },
     logout() {
-      // const UserId = inject("$UserId");
-      // console.log(this.UserId);
-      // this.UserId = "0";
       this.store.commit("setUser", null); // 清空 store.state.user
       this.$router.push("/home"); // 跳转到 /home 路由
     },
   },
   setup() {
     const store = useStore();
-    /*const user = computed(() => store.state.user);*/
 
     return {
-      /*user,*/
       store,
       UserId,
     };

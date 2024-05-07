@@ -1,12 +1,12 @@
 <template>
-  <div class="main">
-    <div class="container" v-for="artifact in Artifact" :key="artifact.artifact.id">
+  <div class="main" v-for="artifact in Artifact" :key="artifact.artifact.id">
+    <div class="container">
       <div class="header">{{ artifact.artifact.artifactNameChinese }}</div>
       <div class="content">
         <div class="image-container">
           <img :src="artifact.artifact.imageUrl" alt="Artifact Image" />
         </div>
-        {{ artifact.artifact }}
+        <!-- {{ artifact.artifact }} -->
         <div class="info-container">
           <p><strong>藏馆:</strong> {{ artifact.artifact.libraryChinese }}</p>
           <p><strong>材质:</strong> {{ artifact.artifact.materialChinese }}</p>
@@ -40,19 +40,25 @@
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { inject, ref, onMounted } from "vue";
-
+import { ElMessage, ElNotification } from "element-plus"; // 使用 Element Plus 的消息提示
 const Url = inject("$Url");
 const router = useRouter();
 const UserId = inject("$UserId");
 const Artifact = ref([]);
 const newComment = ref("");
-
 onMounted(async () => {
   const res = await axios.get(Url + router.currentRoute.value.path);
+  console.log(res.data.data);
+  console.log(1);
   Artifact.value.push(res.data.data);
 });
 
 const addComment = async (item) => {
+  if (UserId.value === "0") {
+    router.push("/login");
+    return;
+  }
+  console.log(item);
   if (newComment.value.trim() !== "") {
     const res = await axios.post(Url + router.currentRoute.value.path, {
       artifactId: item.artifact.id,
@@ -60,19 +66,30 @@ const addComment = async (item) => {
       content: newComment.value,
       createTime: "nmsl",
     });
+    console.log("nmsl");
+    console.log(res.data);
+    if (res.data.code === "503") {
+      ElMessage.error(res.data.msg);
+
+      return;
+    }
+    if (res.data.code === "501") {
+      ElMessage.error(res.data.msg);
+
+      return;
+    }
     // Assuming the response includes the updated artifact object
     const updatedArtifact = res.data.data.artifact;
-    console.log(res.data);
+
+    console.log("nmsl");
+    console.log(2);
     console.log(updatedArtifact);
-    // Artifact.value.pop();
-    Artifact.value.push(updatedArtifact);
-    // console.log(Artifact.value[0].data);
-    // const index = Artifact.value.findIndex((a) => a.artifact.id === updatedArtifact.id);
-    // Artifact.value[index].artifact = updatedArtifact;
-    newComment.value = ""; // Reset the input field
-    setTimeout(() => {
-      Artifact.value[index].comments.pop(); // Remove the oldest comment
-    }, 1000); // Remove after 5 seconds
+    Artifact.value.pop();
+    Artifact.value.push({
+      artifact: updatedArtifact,
+      relatedArtifact: Artifact.relatedArtifact,
+    });
+    newComment.value = "";
   }
 };
 </script>

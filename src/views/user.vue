@@ -2,11 +2,11 @@
   <div class="user-homepage">
     <aside class="sidebar">
       <div class="profile">
-        <img :src="user.avatarUrl" alt="User Avatar" class="avatar">
+        <img :src="user.avatarUrl" alt="User Avatar" class="avatar" />
         <h1>{{ user.username }}</h1>
         <div v-if="user.isBanned" class="banned-container">
           <span class="banned-text">您已被禁止评论</span>
-          <img src="@/assets/img/BannedIcon.png" alt="Banned Icon" class="banned-icon">
+          <img src="@/assets/img/BannedIcon.png" alt="Banned Icon" class="banned-icon" />
         </div>
         <button @click="EditProfile">修改个人信息</button>
         <button @click="ReturnToHomePage">返回主页</button>
@@ -21,7 +21,11 @@
       <h1>用户评论</h1>
       <div v-for="comment in displayedComments" :key="comment.id" class="comment">
         <div class="comment-artifact">
-          <img :src="comment.artifact_image" alt="Artifact Image" class="artifact-image">
+          <img
+            :src="comment.artifact_image"
+            alt="Artifact Image"
+            class="artifact-image"
+          />
           <div class="artifact-info">
             <h2>{{ comment.artifact_name }}</h2>
           </div>
@@ -31,42 +35,43 @@
       </div>
       <p v-if="comments.length === 0">该用户还没有发表任何评论。</p>
       <el-pagination
-          v-if="comments.length > 0"
-          layout="prev, pager, next"
-          :total="comments.length"
-          :page-size="pageSize"
-          @current-change="handlePageChange"
-          :style="{ color: 'red' }"
+        v-if="comments.length > 0"
+        layout="prev, pager, next"
+        :total="comments.length"
+        :page-size="pageSize"
+        @current-change="handlePageChange"
+        :style="{ color: 'red' }"
       />
     </main>
   </div>
 </template>
 
 <script>
-import axiosInstance from '@/utils/request';
-import dayjs from 'dayjs';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import axiosInstance from "@/utils/request";
+import dayjs from "dayjs";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
-const Url = "http://localhost:8080"//inject("$Url");
+const Url = "http://localhost:8080"; //inject("$Url");
 
 export default {
-  name: 'UserHomepage',
+  name: "UserHomepage",
   data() {
     return {
       user: {},
       comments: [],
       currentPage: 1,
       pageSize: 4,
+      UserId: "0",
     };
   },
   created() {
-    this.store.dispatch('getUser')
+    this.store.dispatch("getUser");
     const user = computed(() => this.store.state.user);
 
     if (!user.value || !user.value.id) {
-      this.$message.error('用户未登录');
-      this.$router.push('/login');
+      this.$message.error("用户未登录");
+      this.$router.push("/login");
     } else {
       this.fetchComments();
     }
@@ -80,19 +85,19 @@ export default {
   },
   methods: {
     EditProfile() {
-      alert('跳转到修改个人信息页面');
-      this.$router.push('/user_info_change');
+      alert("跳转到修改个人信息页面");
+      this.$router.push("/user_info_change");
     },
     ReturnToHomePage() {
-      alert('跳转到主页');
-      this.$router.push('/home');
+      alert("跳转到主页");
+      this.$router.push("/home");
     },
     fetchComments() {
       const user = computed(() => this.store.state.user);
       const userId = user.value.id;
       axiosInstance
         .get(Url + `/user/space/${userId}`)
-        .then(response => {
+        .then((response) => {
           const userData = response.data.data;
 
           // 获取用户信息
@@ -105,44 +110,44 @@ export default {
           };
 
           // 处理评论信息
-          this.comments = userData.comments.map(comment => ({
+          this.comments = userData.comments.map((comment) => ({
             id: comment.id,
             user_id: comment.userId,
             artifact_id: comment.artifactId,
             content: comment.content,
             create_time: this.formatDateTime(comment.createTime),
-            artifact_name: '', // 先设置为空
-            artifact_image: '' // 先设置为空
+            artifact_name: "", // 先设置为空
+            artifact_image: "", // 先设置为空
           }));
 
           // 获取评论对应的 artifact 信息
-          this.comments.forEach(comment => {
+          this.comments.forEach((comment) => {
             axiosInstance
               .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
-              .then(response => {
+              .then((response) => {
                 const artifactData = response.data.data.artifact;
                 // 更新评论中的 artifact_name 和 artifact_image
                 comment.artifact_name = artifactData.artifactName;
                 comment.artifact_image = artifactData.imageUrl;
               })
-              .catch(error => {
-                console.error('Error fetching artifact details:', error);
+              .catch((error) => {
+                console.error("Error fetching artifact details:", error);
               });
           });
         })
-        .catch(error => {
-          console.error('Error fetching comments:', error);
+        .catch((error) => {
+          console.error("Error fetching comments:", error);
         });
     },
     formatDateTime(dateTimeString) {
-      return dayjs(dateTimeString).format('YYYY-MM-DD HH:mm:ss');
+      return dayjs(dateTimeString).format("YYYY-MM-DD HH:mm:ss");
     },
     handlePageChange(newPage) {
       this.currentPage = newPage;
     },
     logout() {
-      this.store.commit('setUser', null); // 清空 store.state.user
-      this.$router.push('/home'); // 跳转到 /home 路由
+      this.store.commit("setUser", null); // 清空 store.state.user
+      this.$router.push("/home"); // 跳转到 /home 路由
     },
   },
   setup() {
@@ -150,8 +155,9 @@ export default {
 
     return {
       store,
+      UserId,
     };
-  }
+  },
 };
 </script>
 <style scoped>
@@ -212,10 +218,18 @@ export default {
   color: #888;
 }
 @keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 .banned-container {
   display: flex;

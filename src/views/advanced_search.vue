@@ -35,9 +35,6 @@ const handleCurrentChange = (val) => {
 const items = computed(() => {
   startIndex.value = (currentPage.value - 1) * pageSize.value;
   const endIndex = startIndex.value + pageSize.value;
-  console.log("!!!!!!!!!!!!!!!");
-  // console.log(artifacts.value.slice(0, 3))
-  // return artifacts.value.slice(0, 3);
   return artifacts.value.slice(startIndex.value, endIndex);
   return artifacts.value.values();
 });

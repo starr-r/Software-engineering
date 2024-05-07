@@ -6,7 +6,6 @@
         <div class="image-container">
           <img :src="artifact.artifact.imageUrl" alt="Artifact Image" />
         </div>
-        <!-- {{ artifact.artifact }} -->
         <div class="info-container">
           <p><strong>藏馆:</strong> {{ artifact.artifact.libraryChinese }}</p>
           <p><strong>材质:</strong> {{ artifact.artifact.materialChinese }}</p>

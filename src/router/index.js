@@ -59,7 +59,7 @@ const routes = [
   {
     path: '/test',
     name: 'test',
-    component: () => import('../views/TestView.vue'),
+    component: () => import('../views/test.vue'),
   },
   {
     path:"/:catchall(.*)*",

@@ -72,7 +72,10 @@
             <div style="display: flex">
               <div style="flex: 1; padding-right: 5px">
                 <RouterLink :to="'/artifact/' + item.id">
-                  <img :src="item.imageUrl" />
+                  <img :src="item.imageUrl"
+                       @mouseover="activeIndex = item.id" @mouseleave="activeIndex = -1"
+                       :class="{ active: activeIndex === item.id }"
+                  />
                 </RouterLink>
               </div>
               <div
@@ -117,6 +120,8 @@ import axios from "axios";
 import request from "@/utils/request";
 import { inject } from "vue";
 
+const isHovered=ref(false)
+
 const Url = inject("$Url");
 const clampLines = 4;
 const total = ref(0);
@@ -124,7 +129,7 @@ const router = useRouter();
 
 const searchInput = ref("");
 const searchType = ref("artifact");
-
+const activeIndex= ref(-1)
 const nowUrl = ref("");
 
 /*默认0为升序 1为降序*/
@@ -133,6 +138,7 @@ const time_status = ref(0);
 const goBack = () => {
   router.go(-1);
 };
+
 
 onMounted(searchAll);
 
@@ -200,6 +206,15 @@ const search = async () => {
 </script>
 
 <style scoped>
+
+.active {
+  transform: scale(1.1);
+}
+img {
+  transition: transform 0.3s ease-in-out;
+}
+
+
 .changeTime_container {
   display: flex;
   justify-content: space-between;

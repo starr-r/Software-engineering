@@ -4,7 +4,7 @@
       <div class="profile">
         <img :src="user.avatarUrl" alt="User Avatar" class="avatar" />
         <h1>{{ user.username }}</h1>
-        <div v-if="user.abanned" class="banned-container">
+        <div v-if="user.Isbanned" class="banned-container">
           <span class="banned-text">您已被禁止评论</span>
           <img src="@/assets/img/BannedIcon.png" alt="Banned Icon" class="banned-icon" />
         </div>
@@ -49,7 +49,7 @@
 <script>
 import axiosInstance from "@/utils/request";
 import dayjs from "dayjs";
-import { computed, inject } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 // const Url = "http://localhost:8080";
@@ -99,12 +99,13 @@ export default {
         .get(Url + `/user/space/${userId}`)
         .then((response) => {
           const userData = response.data.data;
-
+          console.log(userData);
           // 获取用户信息
           this.user = {
             id: userData.id,
             username: userData.username,
             avatarUrl: userData.avatarUrl,
+            Isbanned: userData.isBanned,
             // 其他用户信息属性
           };
 
@@ -154,7 +155,6 @@ export default {
 
     return {
       store,
-      // UserId,
     };
   },
 };

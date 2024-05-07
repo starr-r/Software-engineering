@@ -66,7 +66,7 @@
           </div>
         </div>
       </div>
-      <main class="main-content">
+      <main class="main-content" style="font-family: 宋体, SimSun, sans-serif">
         <div class="item" v-for="item in items" :key="item.id">
           <el-card class="card" style="width: 1088px; flex: 1">
             <div style="display: flex">
@@ -166,8 +166,6 @@ async function searchAll() {
   artifacts.value = res.data.data;
   total.value = res.data.total;
 }
-
-searchAll();
 
 const setSearchType = (type) => {
   searchType.value = type;

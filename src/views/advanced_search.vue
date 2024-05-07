@@ -18,16 +18,14 @@ const startIndex = ref(1);
 const total = ref(0);
 async function changeTime() {
   time_status.value = time_status.value ^ 1;
-  nowbody.value={
+  nowbody.value = {
     condition: condition.value,
     order: time_status.value,
-  }
+  };
   const res = await axios.post(Url + "/advanced_search", nowbody.value);
   artifacts.value = res.data.data;
   total.value = res.data.total;
-
-
-};
+}
 const handleSizeChange = (val) => {
   pageSize.value = val;
 };
@@ -62,10 +60,12 @@ operator.value.push([
   { value: "not", label: "not" },
 ]);
 
-const nowbody=ref([{
-  condition: "",
-  order: "",
-}])
+const nowbody = ref([
+  {
+    condition: "",
+    order: "",
+  },
+]);
 
 const value = ref([]);
 value.value.push("");
@@ -150,21 +150,21 @@ async function handleSubmit(event) {
   console.log("Advanced");
   for (let i = 0; i < cnts.value; i++) {
     condition.value =
-        condition.value +
-        transCondition(
-            operatorValue.value[i],
-            value.value[i],
-            searchText.value[i],
-            radio.value[i]
-        );
+      condition.value +
+      transCondition(
+        operatorValue.value[i],
+        value.value[i],
+        searchText.value[i],
+        radio.value[i]
+      );
   }
-  console.log(22222222222222)
+  console.log(22222222222222);
   console.log(condition.value);
-  nowbody.value={
+  nowbody.value = {
     condition: condition.value,
     order: time_status.value,
-  }
-  console.log(nowbody.value)
+  };
+  console.log(nowbody.value);
   const res = await axios.post(Url + "/advanced_search", nowbody.value);
   artifacts.value = res.data.data;
   total.value = res.data.total;
@@ -181,54 +181,54 @@ async function handleSubmit(event) {
       </div>
       <form @submit="handleSubmit">
         <div
-            v-for="cnt in cnts"
-            class="input-group"
-            style="border-bottom: 2px solid #5b2528"
+          v-for="cnt in cnts"
+          class="input-group"
+          style="border-bottom: 2px solid #5b2528"
         >
           <el-select
-              v-if="cnt > 1"
-              style="width: 70px; font-weight: bold"
-              v-model="operatorValue[cnt - 1]"
-              placeholder=""
+            v-if="cnt > 1"
+            style="width: 70px; font-weight: bold"
+            v-model="operatorValue[cnt - 1]"
+            placeholder=""
           >
             <el-option
-                v-for="item in operator[cnt - 1]"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-                style="font-weight: bold"
+              v-for="item in operator[cnt - 1]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              style="font-weight: bold"
             >
             </el-option>
           </el-select>
           <el-select
-              v-else
-              style="width: 70px; visibility: hidden"
-              v-model="operatorValue[cnt - 1]"
-              placeholder=""
+            v-else
+            style="width: 70px; visibility: hidden"
+            v-model="operatorValue[cnt - 1]"
+            placeholder=""
           >
             <el-option
-                v-for="item in option[cnt - 1]"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+              v-for="item in option[cnt - 1]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             >
             </el-option>
           </el-select>
           <el-select style="width: 140px" v-model="value[cnt - 1]" placeholder="请选择">
             <el-option
-                v-for="item in option[cnt - 1]"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+              v-for="item in option[cnt - 1]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             >
             </el-option>
           </el-select>
           <input
-              v-model="searchText[cnt - 1]"
-              type="text"
-              :id="value"
-              :name="value"
-              placeholder="请输入..."
+            v-model="searchText[cnt - 1]"
+            type="text"
+            :id="value"
+            :name="value"
+            placeholder="请输入..."
           />
           <div>
             <el-radio-group v-model="radio[cnt - 1]" fill="#5b2528">
@@ -244,16 +244,16 @@ async function handleSubmit(event) {
       </form>
       <div class="changeTime_container">
         <el-pagination
-            v-model:current-page="currentPage"
-            v-model:page-size="pageSize"
-            :page-sizes="[5, 10, 20, 30]"
-            :disabled="disabled"
-            :background="background"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            style="margin-left: 260px"
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="[5, 10, 20, 30]"
+          :disabled="disabled"
+          :background="background"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          style="margin-left: 260px"
         />
         <div class="changeTime" style="width: 120px" @click="changeTime">
           时间顺序
@@ -264,7 +264,7 @@ async function handleSubmit(event) {
         </div>
       </div>
     </div>
-    <div class="item-container">
+    <div class="item-container" style="font-family: 宋体, SimSun, sans-serif">
       <div class="item" v-for="item in items" :key="item.id">
         <el-card class="card" style="width: 1200px; flex: 1">
           <div style="display: flex">
@@ -274,7 +274,7 @@ async function handleSubmit(event) {
               </RouterLink>
             </div>
             <div
-                style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
+              style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
             >
               <div style="text-align: left; font-size: 30px; font-weight: 700">
                 <p>{{ item.artifactNameChinese }}</p>
@@ -291,14 +291,15 @@ async function handleSubmit(event) {
                 <div class="text-container">
                   <span class="title">简介:</span>
                   <span class="text" :style="{ '-webkit-line-clamp': clampLines }">{{
-                      item.descriptionChinese
-                    }}</span>
+                    item.descriptionChinese
+                  }}</span>
                 </div>
               </div>
             </div>
           </div>
         </el-card>
       </div>
+      <el-backtop :right="100" :bottom="100" style="color: #8c8c45" />
     </div>
   </main>
 </template>
@@ -538,9 +539,12 @@ main {
   max-width: 1200px;
   margin: 20px auto;
   margin-top: 0px;
+  display: flex;
+  flex-direction: column;
+
   border: 0px;
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: rgb(247, 243, 240);
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

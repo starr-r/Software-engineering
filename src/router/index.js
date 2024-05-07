@@ -57,6 +57,11 @@ const routes = [
     component: () => import('../views/ArtifactView.vue'),
   },
   {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/TestView.vue'),
+  },
+  {
     path:"/:catchall(.*)*",
     name:"Not Found",
     component: () => import('../views/NotFoundView.vue'),

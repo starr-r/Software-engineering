@@ -12,13 +12,15 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 
 const isLoggedIn=ref(false);
+const UserId=ref("0");
 const app=createApp(App)
 app.use(router);
 app.use(store);
 app.use(ElementPlus)
-app.provide('$Url', (String)('http://106.53.175.27:8000'));
-// app.provide('$Url', (String)('http://'));
+// app.provide('$Url', (String)('http://106.53.175.27:8000'));
+app.provide('$Url', (String)('http://localhost:8443'));
 app.provide('$isLoggedIn', isLoggedIn);
+app.provide('$UserId',UserId)
 app.mount('#app')
 
 

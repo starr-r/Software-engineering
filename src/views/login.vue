@@ -41,6 +41,7 @@ const form = ref({
   password: "",
 });
 const Url = inject("$Url");
+const UserId = inject("$UserId");
 const store = useStore();
 const isLoggedIn = inject("$isLoggedIn");
 function login() {
@@ -53,6 +54,7 @@ function login() {
         console.log(res.data.data);
         console.log(store.state.user);
         store.commit("setUser", res.data.data);
+        UserId.value = res.data.data.id;
         router.push("/user");
         ElMessage.success("登录成功");
       } else {

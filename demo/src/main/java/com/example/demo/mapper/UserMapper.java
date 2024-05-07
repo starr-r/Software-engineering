@@ -2,7 +2,9 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @Mapper
 public interface UserMapper {
     @Select("Select * from user where id=#{id}")

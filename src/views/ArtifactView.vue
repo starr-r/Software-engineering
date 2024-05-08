@@ -37,9 +37,9 @@
       <div class="aside">
         <div class="comment-list">
           <div
-            class="comment"
-            v-for="comment in artifact.artifact.comments"
-            :key="comment.id"
+              class="comment"
+              v-for="comment in artifact.artifact.comments"
+              :key="comment.id"
           >
             <!-- {{ artifact.artifact.comments }} -->
             <div style="display: flex">
@@ -202,7 +202,6 @@ const addComment = async (item) => {
   margin: 0;
   padding: 0;
   min-height: 1200px;
-  padding-bottom: auto;
   /* height: inherit; */
   /* box-sizing: border-box; */
   background-color: #d5e5f2;

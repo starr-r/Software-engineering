@@ -1,21 +1,14 @@
 <template>
   <div>
-    <img
-      ref="image"
-      src="C:\Users\Administrator\Desktop\cs\VuePrograms\Software-engineering-master\src\assets\bg2.jpg"
-      alt="Your Image"
-    />
+    <iframe src="https://www.shanximuseum.com/sx/collection/detail/id/629" frameborder="0" width="100%" height="500px"></iframe>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
-import mediumZoom from "medium-zoom";
 
-const image = ref(null);
-
-onMounted(() => {
-  const zoom = mediumZoom(image.value);
-  // 可以在这里添加其他设置，如最大缩放倍数等
-});
-</script>
+<style scoped>
+iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+}
+</style>

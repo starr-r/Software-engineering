@@ -1,10 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.entity.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.example.demo.entity.User;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 @Mapper
@@ -18,4 +16,6 @@ public interface CommentMapper {
     @Insert("insert into comment(user_id, artifact_id, content, create_time) value " +
             "(#{userId},#{artifactId},#{content},#{createTime} )")
     public void insertComment(Comment comment);
+    @Update("update comment set user_name=#{userName},avatar_url=#{avatarUrl} where user_id=#{userId}")
+    public void updateImageUserName(User user);
 }

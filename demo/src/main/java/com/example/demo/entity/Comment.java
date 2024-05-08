@@ -8,6 +8,8 @@ public class Comment extends Entity {
     Integer artifactId;//文物id
     String content;//内容
     String createTime;//评论时间
+    String userName;
+    String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -49,14 +51,32 @@ public class Comment extends Entity {
         this.createTime = createTime;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
-                "id='" + id + '\'' +
-                ", user_id='" + userId + '\'' +
-                ", artifact_id='" + artifactId + '\'' +
+                "id=" + id +
+                ", userId=" + userId +
+                ", artifactId=" + artifactId +
                 ", content='" + content + '\'' +
                 ", createTime='" + createTime + '\'' +
+                ", userName='" + userName + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
                 '}';
     }
 }

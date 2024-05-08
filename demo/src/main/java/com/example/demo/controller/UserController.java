@@ -91,6 +91,7 @@ public class UserController {
                 String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 user.setUpdateTime(date);
                 userMapper.updateInfo(user);
+                commentMapper.updateImageUserName(user);
                 User newUser = userMapper.findById(user.getId());
                 return Result.success(newUser);
             }

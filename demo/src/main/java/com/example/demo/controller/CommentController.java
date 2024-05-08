@@ -39,7 +39,7 @@ public class CommentController {
                 throw new NullContentException();
             }
             else{
-                String forbiddens[]={"傻逼","脑残","蠢货"};
+                String forbiddens[]={"傻逼","脑残","蠢货","nmsl","你妈死了","我测你的吗"};
                 boolean isContains=false;
                 for(String words:forbiddens){
                     if(comment.getContent().contains(words)){
@@ -55,6 +55,7 @@ public class CommentController {
                     String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     comment.setCreateTime(date);
                     commentMapper.insertComment(comment);
+                    commentMapper.updateImageUserName(userMapper.findById(comment.getUserId()));
                     Artifact artifact=artifactMapper.findById(comment.getArtifactId());
                     artifact.comments=commentMapper.findCommentsByArtifact_id(comment.getArtifactId());
                     for(Comment comment1:artifact.comments){

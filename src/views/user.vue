@@ -25,6 +25,7 @@
             :src="comment.artifact_image"
             alt="Artifact Image"
             class="artifact-image"
+            @click="openArtifactPage(comment.artifact_id)"
           />
           <div class="artifact-info">
             <h2>{{ comment.artifact_name }}</h2>
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+import base from "@/api/path";
 import axiosInstance from "@/utils/request";
 import dayjs from "dayjs";
 import { computed, inject } from "vue";
@@ -99,7 +101,6 @@ export default {
         .get(Url + `/user/space/${userId}`)
         .then((response) => {
           const userData = response.data.data;
-          console.log(userData);
           // 获取用户信息
           this.user = {
             id: userData.id,
@@ -115,16 +116,13 @@ export default {
             user_id: comment.userId,
             artifact_id: comment.artifactId,
             content: comment.content,
-            create_time: this.formatDateTime(comment.createTime),
+            create_time: comment.createTime,
             artifact_name: "", // 先设置为空
             artifact_image: "", // 先设置为空
           }));
 
           // 获取评论对应的 artifact 信息
           this.comments.forEach((comment) => {
-            // console.log("nmsl");
-            // console.log(Url + "/artifact/" + comment.artifact_id);
-            // console.log("nmsl");
             axiosInstance
               .get(Url + "/artifact/" + comment.artifact_id)
               .then((response) => {
@@ -142,9 +140,6 @@ export default {
           console.error("Error fetching comments:", error);
         });
     },
-    formatDateTime(dateTimeString) {
-      return dayjs(dateTimeString).format("YYYY-MM-DD HH:mm:ss");
-    },
     handlePageChange(newPage) {
       this.currentPage = newPage;
     },
@@ -152,6 +147,9 @@ export default {
       this.store.commit("setUser", null); // 清空 store.state.user
       this.$router.push("/home"); // 跳转到 /home 路由
     },
+    openArtifactPage(artifactId) {
+      this.$router.push(`/artifact/${artifactId}`);
+  }
   },
   setup() {
     const store = useStore();

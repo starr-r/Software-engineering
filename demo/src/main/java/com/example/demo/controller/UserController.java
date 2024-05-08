@@ -43,7 +43,7 @@ public class UserController {
             else if(e instanceof WrongFormatException){
                 return Result.error(USER_FORMAT_ERROR.code, USER_FORMAT_ERROR.msg);
             }
-                return Result.error(ERROR.code, ERROR.msg);//系统异常
+            return Result.error(ERROR.code, ERROR.msg);//系统异常
         }
     }
 
@@ -92,7 +92,6 @@ public class UserController {
                 user.setUpdateTime(date);
                 userMapper.updateInfo(user);
                 User newUser = userMapper.findById(user.getId());
-
                 return Result.success(newUser);
             }
         } catch (Exception e) {
@@ -102,3 +101,4 @@ public class UserController {
     }
 
 }
+

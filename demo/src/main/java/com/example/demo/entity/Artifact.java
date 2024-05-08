@@ -4,22 +4,23 @@ import java.util.List;
 
 public class Artifact extends Entity {
     Integer id;//文物id 主键
-    String artifactName;   //文物名称
+//    String artifactName;   //文物名称
     String artifactNameChinese; //文物中文名称
-    String country;    //国家
+//    String country;    //国家
     String relicTime;      //文物时代
-    String library; //博物馆
+//    String library; //博物馆
     String libraryChinese; //博物馆中文名
-    String material;        //类别
+//    String material;        //类别
     String materialChinese;    //类别中文
-    String size;  //文物尺寸
+//    String size;  //文物尺寸
     String sizeChinese;  //文物尺寸中文
-    String description;  //描述
+//    String description;  //描述
     String descriptionChinese; //中文描述
-    String imageUrl;    //图片原地址
-    String moreUrl;    //文物原地址
-    public List<Comment> comments;//对应评论
 
+    String imageUrl;    //图片原地址
+//    String moreUrl;    //文物原地址
+    public List<Comment> comments;//对应评论
+//    id,relicTime,library_Chinese,imageUrl, material_Chinese,artifactName_Chinese, size_Chinese, description_Chinese
 
     public Integer getId() {
         return id;
@@ -29,13 +30,9 @@ public class Artifact extends Entity {
         this.id = id;
     }
 
-    public String getArtifactName() {
-        return artifactName;
-    }
 
-    public void setArtifactName(String artifactName) {
-        this.artifactName = artifactName;
-    }
+
+
 
     public String getArtifactNameChinese() {
         return artifactNameChinese;
@@ -45,13 +42,7 @@ public class Artifact extends Entity {
         this.artifactNameChinese = artifactNameChinese;
     }
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public String getRelicTime() {
         return relicTime;
@@ -59,14 +50,6 @@ public class Artifact extends Entity {
 
     public void setRelicTime(String relicTime) {
         this.relicTime = relicTime;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
     }
 
     public String getMaterialChinese() {
@@ -77,14 +60,6 @@ public class Artifact extends Entity {
         this.materialChinese = materialChinese;
     }
 
-    public String getLibrary() {
-        return library;
-    }
-
-    public void setLibrary(String library) {
-        this.library = library;
-    }
-
     public String getLibraryChinese() {
         return libraryChinese;
     }
@@ -93,28 +68,12 @@ public class Artifact extends Entity {
         this.libraryChinese = libraryChinese;
     }
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
     public String getSizeChinese() {
         return sizeChinese;
     }
 
     public void setSizeChinese(String sizeChinese) {
         this.sizeChinese = sizeChinese;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getDescriptionChinese() {
@@ -133,14 +92,6 @@ public class Artifact extends Entity {
         this.imageUrl = imageUrl;
     }
 
-    public String getMoreUrl() {
-        return moreUrl;
-    }
-
-    public void setMoreUrl(String moreUrl) {
-        this.moreUrl = moreUrl;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -154,20 +105,13 @@ public class Artifact extends Entity {
     public String toString() {
         return "Artifact{" +
                 "id=" + id +
-                ", artifactName='" + artifactName + '\'' +
                 ", artifactNameChinese='" + artifactNameChinese + '\'' +
-                ", country='" + country + '\'' +
                 ", relicTime='" + relicTime + '\'' +
-                ", library='" + library + '\'' +
                 ", libraryChinese='" + libraryChinese + '\'' +
-                ", material='" + material + '\'' +
                 ", materialChinese='" + materialChinese + '\'' +
-                ", size='" + size + '\'' +
                 ", sizeChinese='" + sizeChinese + '\'' +
-                ", description='" + description + '\'' +
                 ", descriptionChinese='" + descriptionChinese + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", moreUrl='" + moreUrl + '\'' +
                 ", comments=" + comments +
                 '}';
     }

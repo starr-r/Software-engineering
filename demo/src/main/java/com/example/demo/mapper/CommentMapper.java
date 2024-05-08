@@ -15,7 +15,7 @@ public interface CommentMapper {
     @Select("select * from comment where artifact_id=#{artifact_id}")
     public List<Comment> findCommentsByArtifact_id(Integer artifact_id);
 
-    @Insert("insert into comment(user_id, artifact_id, content, create_time,user_name,avatar_url) value " +
-            "(#{userId},#{artifactId},#{content},#{createTime},#{userName},#{avatarUrl} )")
+    @Insert("insert into comment(user_id, artifact_id, content, create_time) value " +
+            "(#{userId},#{artifactId},#{content},#{createTime} )")
     public void insertComment(Comment comment);
 }

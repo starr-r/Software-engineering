@@ -84,15 +84,19 @@ public class UserController {
     public Result<?> modify_information(@RequestBody User user) {
         try {
             if (userMapper.findByName(user.getUsername()) != null
-                    && !Objects.equals(userMapper.findById(user.getId()).getUsername(), user.getUsername())) {
+                    && !Objects.equals(userMapper.findByName(user.getUsername()).getId(), user.getId())) {
+                System.out.println("NMSL");
                 throw new WrongUserNameException();
             } else {
+
                 LocalDateTime localDateTime = LocalDateTime.now();
                 String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 user.setUpdateTime(date);
                 userMapper.updateInfo(user);
                 commentMapper.updateImageUserName(user);
                 User newUser = userMapper.findById(user.getId());
+                System.out.println("NMSL1");
+                System.out.println(Result.success(newUser));
                 return Result.success(newUser);
             }
         } catch (Exception e) {

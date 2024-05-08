@@ -66,7 +66,6 @@ public class CommentController {
                     List<Artifact> relatedlist=artifactMapper.findVague(artifact);
                     perfectArtifact.setRelatedArtifact(relatedlist);
                     return Result.success(perfectArtifact);
-
                 }
             }
         }

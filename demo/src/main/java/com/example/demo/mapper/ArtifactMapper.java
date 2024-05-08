@@ -34,7 +34,7 @@ public interface ArtifactMapper {
             "material_Chinese like CONCAT('%',#{materialChinese},'%') " +
             "or country =#{country} or library_Chinese=#{libraryChinese} " +
             "or relicTime_chinese=#{libraryChinese} " +
-            "and id !=#{id} order by rand() LIMIT 10 ")
+            "and id !=#{id} order by rand() LIMIT 8 ")
     public List<Artifact> findVague(Artifact artifact);
 }
 

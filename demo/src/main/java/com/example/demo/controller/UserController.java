@@ -43,7 +43,7 @@ public class UserController {
             else if(e instanceof WrongFormatException){
                 return Result.error(USER_FORMAT_ERROR.code, USER_FORMAT_ERROR.msg);
             }
-                return Result.error(ERROR.code, ERROR.msg);//系统异常
+            return Result.error(ERROR.code, ERROR.msg);//系统异常
         }
     }
 
@@ -81,24 +81,24 @@ public class UserController {
     @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/user/modify")//更新信息  异常:系统异常 此处前端不用传回当前时间
 
-    public Result<?> modify_information(@RequestBody User user){
-        try{
-            if(userMapper.findByName(user.getUsername())!=null
-                    && user.getId()!=(userMapper.findByName(user.getUsername()).getId())){
+    public Result<?> modify_information(@RequestBody User user) {
+        try {
+            if (userMapper.findByName(user.getUsername()) != null
+                    && !Objects.equals(userMapper.findById(user.getId()).getUsername(), user.getUsername())) {
                 throw new WrongUserNameException();
-            }
-            else {
+            } else {
                 LocalDateTime localDateTime = LocalDateTime.now();
                 String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 user.setUpdateTime(date);
                 userMapper.updateInfo(user);
-                User newUser=userMapper.findById(user.getId());
+                User newUser = userMapper.findById(user.getId());
                 return Result.success(newUser);
             }
-        }catch (Exception e){
-            if(e instanceof WrongUserNameException) return Result.error(USER_EXIST_ERROR.code, USER_EXIST_ERROR.msg);
+        } catch (Exception e) {
+            if (e instanceof WrongUserNameException) return Result.error(USER_EXIST_ERROR.code, USER_EXIST_ERROR.msg);
             else return Result.error(ERROR.code, ERROR.msg);
         }
     }
 
 }
+

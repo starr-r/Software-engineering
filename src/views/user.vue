@@ -49,7 +49,7 @@
 <script>
 import axiosInstance from "@/utils/request";
 import dayjs from "dayjs";
-import { computed } from "vue";
+import { computed, inject } from "vue";
 import { useStore } from "vuex";
 
 // const Url = "http://localhost:8080";
@@ -122,8 +122,11 @@ export default {
 
           // 获取评论对应的 artifact 信息
           this.comments.forEach((comment) => {
+            // console.log("nmsl");
+            // console.log(Url + "/artifact/" + comment.artifact_id);
+            // console.log("nmsl");
             axiosInstance
-              .get(`http://localhost:8080/artifact/${comment.artifact_id}`)
+              .get(Url + "/artifact/" + comment.artifact_id)
               .then((response) => {
                 const artifactData = response.data.data.artifact;
                 // 更新评论中的 artifact_name 和 artifact_image

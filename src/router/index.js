@@ -55,6 +55,12 @@ const routes = [
     path: '/artifact/:id',
     name: 'artifact',
     component: () => import('../views/ArtifactView.vue'),
+    children:[
+      {
+          path:"related",
+          component: () => import('../views/RelatedArtifactView.vue'),
+      }
+  ]
   },
   {
     path: '/test',

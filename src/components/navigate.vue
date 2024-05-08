@@ -11,17 +11,21 @@
     @select="handleSelect"
   >
     <div class="left-items">
-      <router-link to="/home" tag="el-menu-item">
+      <router-link to="/home" tag="el-menu-item" style="text-decoration: none">
         <el-menu-item index="1">海外文物服务知识子系统</el-menu-item>
       </router-link>
-      <router-link to="/home" tag="el-menu-item">
+      <router-link to="/home" tag="el-menu-item" style="text-decoration: none">
         <el-menu-item index="4">首页</el-menu-item>
       </router-link>
-      <el-menu-item index="4">文物知识图谱</el-menu-item>
-      <router-link to="/time_line" tag="el-menu-item">
+      <el-menu-item index="4" @click="navigateToLink" style="text-decoration: none">
+        文物知识图谱
+      </el-menu-item>
+
+
+      <router-link to="/time_line" tag="el-menu-item" style="text-decoration: none">
         <el-menu-item index="4">文物时间轴</el-menu-item>
       </router-link>
-      <router-link to="/search" tag="el-menu-item">
+      <router-link to="/search" tag="el-menu-item" style="text-decoration: none">
         <el-menu-item index="4">文物查询</el-menu-item>
       </router-link>
       <el-menu-item index="4">问答系统</el-menu-item>
@@ -33,9 +37,9 @@
         to="/login"
         tag="el-menu-item"
         index="4"
-        style="flex: 0 0 auto; text-align: right"
+        style="flex: 0 0 auto; text-align: right;text-decoration: none"
       >
-        <el-menu-item index="4" style="text-align: right">登录</el-menu-item>
+        <el-menu-item index="4" style="text-align: right;">登录</el-menu-item>
       </router-link>
       <router-link
         v-else
@@ -50,23 +54,26 @@
   </el-menu>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
-export default {
-  setup() {
-    const store = useStore();
-    const isLoggedIn = computed(() => !!store.state.user);
+const router = useRouter();
+const store = useStore();
+const isLoggedIn = computed(() => !!store.state.user);
 
-    return {
-      isLoggedIn,
-    };
-  },
+const navigateToLink = () => {
+
+  window.open('http://10.16.2.168:7474/browser/', '_self')
 };
+
 </script>
 
 <style scoped>
+router-link{
+  text-decoration: none
+}
 .el-menu-demo {
   display: flex;
   justify-content: space-between;

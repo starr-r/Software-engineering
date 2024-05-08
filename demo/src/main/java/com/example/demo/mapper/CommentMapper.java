@@ -5,10 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
 @Mapper
 public interface CommentMapper {
     @Select("select * from comment where user_id=#{user_id}")
@@ -17,6 +15,7 @@ public interface CommentMapper {
     @Select("select * from comment where artifact_id=#{artifact_id}")
     public List<Comment> findCommentsByArtifact_id(Integer artifact_id);
 
-    @Insert("insert into comment(user_id, artifact_id, content, create_time) value (#{userId},#{artifactId},#{content},#{createTime})")
+    @Insert("insert into comment(user_id, artifact_id, content, create_time,user_name,avatar_url) value " +
+            "(#{userId},#{artifactId},#{content},#{createTime},#{userName},#{avatarUrl} )")
     public void insertComment(Comment comment);
 }

@@ -16,6 +16,6 @@ public interface CommentMapper {
     @Insert("insert into comment(user_id, artifact_id, content, create_time) value " +
             "(#{userId},#{artifactId},#{content},#{createTime} )")
     public void insertComment(Comment comment);
-    @Update("update comment set user_name=#{userName},avatar_url=#{avatarUrl} where user_id=#{userId}")
+    @Update("update comment set user_name=#{username},avatar_url=#{avatarUrl} where user_id=#{id}")
     public void updateImageUserName(User user);
 }

@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.common.Result;
 import com.example.demo.entity.Artifact;
+import com.example.demo.entity.Comment;
 import com.example.demo.entity.PerfectArtifact;
 import com.example.demo.mapper.ArtifactMapper;
 import com.example.demo.mapper.CommentMapper;
+import com.example.demo.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,8 @@ public class ArtifactController {
     ArtifactMapper artifactMapper;
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    UserMapper userMapper;
 
     @CrossOrigin(origins = "http://localhost:6103")
     //文物部分共有六个url,严格按照下面的url格式访问  order为0 年份从前到后排序  order为1 年份从后到前
@@ -86,7 +90,6 @@ public class ArtifactController {
             return Result.success(list,list.size());
         }
     }
-    //http://localhost:8080/searchAll;
 
     @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/advanced_search")
@@ -112,6 +115,10 @@ public class ArtifactController {
 
         Artifact artifact=artifactMapper.findById(Integer.parseInt(id));
         artifact.comments=commentMapper.findCommentsByArtifact_id(Integer.parseInt(id));
+        for(Comment comment:artifact.comments){
+            comment.setAvatarUrl(userMapper.findById(comment.getUserId()).getAvatarUrl());
+            comment.setUserName(userMapper.findById(comment.getUserId()).getUsername());
+        }
         PerfectArtifact perfectArtifact=new PerfectArtifact();
         perfectArtifact.setArtifact(artifact);
         List<Artifact> relatedlist=artifactMapper.findVague(artifact);

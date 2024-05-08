@@ -26,7 +26,7 @@ public class CommentController {
     UserMapper userMapper;
     @Autowired
     ArtifactMapper artifactMapper;
-//    @CrossOrigin(origins = "http://localhost:6103")
+    //    @CrossOrigin(origins = "http://localhost:6103")
     @PostMapping("/artifact/{id}")
     public Result<?> remark(@RequestBody Comment comment){
         try{
@@ -54,13 +54,18 @@ public class CommentController {
                     String date = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     comment.setCreateTime(date);
                     commentMapper.insertComment(comment);
-                    PerfectArtifact perfectArtifact=new PerfectArtifact();
                     Artifact artifact=artifactMapper.findById(comment.getArtifactId());
-                    artifact.setComments(commentMapper.findCommentsByArtifact_id(artifact.getId()));
+                    artifact.comments=commentMapper.findCommentsByArtifact_id(comment.getArtifactId());
+                    for(Comment comment1:artifact.comments){
+                        comment1.setAvatarUrl(userMapper.findById(comment1.getUserId()).getAvatarUrl());
+                        comment1.setUserName(userMapper.findById(comment1.getUserId()).getUsername());
+                    }
+                    PerfectArtifact perfectArtifact=new PerfectArtifact();
                     perfectArtifact.setArtifact(artifact);
                     List<Artifact> relatedlist=artifactMapper.findVague(artifact);
                     perfectArtifact.setRelatedArtifact(relatedlist);
                     return Result.success(perfectArtifact);
+
                 }
             }
         }

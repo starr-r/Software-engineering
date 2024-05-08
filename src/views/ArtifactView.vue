@@ -4,13 +4,22 @@
       <div class="header">{{ artifact.artifact.artifactNameChinese }}</div>
       <div class="content">
         <div class="image-container">
-          <img :src="artifact.artifact.imageUrl" alt="Artifact Image" />
+          <!-- <img :src="artifact.artifact.imageUrl" alt="Artifact Image" /> -->
+          <VueMagnifier class="img" :src="artifact.artifact.imageUrl" width="600" />
         </div>
         <div class="info-container">
-          <p><strong>藏馆:</strong> {{ artifact.artifact.libraryChinese }}</p>
-          <p><strong>材质:</strong> {{ artifact.artifact.materialChinese }}</p>
-          <p><strong>尺寸:</strong> {{ artifact.artifact.sizeChinese }}</p>
-          <p><strong>简介:</strong> {{ artifact.artifact.descriptionChinese }}</p>
+          <p style="font-size: larger">
+            <strong>藏馆:</strong> {{ artifact.artifact.libraryChinese }}
+          </p>
+          <p style="font-size: larger">
+            <strong>材质:</strong> {{ artifact.artifact.materialChinese }}
+          </p>
+          <p style="font-size: larger">
+            <strong>尺寸:</strong> {{ artifact.artifact.sizeChinese }}
+          </p>
+          <p style="font-size: larger">
+            <strong>简介:</strong> {{ artifact.artifact.descriptionChinese }}
+          </p>
         </div>
       </div>
       <div class="footer">
@@ -26,8 +35,20 @@
             v-for="comment in artifact.artifact.comments"
             :key="comment.id"
           >
-            <p>{{ comment.content }}</p>
-            <p>评论时间: {{ comment.createTime }}</p>
+            <div style="display: flex">
+              <div class="ava-container">
+                <img :src="user.avatarUrl" alt="" />
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <p style="font-weight: bold">
+                  <strong>{{ user.username }}: </strong>
+                </p>
+                <p style="font-size: large">{{ comment.content }}</p>
+              </div>
+            </div>
+            <div style="width: 600px">
+              <p>{{ comment.createTime }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -41,12 +62,14 @@ import axios from "axios";
 import { useStore } from "vuex";
 import { inject, ref, onMounted, computed } from "vue";
 import { ElMessage, ElNotification } from "element-plus"; // 使用 Element Plus 的消息提示
+import VueMagnifier from "@websitebeaver/vue-magnifier";
+import "@websitebeaver/vue-magnifier/styles.css";
 
 const Url = inject("$Url");
 const router = useRouter();
 const Artifact = ref([]);
 const newComment = ref("");
-
+const zoomRef = ref(null); //zoomRef
 const store = useStore();
 store.dispatch("getUser");
 const user = computed(() => store.state.user);
@@ -63,6 +86,10 @@ onMounted(async () => {
   console.log(res.data.data);
   console.log(1);
   Artifact.value.push(res.data.data);
+  if (zoomRef.value) {
+    const zoomInstance = zoomRef.value;
+    zoomInstance.init();
+  }
 });
 
 const addComment = async (item) => {
@@ -115,7 +142,7 @@ const addComment = async (item) => {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  min-height: 1000px;
+  min-height: 1200px;
   padding-bottom: auto;
   /* height: inherit; */
   /* box-sizing: border-box; */
@@ -150,23 +177,22 @@ const addComment = async (item) => {
   height: auto; /* 修改为auto */
 }
 .image-container {
-  flex: 1;
   margin-right: 20px;
-  width: 400px; /* 设置固定宽度 */
-  height: 300px; /* 设置固定高度 */
+  width: 600px;
+  height: 600px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #8b4513; /* 添加边框样式 */
+  justify-content: stretch; /* 修改为stretch */
+  align-items: stretch; /* 修改为stretch */
+  border: 2px solid #8b4513;
   border-radius: 10px;
-  overflow: hidden; /* 隐藏溢出内容 */
+  overflow: hidden;
 }
 
-.image-container img {
+.image-container .img {
   max-width: 100%;
-  max-height: 100%;
+  height: 100%; /* 修改为100% */
+  object-fit: contain;
   border-radius: 10px;
-  height: auto; /* 修改为auto */
 }
 
 .info-container {
@@ -213,7 +239,8 @@ const addComment = async (item) => {
 .aside {
   background-color: #f5f5dc;
   padding: 20px;
-  width: 400px;
+  width: auto;
+  /* max-height: 200px; */
   /* margin-right: auto; */
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -222,10 +249,31 @@ const addComment = async (item) => {
 }
 
 .comment {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   background-color: #f0f8ff;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+}
+.ava-container {
+  /* flex: 0.15; */
+  margin-right: 20px;
+  width: 100px; /* 设置固定宽度 */
+  height: 100px; /* 设置固定高度 */
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #8b4513; /* 添加边框样式 */
+  border-radius: 10px;
+  overflow: hidden; /* 隐藏溢出内容 */
+}
+.ava-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
 }
 </style>

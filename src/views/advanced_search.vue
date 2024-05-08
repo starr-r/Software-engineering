@@ -7,6 +7,7 @@ import { computed, inject, provide, ref } from "vue";
 const time_status = ref(0);
 const artifacts = ref([]);
 const radio = ref(["包含"]);
+const activeIndex = ref(-1); //用于指定放大
 const Url = inject("$Url");
 console.log("Url");
 console.log(Url);
@@ -15,6 +16,7 @@ const pageSize = ref(5);
 const background = ref(false);
 const disabled = ref(false);
 const startIndex = ref(1);
+const isHovered = ref(false);
 const total = ref(0);
 async function changeTime() {
   time_status.value = time_status.value ^ 1;
@@ -267,14 +269,21 @@ async function handleSubmit(event) {
           <div style="display: flex">
             <div style="flex: 1; padding-right: 5px">
               <RouterLink :to="'/artifact/' + item.id">
-                <img :src="item.imageUrl" />
+                <img
+                  :src="item.imageUrl"
+                  @mouseover="activeIndex = item.id"
+                  @mouseleave="activeIndex = -1"
+                  :class="{ active: activeIndex === item.id }"
+                />
               </RouterLink>
             </div>
             <div
               style="flex: 2; display: flex; flex-direction: column; margin-left: 40px"
             >
               <div style="text-align: left; font-size: 30px; font-weight: 700">
-                <p>{{ item.artifactNameChinese }}</p>
+                <RouterLink :to="'/artifact/' + item.id" style="text-decoration: none">
+                  <p style="color: black">{{ item.artifactNameChinese }}</p>
+                </RouterLink>
               </div>
               <div class="info-container">
                 <div class="info-item">
@@ -302,6 +311,9 @@ async function handleSubmit(event) {
 </template>
 
 <style scoped>
+.active {
+  transform: scale(1.1);
+}
 .changeTime_container {
   display: flex;
   justify-content: space-between;

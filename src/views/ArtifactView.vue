@@ -20,8 +20,14 @@
           <p style="font-size: larger">
             <strong>简介:</strong> {{ artifact.artifact.descriptionChinese }}
           </p>
+          <div class="RelatedArtifact-container">
+            <button @click="showRelatedArtifact()" class="dropdown-btn">
+              点击此处查看相关文物 &nbsp; &nbsp; &nbsp; &nbsp;
+            </button>
+          </div>
         </div>
       </div>
+      <RouterView />
       <div class="footer">
         <div class="comment-container">
           <input type="text" v-model="newComment" placeholder="发表评论..." />
@@ -35,13 +41,17 @@
             v-for="comment in artifact.artifact.comments"
             :key="comment.id"
           >
+            <!-- {{ artifact.artifact.comments }} -->
             <div style="display: flex">
               <div class="ava-container">
-                <img :src="user.avatarUrl" alt="" />
+                <img :src="comment.avatarUrl" :alt="comment.userName" />
+                <!-- <RouterLink :to="'/user/' + comment.userId">
+                  <img :src="user.avatarUrl" :alt="user.username" />
+                </RouterLink> -->
               </div>
               <div style="display: flex; flex-direction: column">
                 <p style="font-weight: bold">
-                  <strong>{{ user.username }}: </strong>
+                  <strong>{{ comment.userName }}: </strong>
                 </p>
                 <p style="font-size: large">{{ comment.content }}</p>
               </div>
@@ -57,14 +67,14 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { RouterView, useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useStore } from "vuex";
-import { inject, ref, onMounted, computed } from "vue";
+import { inject, ref, onMounted, computed, provide, watch } from "vue";
 import { ElMessage, ElNotification } from "element-plus"; // 使用 Element Plus 的消息提示
 import VueMagnifier from "@websitebeaver/vue-magnifier";
 import "@websitebeaver/vue-magnifier/styles.css";
-
+const showRelated = ref(false);
 const Url = inject("$Url");
 const router = useRouter();
 const Artifact = ref([]);
@@ -75,23 +85,43 @@ store.dispatch("getUser");
 const user = computed(() => store.state.user);
 const isLoggedIn = computed(() => !!store.state.user);
 const UserId = ref("0");
+const route = useRoute();
 if (isLoggedIn.value) {
   UserId.value = user.value.id;
 }
+provide("$Artifact", Artifact);
 console.log("nmsl");
 console.log(UserId.value);
 console.log("nmsl");
+watch(
+  () => route.params.id,
+  async (newId) => {
+    // 在这里重新获取文物数据
+    const res = await axios.get(Url + `/artifact/${newId}`);
+    Artifact.value.pop();
+    Artifact.value.push(res.data.data);
+  }
+);
 onMounted(async () => {
   const res = await axios.get(Url + router.currentRoute.value.path);
   console.log(res.data.data);
   console.log(1);
   Artifact.value.push(res.data.data);
+
   if (zoomRef.value) {
     const zoomInstance = zoomRef.value;
     zoomInstance.init();
   }
 });
-
+provide("showRelated", showRelated);
+const showRelatedArtifact = () => {
+  if (showRelated.value == true) {
+    return;
+  } else {
+    router.push(router.currentRoute.value.path + "/related");
+    showRelated.value = true;
+  }
+};
 const addComment = async (item) => {
   if (UserId.value === "0") {
     router.push("/login");
@@ -103,7 +133,9 @@ const addComment = async (item) => {
       artifactId: item.artifact.id,
       userId: UserId.value,
       content: newComment.value,
-      createTime: "nmsl",
+      // createTime: "nmsl",
+      avatarUrl: user.value.avatarUrl,
+      userName: user.value.username,
     });
     console.log("nmsl");
     console.log(res.data);
@@ -138,6 +170,33 @@ const addComment = async (item) => {
 };
 </script>
 <style scoped>
+.dropdown-btn {
+  background-color: #1d2659; /* 按钮背景色 */
+  color: white; /* 文字颜色 */
+  padding: 12px 24px; /* 按钮内边距 */
+  font-size: 16px; /* 文字大小 */
+  border-radius: 20px; /* 去除边框 */
+  cursor: pointer; /* 鼠标指针样式 */
+  position: relative; /* 相对定位 */
+}
+
+/* 添加向下箭头 */
+.dropdown-btn::after {
+  content: "\25BC"; /* Unicode 编码，表示向下箭头 */
+  position: absolute; /* 绝对定位 */
+  top: 50%; /* 置于垂直方向的中间 */
+  right: 20px; /* 离按钮右侧的距离 */
+  transform: translateY(-50%); /* 上移自身高度的一半，使箭头垂直居中 */
+}
+/* 鼠标悬停在按钮上时改变背景色 */
+.dropdown-btn:hover {
+  background-color: #d5e5f2;
+}
+.RelatedArtifact-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 .main {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -146,7 +205,7 @@ const addComment = async (item) => {
   padding-bottom: auto;
   /* height: inherit; */
   /* box-sizing: border-box; */
-  background-color: #5b2528;
+  background-color: #d5e5f2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,7 +218,7 @@ const addComment = async (item) => {
 }
 
 .header {
-  background-color: #8b4513;
+  background-color: #1d2659;
   color: white;
   font-size: 24px;
   padding: 20px;
@@ -181,7 +240,7 @@ const addComment = async (item) => {
   width: 600px;
   height: 600px;
   display: flex;
-  justify-content: stretch; /* 修改为stretch */
+  justify-content: center; /* 修改为stretch */
   align-items: stretch; /* 修改为stretch */
   border: 2px solid #8b4513;
   border-radius: 10px;
@@ -196,7 +255,10 @@ const addComment = async (item) => {
 }
 
 .info-container {
-  flex: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .footer {
@@ -237,7 +299,7 @@ const addComment = async (item) => {
 }
 
 .aside {
-  background-color: #f5f5dc;
+  background-color: #1d2659;
   padding: 20px;
   width: auto;
   /* max-height: 200px; */
@@ -252,7 +314,7 @@ const addComment = async (item) => {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #f0f8ff;
+  background-color: #f2e4c9;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;

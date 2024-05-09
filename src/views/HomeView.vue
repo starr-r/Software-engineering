@@ -20,11 +20,10 @@ export default {
   data() {
     return {
       items: [
-        { image: require("@/assets/test/1.png"), title: "1" },
-        { image: require("@/assets/test/2.png"), title: "2" },
-        { image: require("@/assets/test/3.png"), title: "3" },
-        { image: require("@/assets/test/4.png"), title: "4" },
-        { image: require("@/assets/test/5.png"), title: "5" },
+        { image: "https://www.shanximuseum.com/uploads/20211103/71f4df46f535ac731acc4ea45470045b.jpg", title: "2" },
+        { image: " https://www.shanximuseum.com/sxo\/Uploads\/Picture\/2018\/12\/07\/s5c0a19ba25b12.jpg", title: "3" },
+        { image: "https://www.shanximuseum.com/sxo\/Uploads\/Picture\/2018\/12\/10\/s5c0de59c93fcf.jpg", title: "4" },
+        { image: "https://www.shanximuseum.com/sxo/Uploads/Picture/2018/12/07/s5c09e4ffa836c.jpg", title: "5" },
       ],
     };
   },

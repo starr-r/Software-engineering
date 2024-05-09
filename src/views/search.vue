@@ -317,7 +317,7 @@ img {
 }
 
 .search-nav span {
-  color: rgb(128, 128, 128); /* 默认颜色为灰色 */
+  color: rgb(128, 127, 128); /* 默认颜色为灰色 */
   cursor: pointer;
   padding: 0.5rem; /* 增加点击区域 */
 }

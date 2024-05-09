@@ -1,19 +1,19 @@
 <template>
   <div style="padding-left: 430px; padding-top: 120px" id="background">
     <div class="registry-wrapper">
-      <div class="header">Register</div>
+      <div class="header">注册</div>
       <div class="form-wrapper">
         <input
             type="text"
             name="username"
-            placeholder="username"
+            placeholder="用户名"
             class="input-item"
             v-model="form.username"
         />
         <input
             type="password"
             name="password"
-            placeholder="password"
+            placeholder="密码"
             class="input-item"
             v-model="form.password"
         />
@@ -21,20 +21,8 @@
             class="input-item"
             type="password"
             name="password"
-            placeholder="confirm you password"
+            placeholder="请确认密码"
             v-model="form.confirm"
-        />
-
-        <el-input
-            v-model="form.password"
-            type="password"
-            placeholder="password"
-            class="input-item"
-            resizeTextarea="30px"
-            textareaStyle="30px"
-            size="30px"
-            min="30px"
-            show-password
         />
 
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 15px">

@@ -1,20 +1,20 @@
 <template>
   <div style="padding-left: 430px; padding-top: 120px" id="background">
     <div class="login-wrapper">
-      <div class="header">Login</div>
+      <div class="header">登录</div>
       <div class="form-wrapper">
         <!-- 使用 v-model 来绑定输入框的值 -->
         <input
           type="text"
           name="username"
-          placeholder="username"
+          placeholder="用户名"
           class="input-item"
           v-model="form.username"
         />
         <input
           type="password"
           name="password"
-          placeholder="password"
+          placeholder="密码"
           class="input-item"
           v-model="form.password"
         /><!--本来输入框中内容没有绑定-->

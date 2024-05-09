@@ -89,6 +89,7 @@
                 <div class="info-container">
                   <div class="info-item">
                     <span class="title">藏品时代:</span>
+
                     <span class="content">{{ item.relicTime }}</span>
                   </div>
                   <div class="info-item">
@@ -97,9 +98,8 @@
                   </div>
                   <div class="text-container">
                     <span class="title">简介:</span>
-                    <span class="text" :style="{ '-webkit-line-clamp': clampLines }">{{
-                      item.descriptionChinese
-                    }}</span>
+                    <span class="text" :style="{ '-webkit-line-clamp': clampLines }">
+                      {{item.descriptionChinese }}</span>
                   </div>
                 </div>
               </div>

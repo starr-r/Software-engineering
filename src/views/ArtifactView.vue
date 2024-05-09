@@ -1,4 +1,11 @@
 <template>
+  <div class="bbk">
+    <el-page-header @back="goBack">
+      <template #content>
+        <span class="text-large font-600 mr-3"> 文物详情 </span>
+      </template>
+    </el-page-header>
+  </div>
   <div class="main" v-for="artifact in Artifact" :key="artifact.artifact.id">
     <div class="container">
       <div class="header">{{ artifact.artifact.artifactNameChinese }}</div>
@@ -74,6 +81,11 @@ import { inject, ref, onMounted, computed, provide, watch } from "vue";
 import { ElMessage, ElNotification } from "element-plus"; // 使用 Element Plus 的消息提示
 import VueMagnifier from "@websitebeaver/vue-magnifier";
 import "@websitebeaver/vue-magnifier/styles.css";
+
+const goBack = () => {
+  router.go(-1);
+};
+
 const showRelated = ref(false);
 const Url = inject("$Url");
 const router = useRouter();
@@ -170,6 +182,13 @@ const addComment = async (item) => {
 };
 </script>
 <style scoped>
+
+el-header {
+  height: 80px;
+  background-color: #ececec;
+}
+
+
 .dropdown-btn {
   background-color: #1d2659; /* 按钮背景色 */
   color: white; /* 文字颜色 */

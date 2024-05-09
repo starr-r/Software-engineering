@@ -37,9 +37,9 @@
       <div class="aside">
         <div class="comment-list">
           <div
-              class="comment"
-              v-for="comment in artifact.artifact.comments"
-              :key="comment.id"
+            class="comment"
+            v-for="comment in artifact.artifact.comments"
+            :key="comment.id"
           >
             <!-- {{ artifact.artifact.comments }} -->
             <div style="display: flex">
@@ -118,7 +118,10 @@ const showRelatedArtifact = () => {
   if (showRelated.value == true) {
     return;
   } else {
-    router.push(router.currentRoute.value.path + "/related");
+    console.log("nmsl");
+    console.log("/artifact/" + route.params.id + "/related");
+    console.log("nmsl");
+    router.push("/artifact/" + route.params.id + "/related");
     showRelated.value = true;
   }
 };
@@ -129,7 +132,7 @@ const addComment = async (item) => {
   }
   console.log(item);
   if (newComment.value.trim() !== "") {
-    const res = await axios.post(Url + router.currentRoute.value.path, {
+    const res = await axios.post(Url + "/artifact/" + item.artifact.id, {
       artifactId: item.artifact.id,
       userId: UserId.value,
       content: newComment.value,
@@ -155,16 +158,13 @@ const addComment = async (item) => {
       return;
     }
     // Assuming the response includes the updated artifact object
-    const updatedArtifact = res.data.data.artifact;
+    const updatedArtifact = res.data.data;
 
     console.log("nmsl");
     console.log(2);
     console.log(updatedArtifact);
     Artifact.value.pop();
-    Artifact.value.push({
-      artifact: updatedArtifact,
-      relatedArtifact: Artifact.relatedArtifact,
-    });
+    Artifact.value.push(updatedArtifact);
     newComment.value = "";
   }
 };

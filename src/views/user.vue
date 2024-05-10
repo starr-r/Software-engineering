@@ -224,13 +224,6 @@ export default {
   margin: 0;
   color: #333;
 }
-#background {
-  background-color: #d5e5f2;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  background-size: 100% 100%;
-}
 
 .comment-text {
   font-size: 16px;
@@ -266,7 +259,12 @@ export default {
   border-radius: 4px;
   animation: shake 0.5s infinite;
 }
-
+#background {
+  background-color: #d5e5f2;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+}
 .banned-text {
   color: white;
   margin-right: 5px;

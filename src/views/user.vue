@@ -168,7 +168,7 @@ export default {
 }
 
 .sidebar {
-  width: 200px;
+  width: 250px;
   padding: 20px;
   background-color:#1d2659;
 }

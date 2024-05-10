@@ -11,7 +11,7 @@
           </el-page-header>
         </div>
       </el-header>
-      <div style="display: flex;flex-direction: column;gap:0px">
+      <div >
         <div class="search-nav">
           <span
             :class="{ active: searchType === 'artifact' }"
@@ -46,10 +46,11 @@
             >
           </div>
         </div>
-        <div style="display: flex;flex-direction: column;gap:0px">
+
+        <div>
           <div class="dropdown" style="display: flex;gap:50px">
             <el-dropdown class="el-dropdown-menu">
-              <el-button v-model="se_material">
+              <el-button style="width: 200px">
                 {{ se_material || '材质' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
               </el-button>
               <template #dropdown>
@@ -61,7 +62,7 @@
               </template>
             </el-dropdown>
             <el-dropdown class="el-dropdown-menu">
-              <el-button>
+              <el-button style="width: 200px">
                 {{ se_relic || '年代' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
               </el-button>
               <template #dropdown>
@@ -73,7 +74,7 @@
               </template>
             </el-dropdown>
             <el-dropdown class="el-dropdown-menu">
-              <el-button>
+              <el-button style="width: 200px">
                 {{ se_museum || '博物馆' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
               </el-button>
               <template #dropdown>
@@ -189,8 +190,6 @@ watch([se_material, se_relic, se_museum], ([material, relic, museum]) => {
       return artifact.materialChinese === material
     });
   }
-  console.log(11111111111)
-  console.log(temp.value)
   if(relic != ""&&relic != '年代'){
     console.log("!!!!!!!!!"+relic)
     console.log("relic")
@@ -198,9 +197,6 @@ watch([se_material, se_relic, se_museum], ([material, relic, museum]) => {
       return artifact.relicTime === relic;
     });
   }
-  console.log(relic)
-  console.log(2222222222222222)
-  console.log(temp.value)
 
   if(museum != ""&& museum!='博物馆'){
     temp.value = temp.value.filter((artifact) => {
@@ -210,8 +206,6 @@ watch([se_material, se_relic, se_museum], ([material, relic, museum]) => {
       return artifact.libraryChinese === museum;
     });
   }
-  console.log(333333333333)
-  console.log(temp.value)
   total.value=temp.value.length
   artifacts.value=temp.value;
 });
@@ -317,7 +311,7 @@ const search = async () => {
 <style scoped>
 
 .dropdown{
-  background-color: #ffffff;
+  background-color: rgb(247, 243, 240);
   width: 100%; /* 设置最大宽度 */
 
   margin-bottom: 10px;
@@ -532,7 +526,6 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 23px;
 }
 
 .search-container input {

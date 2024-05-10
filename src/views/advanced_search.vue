@@ -3,9 +3,81 @@ import { start } from "@popperjs/core";
 import axios from "axios";
 import Mock from "mockjs";
 
-import { computed, inject, provide, ref } from "vue";
+import { computed, inject, provide, ref,watch } from "vue";
+import {ArrowDown} from "@element-plus/icons-vue";
+
+const materials = ref([
+  '不限材质','铜','纸','玉','陶','石','玻璃','瓷','木','银','玉器','书画','工艺美术精品','金、银器','青铜器','象牙','纺织品','骨','羊毛','石器','黄铜'
+]);
+const artifacts=ref([]);
+const relics = ref([
+  '不限年代','新石器时代', '夏', '商', '西周','东周','春秋','战国','战国中晚期', '秦' ,'汉', '西晋', '北魏', '北齐','隋', '唐' ,'宋','金' ,'元' ,'明' ,'清'
+]);
+const museums = ref([
+  '不限博物馆','山西博物馆','湖北博物馆','民族学博物馆','亚洲艺术博物馆','伊斯兰艺术博物馆','阿姆斯特丹国立博物馆'
+]);
+
+const se_material = ref('');
+const se_relic = ref('');
+const se_museum=ref('');
+
+watch([se_material, se_relic, se_museum], ([material, relic, museum]) => {
+  let temp=ref([]);
+  temp.value=res_artifacts.value
+  console.log(material)
+  if (material != ""&& material!="材质") {
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.materialChinese === material
+    });
+  }
+  console.log(11111111111)
+  console.log(temp.value)
+  if(relic != ""&&relic != '年代'){
+    console.log("!!!!!!!!!"+relic)
+    console.log("relic")
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.relicTime === relic;
+    });
+  }
+  console.log(relic)
+  console.log(2222222222222222)
+  console.log(temp.value)
+
+  if(museum != ""&& museum!='博物馆'){
+    temp.value = temp.value.filter((artifact) => {
+      console.log("!!!!!!!!!"+museum)
+      console.log("museum")
+
+      return artifact.libraryChinese === museum;
+    });
+  }
+  console.log(333333333333)
+  console.log(temp.value)
+  total.value=temp.value.length
+  artifacts.value=temp.value;
+});
+
+const material_click = (option) => {
+  se_material.value=option
+  if(se_material.value=="不限材质") se_material.value="材质"
+};
+
+const relic_click = (option) => {
+  se_relic.value=option
+  if(se_relic.value=="不限年代") se_relic.value="年代"
+};
+const museum_click=(option)=>{
+  se_museum.value=option
+  if(se_museum.value=="不限博物馆") se_museum.value="博物馆"
+}
+
+
+
+
+
+
+const res_artifacts = ref([]);
 const time_status = ref(0);
-const artifacts = ref([]);
 const radio = ref(["包含"]);
 const activeIndex = ref(-1); //用于指定放大
 const Url = inject("$Url");
@@ -25,8 +97,28 @@ async function changeTime() {
     order: time_status.value,
   };
   const res = await axios.post(Url + "/advanced_search", nowbody.value);
-  artifacts.value = res.data.data;
-  total.value = res.data.total;
+  res_artifacts.value = res.data.data;
+  let temp=ref([]);
+  temp.value=res_artifacts.value
+  console.log(se_material.value)
+  if (se_material.value != ""&& se_material.value!="材质") {
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.se_materialChinese === se_material.value
+    });
+  }
+  if(se_relic.value != ""&&se_relic.value != '年代') {
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.se_relicTime === se_relic.value;
+    });
+  }
+  if(se_museum.value != ""&& se_museum.value!='博物馆'){
+    temp.value = temp.value.filter((artifact) => {
+
+      return artifact.libraryChinese === se_museum.value;
+    });
+  }
+  total.value=temp.value.length
+  artifacts.value=temp.value;
 }
 const handleSizeChange = (val) => {
   pageSize.value = val;
@@ -165,9 +257,33 @@ async function handleSubmit(event) {
   };
   console.log(nowbody.value);
   const res = await axios.post(Url + "/advanced_search", nowbody.value);
-  artifacts.value = res.data.data;
-  total.value = res.data.total;
-  console.log(res.data);
+  res_artifacts.value = res.data.data;
+  let temp=ref([]);
+  temp.value=res_artifacts.value
+  console.log(se_material.value)
+  if (se_material.value != ""&& se_material.value!="材质") {
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.se_materialChinese === se_material.value
+    });
+  }
+  console.log("-------------------")
+  console.log(temp.value)
+  console.log(se_relic.value)
+  if(se_relic.value != ""&& se_relic.value != '年代') {
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.relicTime === se_relic.value;
+    });
+  }
+  console.log(temp.value)
+  if(se_museum.value != ""&& se_museum.value!='博物馆'){
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.libraryChinese === se_museum.value;
+    });
+  }
+  console.log(temp.value)
+  total.value=temp.value.length
+  artifacts.value=temp.value;
+  console.log(artifacts.value)
 }
 </script>
 <template>
@@ -241,6 +357,45 @@ async function handleSubmit(event) {
           <input type="submit" value="搜索" />
         </div>
       </form>
+      <div class="dropdown" style="display: flex;gap:50px">
+        <el-dropdown class="el-dropdown-menu">
+          <el-button style="width: 200px">
+            {{ se_material || '材质' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="material in materials" :key="material" v-model="se_material" @click="material_click(material)">
+                {{ material }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <el-dropdown class="el-dropdown-menu">
+          <el-button style="width: 200px">
+            {{ se_relic || '年代' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="relic in relics" :key="relic" @click="relic_click(relic)">
+                {{ relic }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <el-dropdown class="el-dropdown-menu">
+          <el-button style="width: 200px">
+            {{ se_museum || '博物馆' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="museum in museums" :key="museums" @click="museum_click(museum)">
+                {{ museum }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+
       <div class="changeTime_container">
         <el-pagination
           v-model:current-page="currentPage"
@@ -262,6 +417,9 @@ async function handleSubmit(event) {
           </div>
         </div>
       </div>
+
+
+
     </div>
     <div class="item-container" style="font-family: 宋体, SimSun, sans-serif">
       <div class="item" v-for="item in items" :key="item.id">
@@ -291,6 +449,10 @@ async function handleSubmit(event) {
                   <span class="content">{{ item.relicTime }}</span>
                 </div>
                 <div class="info-item">
+                  <span class="title">材质:</span>
+                  <span class="content">{{ item.materialChinese }}</span>
+                </div>
+                <div class="info-item">
                   <span class="title">规格:</span>
                   <span class="content">{{ item.sizeChinese }}</span>
                 </div>
@@ -311,6 +473,44 @@ async function handleSubmit(event) {
 </template>
 
 <style scoped>
+
+.dropdown{
+  //background-color: ;
+  width: 100%; /* 设置最大宽度 */
+
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.example-showcase .el-dropdown + .el-dropdown {
+  margin-left: 15px;
+}
+
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
+
+.el-dropdown-menu {
+  max-height: 130px; /* 设置菜单高度为200px */
+  overflow-y: auto; /* 设置滚动条 */
+}
+
+.el-dropdown-menu::-webkit-scrollbar {
+  width: 6px; /* 滚动条宽度 */
+}
+
+.el-dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1; /* 滚动条颜色 */
+  border-radius: 5px; /* 滚动条边角弧度 */
+}
+
+
+
 .active {
   transform: scale(1.1);
 }

@@ -11,7 +11,7 @@
           </el-page-header>
         </div>
       </el-header>
-      <div>
+      <div style="display: flex;flex-direction: column;gap:0px">
         <div class="search-nav">
           <span
             :class="{ active: searchType === 'artifact' }"
@@ -45,45 +45,46 @@
               >Advanced Search</el-button
             >
           </div>
-
         </div>
-        <div class="dropdown">
-          <el-dropdown class="el-dropdown-menu">
-            <el-button>
-              {{ se_material || '材质' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-for="material in materials" :key="material" @click="material_click(material)">
-                  {{ material }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <el-dropdown class="el-dropdown-menu">
-            <el-button>
-              {{ se_relic || '年代' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-for="relic in relics" :key="relic" @click="relic_click(relic)">
-                  {{ relic }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <el-dropdown class="el-dropdown-menu">
-            <el-button>
-              {{ se_museum || '博物馆' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-for="museum in museums" :key="museums" @click="museum_click(museum)">
-                  {{ museum }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+        <div style="display: flex;flex-direction: column;gap:0px">
+          <div class="dropdown" style="display: flex;gap:50px">
+            <el-dropdown class="el-dropdown-menu">
+              <el-button v-model="se_material">
+                {{ se_material || '材质' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="material in materials" :key="material" v-model="se_material" @click="material_click(material)">
+                    {{ material }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+            <el-dropdown class="el-dropdown-menu">
+              <el-button>
+                {{ se_relic || '年代' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="relic in relics" :key="relic" @click="relic_click(relic)">
+                    {{ relic }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+            <el-dropdown class="el-dropdown-menu">
+              <el-button>
+                {{ se_museum || '博物馆' }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="museum in museums" :key="museums" @click="museum_click(museum)">
+                    {{ museum }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
         </div>
       </div>
       <div class="changeTime_container">
@@ -130,7 +131,6 @@
                   </RouterLink>
                 </div>
                 <div class="info-container">
-                  <!-- {{ item }} -->
                   <div class="info-item">
                     <span class="title">藏品时代:</span>
 
@@ -163,13 +163,14 @@
 <script setup>
 import {ArrowDown, Search} from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed,watch  } from "vue";
 import Mock from "mockjs";
 import axios from "axios";
 import { inject } from "vue";
 const materials = ref([
   '不限材质','铜','纸','玉','陶','石','玻璃','瓷','木','银','玉器','书画','工艺美术精品','金、银器','青铜器','象牙','纺织品','骨','羊毛','石器','黄铜'
 ]);
+const artifacts=ref([]);
 const relics = ref([
   '不限年代','新石器时代', '夏', '商', '西周','东周','春秋','战国','战国中晚期', '秦' ,'汉', '西晋', '北魏', '北齐','隋', '唐' ,'宋','金' ,'元' ,'明' ,'清'
 ]);
@@ -179,10 +180,45 @@ const museums = ref([
 const se_material = ref('');
 const se_relic = ref('');
 const se_museum=ref('');
+watch([se_material, se_relic, se_museum], ([material, relic, museum]) => {
+  let temp=ref([]);
+  temp.value=res_artifacts.value
+  console.log(material)
+  if (material != ""&& material!="材质") {
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.materialChinese === material
+    });
+  }
+  console.log(11111111111)
+  console.log(temp.value)
+  if(relic != ""&&relic != '年代'){
+    console.log("!!!!!!!!!"+relic)
+    console.log("relic")
+    temp.value = temp.value.filter((artifact) => {
+      return artifact.relicTime === relic;
+    });
+  }
+  console.log(relic)
+  console.log(2222222222222222)
+  console.log(temp.value)
+
+  if(museum != ""&& museum!='博物馆'){
+    temp.value = temp.value.filter((artifact) => {
+      console.log("!!!!!!!!!"+museum)
+      console.log("museum")
+
+      return artifact.libraryChinese === museum;
+    });
+  }
+  console.log(333333333333)
+  console.log(temp.value)
+  total.value=temp.value.length
+  artifacts.value=temp.value;
+});
+
 const material_click = (option) => {
   se_material.value=option
   if(se_material.value=="不限材质") se_material.value="材质"
-
 };
 
 const relic_click = (option) => {
@@ -206,8 +242,6 @@ const searchType = ref("artifact");
 const activeIndex = ref(-1);
 const nowUrl = ref("");
 
-
-
 /*默认0为升序 1为降序*/
 const time_status = ref(0);
 
@@ -217,7 +251,7 @@ const goBack = () => {
 
 onMounted(searchAll);
 
-const artifacts = ref([]);
+const res_artifacts = ref([]);
 
 const currentPage = ref(1);
 const pageSize = ref(5);
@@ -239,6 +273,7 @@ const items = computed(() => {
 async function changeTime() {
   time_status.value = time_status.value ^ 1;
   const res = await axios.get(nowUrl.value + time_status.value);
+  res_artifacts.value = res.data.data;
   artifacts.value = res.data.data;
   total.value = res.data.total;
 }
@@ -246,6 +281,7 @@ async function changeTime() {
 async function searchAll() {
   nowUrl.value = Url + "/searchAll?order=";
   const res = await axios.get(nowUrl.value + time_status.value);
+  res_artifacts.value = res.data.data;
   artifacts.value = res.data.data;
   total.value = res.data.total;
 }
@@ -272,9 +308,9 @@ const search = async () => {
   url = nowUrl.value + time_status.value;
   console.log(url);
   const res = await axios.get(url);
+  res_artifacts.value = res.data.data;
   artifacts.value = res.data.data;
   total.value = res.data.total;
-  console.log(artifacts.value);
 };
 </script>
 
@@ -283,6 +319,7 @@ const search = async () => {
 .dropdown{
   background-color: #ffffff;
   width: 100%; /* 设置最大宽度 */
+
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
@@ -484,7 +521,7 @@ img {
   background-color: #ffffff;
   height: 100px;
   width: 100%; /* 设置最大宽度 */
-  margin: auto;
+  //margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;

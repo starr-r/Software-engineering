@@ -1,17 +1,22 @@
 <template>
-  <div>
-    <iframe :src="iframeUrl" width="800" height="600"></iframe>
-  </div>
+  <el-select
+      v-model="value"
+      placeholder="Select"
+      size="large"
+      style="width: 240px"
+  >
+    <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+    />
+
+  </el-select>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      iframeUrl: "https://www.shanximuseum.com/sxo//Uploads//3d_show//58qinghuachanzhimudanwenguan//QHG.html"
-    };
-  }
-};
+
 </script>
 
 <style>

@@ -143,9 +143,6 @@ export default {
       request
         .post("http://106.53.175.27:8000/user/modify", updatedUser)
         .then((res) => {
-          console.log("nmmsl");
-          console.log(res.data);
-          console.log("nmmsl");
           console.log(updatedUser);
           if (res.data.code === "0") {
             this.$message({

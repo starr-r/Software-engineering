@@ -1,24 +1,30 @@
 <template>
-  <div class="user-homepage">
+  <div class="user-homepage" id="background">
     <aside class="sidebar">
       <div class="profile">
         <img :src="user.avatarUrl" alt="User Avatar" class="avatar" />
-        <h1>{{ user.username }}</h1>
+        <h1 style="color: #ffffff">{{ user.username }}</h1>
         <div v-if="user.Isbanned" class="banned-container">
           <span class="banned-text">您已被禁止评论</span>
           <img src="@/assets/img/BannedIcon.png" alt="Banned Icon" class="banned-icon" />
         </div>
-        <button @click="EditProfile">修改个人信息</button>
-        <button @click="ReturnToHomePage">返回主页</button>
-        <router-link to="/home" tag="el-menu-item">
-          <button @click="logout">退出登录</button>
-        </router-link>
+        <div class="btn">
+          <button @click="EditProfile" class="btn">修改个人信息</button>
+        </div> <div class="btn">
+            <button @click="ReturnToHomePage" class="btn">返回主页</button>
+        </div>
+        <div class="btn">
+          <router-link to="/home" tag="el-menu-item">
+            <button @click="logout">退出登录</button>
+          </router-link>
+        </div>
       </div>
       <!-- 其他个人信息展示 -->
     </aside>
 
     <main class="comments-main">
-      <h1>用户评论</h1>
+      <h1 >用户评论</h1>
+
       <div v-for="comment in displayedComments" :key="comment.id" class="comment">
         <div class="comment-artifact">
           <img
@@ -162,9 +168,9 @@ export default {
 }
 
 .sidebar {
-  width: 250px;
+  width: 200px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color:#1d2659;
 }
 
 .profile {
@@ -182,6 +188,8 @@ export default {
 .comments-main {
   flex-grow: 1;
   padding: 30px;
+  padding-left: 150px;
+  padding-right: 130px;
   width: 90%;
 }
 
@@ -215,6 +223,13 @@ export default {
 .artifact-info h2 {
   margin: 0;
   color: #333;
+}
+#background {
+  background-color: #d5e5f2;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-size: 100% 100%;
 }
 
 .comment-text {
@@ -268,7 +283,7 @@ body {
 }
 button {
   padding: 8px 16px;
-  background-color: #1e90ff;
+  background-color: #c3cfe2;
   color: #fff;
   border: none;
   border-radius: 4px;

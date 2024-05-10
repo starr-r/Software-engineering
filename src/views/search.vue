@@ -182,6 +182,7 @@ const se_museum=ref('');
 const material_click = (option) => {
   se_material.value=option
   if(se_material.value=="不限材质") se_material.value="材质"
+
 };
 
 const relic_click = (option) => {

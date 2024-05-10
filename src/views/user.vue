@@ -54,8 +54,6 @@ import dayjs from "dayjs";
 import { computed, inject } from "vue";
 import { useStore } from "vuex";
 
-// const Url = "http://localhost:8080";
-
 export default {
   name: "UserHomepage",
   data() {
@@ -86,11 +84,9 @@ export default {
   },
   methods: {
     EditProfile() {
-      alert("跳转到修改个人信息页面");
       this.$router.push("/user_info_change");
     },
     ReturnToHomePage() {
-      alert("跳转到主页");
       this.$router.go(-1);
     },
     fetchComments() {
@@ -166,7 +162,7 @@ export default {
 }
 
 .sidebar {
-  width: 200px;
+  width: 250px;
   padding: 20px;
   background-color: #f9f9f9;
 }
@@ -179,17 +175,24 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .comments-main {
   flex-grow: 1;
-  padding: 20px;
+  padding: 30px;
+  width: 90%;
 }
 
 .comment {
   margin-bottom: 20px;
-  padding: 10px;
-  background-color: #e9e9e9;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+  width: 90%;
 }
 
 .comment-artifact {
@@ -200,9 +203,15 @@ export default {
 .artifact-image {
   width: 150px;
   height: 150px;
-  margin-right: 10px;
+  margin-right: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out; /* 添加过渡效果 */
 }
-
+.artifact-image:hover {
+  transform: scale(1.05); /* 放大图片 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 增加阴影效果 */
+}
 .artifact-info h2 {
   margin: 0;
   color: #333;
@@ -211,6 +220,8 @@ export default {
 .comment-text {
   font-size: 16px;
   white-space: pre-wrap;
+  line-height: 1.5;
+  color: #555;
 }
 
 .comment-time {
@@ -249,5 +260,23 @@ export default {
 .banned-icon {
   width: 50px;
   height: 50px;
+}
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+button {
+  padding: 8px 16px;
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0077b6;
 }
 </style>

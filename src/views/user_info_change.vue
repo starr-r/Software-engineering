@@ -141,7 +141,7 @@ export default {
       console.log(updatedUser);
       // 注意修正 URL 字符串错误
       request
-        .post("http://106.53.175.27:8000/user/modify", updatedUser)
+        .post("http://localhost:8080/user/modify", updatedUser)
         .then((res) => {
           console.log(updatedUser);
           if (res.data.code === "0") {

@@ -1,9 +1,6 @@
 <template>
   <navigate />
   <router-view></router-view>
-  <!--  <home-view/>-->
-  <!--  <time_line/>-->
-  <!--  <search/>-->
 </template>
 
 <style scoped>

@@ -22,23 +22,25 @@
       <!-- 其他个人信息展示 -->
     </aside>
 
-    <main class="comments-main">
+    <main class="comments-main" >
       <h1 >用户评论</h1>
 
       <div v-for="comment in displayedComments" :key="comment.id" class="comment">
-        <div class="comment-artifact">
+        <div class="comment-artifact" >
           <img
             :src="comment.artifact_image"
             alt="Artifact Image"
             class="artifact-image"
             @click="openArtifactPage(comment.artifact_id)"
           />
-          <div class="artifact-info">
-            <h2>{{ comment.artifact_name }}</h2>
+          <div style="margin-left: 20px">
+            <div style="margin-bottom: 20px" class="artifact-info">
+              <h2>{{ comment.artifact_name }}</h2>
+            </div>
+            <div class="comment-text" style="width: 600px;" >{{ comment.content }}</div>
           </div>
         </div>
-        <p class="comment-text">{{ comment.content }}</p>
-        <p class="comment-time">创建时间: {{ comment.create_time }}</p>
+        <p class="comment-time" style="margin-top: 20px">创建时间: {{ comment.create_time }}</p>
       </div>
       <p v-if="comments.length === 0">该用户还没有发表任何评论。</p>
       <el-pagination
@@ -130,7 +132,7 @@ export default {
               .then((response) => {
                 const artifactData = response.data.data.artifact;
                 // 更新评论中的 artifact_name 和 artifact_image
-                comment.artifact_name = artifactData.artifactName;
+                comment.artifact_name = artifactData.artifactNameChinese;
                 comment.artifact_image = artifactData.imageUrl;
               })
               .catch((error) => {
@@ -188,6 +190,8 @@ export default {
 .comments-main {
   flex-grow: 1;
   padding: 30px;
+  min-width: 1300px;
+  max-width: 1300px;
   padding-left: 150px;
   padding-right: 130px;
   width: 90%;

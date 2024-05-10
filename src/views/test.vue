@@ -1,46 +1,63 @@
 <template>
-  <el-select
-      v-model="value"
-      placeholder="Select"
-      size="large"
-      style="width: 240px"
-  >
-    <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-    />
-
-  </el-select>
+      <div id="galleryID">
+          <a
+                v-for="image in imagesData"
+                :href="image.largeURL"
+                :data-pswp-width="image.width"
+                :data-pswp-height="image.height"
+                target="_blank"
+                rel="noreferrer"
+            >
+              <img :src="image.thumbnailURL" alt="" />
+          </a >
+      </div>
+      <p>nmsl</p >
 </template>
 
-<script>
-import {ref} from "vue";
+<script setup>
+import { ref, onMounted, onUnmounted } from "vue";
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import "photoswipe/style.css";
+const imagesData = ref([]);
+imagesData.value.push({
+  largeURL:
+      "https://lh4.ggpht.com/XvMPh18c7EJ99hhodR98SamExy3y6VoPODqzeAq3-El-glu417phDZUrLMNygADveCEZ0WdJtxoSut7bfmFY84m85V6e=w1000",
+  width: 1000,
+  height: 1000,
+  thumbnailURL:
+      "https://lh4.ggpht.com/XvMPh18c7EJ99hhodR98SamExy3y6VoPODqzeAq3-El-glu417phDZUrLMNygADveCEZ0WdJtxoSut7bfmFY84m85V6e=w1000",
+});
+imagesData.value.push({
+  largeURL:
+      "https://lh4.ggpht.com/XvMPh18c7EJ99hhodR98SamExy3y6VoPODqzeAq3-El-glu417phDZUrLMNygADveCEZ0WdJtxoSut7bfmFY84m85V6e=w1000",
+  width: 1000,
+  height: 1000,
+  thumbnailURL:
+      "https://lh4.ggpht.com/XvMPh18c7EJ99hhodR98SamExy3y6VoPODqzeAq3-El-glu417phDZUrLMNygADveCEZ0WdJtxoSut7bfmFY84m85V6e=w1000",
+});
+imagesData.value.push({
+  largeURL:
+      "https://lh4.ggpht.com/XvMPh18c7EJ99hhodR98SamExy3y6VoPODqzeAq3-El-glu417phDZUrLMNygADveCEZ0WdJtxoSut7bfmFY84m85V6e=w1000",
+  width: 1000,
+  height: 1000,
+  thumbnailURL:
+      "https://lh4.ggpht.com/XvMPh18c7EJ99hhodR98SamExy3y6VoPODqzeAq3-El-glu417phDZUrLMNygADveCEZ0WdJtxoSut7bfmFY84m85V6e=w1000",
+});
+let lightbox = null;
 
-let temp=ref([]);
-temp.value=res_artifacts.value
-console.log(se_material.value)
-if (se_material.value != ""&& se_material.value!="材质") {
-  temp.value = temp.value.filter((artifact) => {
-    return artifact.se_materialChinese === se_material.value
+onMounted(() => {
+  lightbox = new PhotoSwipeLightbox({
+    gallery: "#" + "galleryID",
+    children: "a",
+    pswpModule: () => import("photoswipe"),
   });
-}
-if(se_relic.value != ""&&se_relic.value != '年代') {
-  temp.value = temp.value.filter((artifact) => {
-    return artifact.se_relicTime === se_relic.value;
-  });
-}
-if(se_museum.value != ""&& se_museum.value!='博物馆'){
-  temp.value = temp.value.filter((artifact) => {
+  lightbox.init();
+});
 
-    return artifact.libraryChinese === se_museum.value;
-  });
-}
-total.value=temp.value.length
-artifacts.value=temp.value;
+onUnmounted(() => {
+  if (lightbox) {
+    lightbox.destroy();
+    lightbox = null;
+  }
+});
 </script>
-
-<style>
-/* 根据需要添加样式 */
-</style>

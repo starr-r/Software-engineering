@@ -170,7 +170,7 @@ export default {
 }
 
 .sidebar {
-  width: 250px;
+  min-width: 230px;
   padding: 20px;
   background-color:#1d2659;
 }

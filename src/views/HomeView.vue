@@ -1,15 +1,28 @@
 <template>
   <!--  <el-container class="home-container">-->
-  <div class="block text-center">
-    <el-carousel height="680px" motion-blur>
-      <el-carousel-item v-for="item in items" :key="item">
-        <div class="image-container">
-          <img :src="item.image" alt="Logo" />
+  <div id="background">
+    <div style="">
+      <div class="block text-center" >
+        <el-carousel height="680px" motion-blur >
+          <el-carousel-item v-for="item in items" :key="item">
+            <div class="image-container">
+              <img :src="item.image" alt="Logo" />
+            </div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
+    <div class="video" style="display: flex;justify-content: center;">
+      <iframe style="width: 1000px;height: 700px; margin-top: 10px" src="//player.bilibili.com/player.html?aid=401286817&bvid=BV12o4y1F7kG&cid=1133369322&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+    </div>
+    <div style="display: flex;">
+      <div v-for="item in museum" :key="item">
+        <div class="image-container" style="width: 300px;height: 300px; margin-left: 40px;">
+          <img :src="item.image" style="object-fit: contain;" />
         </div>
-      </el-carousel-item>
-    </el-carousel>
+      </div>
+    </div>
   </div>
-  <!--  </el-container>-->
 </template>
 
 <script>
@@ -25,6 +38,12 @@ export default {
         { image: "https://www.shanximuseum.com/sxo\/Uploads\/Picture\/2018\/12\/10\/s5c0de59c93fcf.jpg", title: "4" },
         { image: "https://www.shanximuseum.com/sxo/Uploads/Picture/2018/12/07/s5c09e4ffa836c.jpg", title: "5" },
       ],
+      museum:[
+        {image:require('@/assets/img/aomusitedan1.jpg')},
+        {image:require('@/assets/img/bolin1.jpg')},
+        {image:require('@/assets/img/hubei2.jpg')},
+        {image:require('@/assets/img/shanxi2.jpg')}
+      ]
     };
   },
   mounted() {
@@ -36,6 +55,12 @@ export default {
 </script>
 
 <style scoped>
+
+.video{
+  box-shadow: 10px 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
 .demonstration {
   color: var(--el-text-color-secondary);
 }
@@ -60,15 +85,6 @@ img {
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
-.home-container {
-  height: 100%;
-  max-width: 1200px; /* 设置最大宽度 */
-  min-width: 320px; /* 设置最小宽度 */
-  background-color: #ececec; /* 底色 */
-  margin: auto;
-  width: 50%;
-  flex-direction: column; /* 设置为垂直方向布局 */
-}
 
 .image-container {
   display: flex;
@@ -81,5 +97,8 @@ img {
   object-fit: cover;
   height: 100vh;
   width: 100%;
+}
+#background {
+  background-color: #5b2528
 }
 </style>

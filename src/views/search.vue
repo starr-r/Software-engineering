@@ -311,7 +311,7 @@ const search = async () => {
 <style scoped>
 
 .dropdown{
-  background-color: rgb(247, 243, 240);
+  background-color: #ffffff ;
   width: 100%; /* 设置最大宽度 */
 
   margin-bottom: 10px;

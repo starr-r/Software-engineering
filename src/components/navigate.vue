@@ -30,6 +30,7 @@
       </router-link>
       <el-menu-item index="4">问答系统</el-menu-item>
       <el-menu-item index="4">app下载</el-menu-item>
+      <el-menu-item index="4">后台管理</el-menu-item>
     </div>
     <div class="right-items">
       <router-link

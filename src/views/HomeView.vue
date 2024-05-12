@@ -20,6 +20,7 @@
         <div class="image-container" style="width: 300px;height: 300px; margin-left: 40px;">
           <img :src="item.image" style="object-fit: contain;" />
         </div>
+
       </div>
     </div>
   </div>

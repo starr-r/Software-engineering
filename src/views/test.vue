@@ -1,5 +1,5 @@
 <template>
-      <div id="galleryID">
+      <!-- <div id="galleryID">
           <a
                 v-for="image in imagesData"
                 :href="image.largeURL"
@@ -11,10 +11,10 @@
               <img :src="image.thumbnailURL" alt="" />
           </a >
       </div>
-      <p>nmsl</p >
+      <p>nmsl</p > -->
 </template>
 
-<script setup>
+<!-- <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
@@ -60,4 +60,4 @@ onUnmounted(() => {
     lightbox = null;
   }
 });
-</script>
+</script> --> -->

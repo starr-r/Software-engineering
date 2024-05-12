@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <img
       ref="image"
@@ -18,4 +18,4 @@ onMounted(() => {
   const zoom = mediumZoom(image.value);
   // 可以在这里添加其他设置，如最大缩放倍数等
 });
-</script>
+</script> -->
